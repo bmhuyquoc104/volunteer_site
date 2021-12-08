@@ -1,6 +1,8 @@
 package com.example.assignment2_android.model;
 
-public class Location {
+import androidx.annotation.NonNull;
+
+public class VolunteerSite {
     private String locationId;
     private String locationName;
     private String leaderName;
@@ -9,10 +11,23 @@ public class Location {
     private String testedDate;
     private double lat;
     private double lng;
+    private double distanceFromCurrentLocation;
 
-    public Location (String locationId, String locationName, String leaderName,
-                     String maxCapacity, String totalVolunteers, String testedDate,
-                     double lat, double lng) {
+    public VolunteerSite(double lat, double lng){
+        this.lat = lat;
+        this.lng =lng;
+    }
+
+
+    public VolunteerSite(String locationId, String locationName, String leaderName,
+                         String maxCapacity, String totalVolunteers, String testedDate,
+                         double lat, double lng) {
+        this.locationId = locationId;
+        this.locationName = locationName;
+        this.leaderName = leaderName;
+        this.maxCapacity = maxCapacity;
+        this.totalVolunteers = totalVolunteers;
+        this.testedDate = testedDate;
 
     };
 
@@ -80,4 +95,19 @@ public class Location {
         this.lng = lng;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "Location{" +
+                "locationId='" + locationId + '\'' +
+                ", locationName='" + locationName + '\'' +
+                ", leaderName='" + leaderName + '\'' +
+                ", maxCapacity='" + maxCapacity + '\'' +
+                ", totalVolunteers='" + totalVolunteers + '\'' +
+                ", testedDate='" + testedDate + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", distanceFromCurrentLocation=" + distanceFromCurrentLocation +
+                '}';
+    }
 }

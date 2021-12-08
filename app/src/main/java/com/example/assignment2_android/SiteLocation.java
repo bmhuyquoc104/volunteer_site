@@ -8,6 +8,9 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -15,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.assignment2_android.model.VolunteerSite;
+import com.example.assignment2_android.site.RandomLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -22,19 +27,28 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.assignment2_android.databinding.ActivitySiteLocationBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class SiteLocation extends FragmentActivity implements OnMapReadyCallback {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+public class SiteLocation extends FragmentActivity implements OnMapReadyCallback {
+    VolunteerSite volunteerSite;
+    RandomLocation randomLocations;
+    private ArrayList<VolunteerSite> randomSitesList;
     private GoogleMap mMap;
     private ActivitySiteLocationBinding binding;
-    private Geocoder mGeocoder;
+    private Geocoder geocoder ;
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
+    Circle locationCircle;
     ImageView currentLocation;
 
     @Override
@@ -45,7 +59,10 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
         currentLocation = (ImageView) findViewById(R.id.currentLocation);
         client = LocationServices.getFusedLocationProviderClient(this);
-
+        randomLocations = new RandomLocation();
+        randomSitesList = new ArrayList<>();
+        volunteerSite = new VolunteerSite(106.660172,10.762622);
+        geocoder = new Geocoder(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -65,10 +82,41 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        for (int i = 0; i < 40; i++){
+            double [] result = randomLocations.getRandomLocation(volunteerSite.getLat(),volunteerSite.getLng(),5000);
+            VolunteerSite temp = new VolunteerSite(result[0],result[1]) ;
+            randomSitesList.add(temp);
+
+        }
+        System.out.println("huy ne !!!!!" + randomSitesList + "\n");
+        for (int i = 0; i < randomSitesList.size(); i++){
+            double lat = randomSitesList.get(i).getLat();
+            double lng = randomSitesList.get(i).getLng();
+            LatLng site = new LatLng(lat,lng);
+            List<Address> addresses =
+                    null;
+            try {
+                addresses = geocoder.getFromLocation(lat,lng,1);
+                Address address = addresses.get(0);
+                String locationName = address.getAddressLine(0);
+                mMap.getUiSettings().setZoomControlsEnabled(true);
+                @SuppressLint("UseCompatLoadingForDrawables")
+                BitmapDrawable bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.volunteer_site2);
+                Bitmap b = bitmapDrawable.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                mMap.addMarker(new MarkerOptions().position(site).title(locationName)
+                                                  .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site,14));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("lat + lng :" + lat + " :" + lng);
+            System.out.println(site.toString());
+        }
+
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 
