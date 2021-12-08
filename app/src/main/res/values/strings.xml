@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Covid Volunteer Site</string>
+    <string name="aboutUs">About Us</string>
+    <string name="guide">Please read the user guide before exploring our app</string>
+    <string name="getStarted">EXPLORE</string>
+    <string name="copyRight">"Copyright \u00a9 2021, Huy Vo"</string>
+    <string name="welcome">Welcome!</string>
+    <string name="userGuide">GUIDE</string>
+    <string name="appLogo" />
+    <string name="goBack">Back</string>
+    <string name="rules">Volunteer Testing is created for seeking a young volunteer that can join to help testing and support concentrated quarantine zones at different locations around VietNam.</string>
+    <string name="rule2">To use Volunteer Testing, please create your own account first.Since your account has been successfully created, you will be able to start your new journey.</string>
+    <string name="rule3">Volunteer Testing provides many features that can help you to find the most appropriate site.</string>
+    <string name="rule4">Don\'t worry, Volunteer Testing will guide you via your journey.</string>
+    <string name="ap">appLogo</string>
+    <string name="LogIn">Sign In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="signInTitle">Already Have An Account?</string>
+    <string name="ForgotPassword">Forgot Password?</string>
+    <string name="newUser">New User? Register Now</string>
+    <string name="registerTitle">Don\'t Have An Account Yet</string>
+    <string name="register">Register</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="oldUser">Have An Account? Sign In Here.</string>
+    <string name="app_logo" />
+    <string name="helloUser">Hello, There !</string>
+    <string name="userHomeLocation">Location</string>
+    <string name="userSearch">Search for a location …</string>
+    <string name="logout">Log Out</string>
+    <string name="title_activity_location">Location</string>
+    <string name="location" />
+    <string name="title_activity_site_location">SiteLocation</string>
+    <string name="currentLocation" />
+</resources>
