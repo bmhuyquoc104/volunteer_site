@@ -32,4 +32,10 @@
     <string name="location" />
     <string name="title_activity_site_location">SiteLocation</string>
     <string name="currentLocation" />
+    <string name="Volunteerlist">Volunteer List</string>
+    <string name="name">Name</string>
+    <string name="age">age</string>
+    <string name="email">Email</string>
+    <string name="registerEmail">Email</string>
+    <string name="Age">Age</string>
 </resources>

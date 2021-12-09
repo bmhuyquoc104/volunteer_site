@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class Register extends AppCompatActivity {
 
     DatabaseServices databaseServices;
-    EditText username, password, confirmPassword;
+    EditText username, password, confirmPassword,age,email;
     Button register;
     ProgressDialog pd;
     FirebaseFirestore db;
@@ -30,6 +30,8 @@ public class Register extends AppCompatActivity {
         databaseServices = new DatabaseServices();
         username = findViewById(R.id.userNameRegister);
         password = findViewById(R.id.passwordRegister);
+        age = findViewById(R.id.userAgeRegister);
+        email = findViewById(R.id.emailRegister);
         confirmPassword = findViewById(R.id.confirmPasswordRegister);
         register = findViewById(R.id.registerButton);
         register.setOnClickListener(view ->{
@@ -38,8 +40,10 @@ public class Register extends AppCompatActivity {
             String inputUserPassword = password.getText().toString();
             System.out.println(inputUserPassword);
             String inputUserConfirmPassword = confirmPassword.getText().toString();
+            String inputUserEmail = email.getText().toString();
+            String inputUserAge = age.getText().toString();
             System.out.println(inputUserConfirmPassword);
-            databaseServices.registerUser(inputUserName,Register.this,inputUserPassword,inputUserConfirmPassword,pd,db);
+//            databaseServices.registerUser(inputUserName,inputUserEmail,Integer.parseInt(inputUserAge),Register.this,inputUserPassword,inputUserConfirmPassword,pd,db);
         });
     }
 
