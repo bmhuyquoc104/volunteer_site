@@ -45,7 +45,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<VolunteerSite> randomSitesList;
     private GoogleMap mMap;
     private ActivitySiteLocationBinding binding;
-    private Geocoder geocoder ;
+    private Geocoder geoCoder;
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
     Circle locationCircle;
@@ -61,8 +61,9 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         client = LocationServices.getFusedLocationProviderClient(this);
         randomLocations = new RandomLocation();
         randomSitesList = new ArrayList<>();
-        volunteerSite = new VolunteerSite(106.660172,10.762622);
-        geocoder = new Geocoder(this);
+        List<Address> addresses;
+        volunteerSite = new VolunteerSite(106.660172, 10.762622);
+        geoCoder = new Geocoder(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -82,35 +83,43 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for (int i = 0; i < 40; i++){
-            double [] result = randomLocations.getRandomLocation(volunteerSite.getLat(),volunteerSite.getLng(),5000);
-            VolunteerSite temp = new VolunteerSite(result[0],result[1]) ;
+        for (int i = 0; i < 3; i++) {
+            double[] result = randomLocations.getRandomLocation(volunteerSite.getLat(), volunteerSite.getLng(), 5000);
+            VolunteerSite temp = new VolunteerSite(result[0], result[1]);
+            VolunteerSite testTitle = new VolunteerSite("123","cho lon","huy cute",
+                                                        30,25,"12-9-2021",10.733958421229545,106.66251421984728);
             randomSitesList.add(temp);
+            randomSitesList.add(testTitle);
 
         }
         System.out.println("huy ne !!!!!" + randomSitesList + "\n");
-        for (int i = 0; i < randomSitesList.size(); i++){
+        for (int i = 0; i < randomSitesList.size(); i++) {
             double lat = randomSitesList.get(i).getLat();
             double lng = randomSitesList.get(i).getLng();
-            LatLng site = new LatLng(lat,lng);
-            List<Address> addresses =
-                    null;
-            try {
-                addresses = geocoder.getFromLocation(lat,lng,1);
-                Address address = addresses.get(0);
-                String locationName = address.getAddressLine(0);
-                mMap.getUiSettings().setZoomControlsEnabled(true);
-                @SuppressLint("UseCompatLoadingForDrawables")
-                BitmapDrawable bitmapDrawable = (BitmapDrawable)getResources().getDrawable(R.drawable.volunteer_site2);
-                Bitmap b = bitmapDrawable.getBitmap();
-                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
-                mMap.addMarker(new MarkerOptions().position(site).title(locationName)
-                                                  .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site,14));
-            } catch (IOException e) {
-                e.printStackTrace();
+            String leaderName = randomSitesList.get(i).getLeaderName();
+            int maxCapacity = randomSitesList.get(i).getMaxCapacity();
+            int totalNumber = randomSitesList.get(i).getTotalVolunteers();
+            String locationName = randomSitesList.get(i).getLocationName();
+            String status = "";
+            if (totalNumber < maxCapacity){
+                status = "available";
+            }else{
+                status = "full";
             }
+            String info = "Site name:" + locationName + " " + "Leader name: " + leaderName + " " + "Site is " +status;
+            LatLng site = new LatLng(lat, lng);
+
+
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            @SuppressLint("UseCompatLoadingForDrawables")
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+            Bitmap b = bitmapDrawable.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+            mMap.addMarker(new MarkerOptions().position(site).title(info)
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+            mMap.getUiSettings().setZoomControlsEnabled(true);
 
             System.out.println("lat + lng :" + lat + " :" + lng);
             System.out.println(site.toString());
@@ -149,7 +158,6 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
     private void getUpdateLocation() {
         locationRequest = LocationRequest.create()
                 .setInterval(4000)
@@ -162,13 +170,12 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 44 ){
+        if (requestCode == 44) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                   getLocation();
+                getLocation();
 
-            }
-            else {
-                Toast.makeText(this,"Permission Denied",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
     }

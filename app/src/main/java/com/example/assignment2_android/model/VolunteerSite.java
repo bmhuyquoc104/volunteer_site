@@ -6,8 +6,8 @@ public class VolunteerSite {
     private String locationId;
     private String locationName;
     private String leaderName;
-    private String maxCapacity;
-    private String totalVolunteers;
+    private int maxCapacity;
+    private int totalVolunteers;
     private String testedDate;
     private double lat;
     private double lng;
@@ -20,7 +20,7 @@ public class VolunteerSite {
 
 
     public VolunteerSite(String locationId, String locationName, String leaderName,
-                         String maxCapacity, String totalVolunteers, String testedDate,
+                         int maxCapacity, int totalVolunteers, String testedDate,
                          double lat, double lng) {
         this.locationId = locationId;
         this.locationName = locationName;
@@ -55,19 +55,19 @@ public class VolunteerSite {
         this.leaderName = leaderName;
     }
 
-    public String getMaxCapacity() {
+    public int getMaxCapacity() {
         return maxCapacity;
     }
 
-    public void setMaxCapacity(String maxCapacity) {
+    public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
 
-    public String getTotalVolunteers() {
+    public int getTotalVolunteers() {
         return totalVolunteers;
     }
 
-    public void setTotalVolunteers(String totalVolunteers) {
+    public void setTotalVolunteers(int totalVolunteers) {
         this.totalVolunteers = totalVolunteers;
     }
 

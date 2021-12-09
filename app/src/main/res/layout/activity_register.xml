@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/userNamLogIn"
+        android:id="@+id/userNameRegister"
         android:layout_width="308dp"
         android:layout_height="60dp"
         android:layout_marginStart="58dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordLogIn"
+        android:id="@+id/passwordRegister"
         android:layout_width="311dp"
         android:layout_height="60dp"
         android:layout_marginStart="58dp"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/passwordLogIn2"
+        android:id="@+id/confirmPasswordRegister"
         android:layout_width="311dp"
         android:layout_height="60dp"
         android:layout_marginStart="58dp"
