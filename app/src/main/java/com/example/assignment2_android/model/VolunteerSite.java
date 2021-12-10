@@ -89,7 +89,6 @@ public class VolunteerSite {
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
                 ,totalTestedVolunteers,userList);
                 volunteerSiteList.add(temp);
-                System.out.println(volunteerSiteList);
             }
     }
 
@@ -270,6 +269,26 @@ public class VolunteerSite {
 
     public void setDistanceFromCurrentLocation(double distanceFromCurrentLocation) {
         this.distanceFromCurrentLocation = distanceFromCurrentLocation;
+    }
+
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(String userList) {
+        this.userList = userList;
+    }
+
+    public LatLng getHOCHIMINH() {
+        return HOCHIMINH;
+    }
+
+    public LatLng getHANOI() {
+        return HANOI;
+    }
+
+    public LatLng getDALAT() {
+        return DALAT;
     }
 
     @NonNull

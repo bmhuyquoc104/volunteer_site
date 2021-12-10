@@ -9,11 +9,10 @@
     tools:context=".VolunteerHome">
 
     <View
-        android:id="@+id/activateLocation"
+        android:id="@+id/view"
         android:layout_width="411dp"
         android:layout_height="267dp"
         android:background="@color/colorPrimary"
-        android:onClick="switchToLocationPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,27 +38,27 @@
         android:id="@+id/profileActivation"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="228dp"
-        android:onClick= "switchToProfilePage"
         android:background="@drawable/user_home_round"
-        app:layout_constraintEnd_toEndOf="@+id/view9"
+        android:onClick="switchToProfilePage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.084"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="UsingOnClickInXml" />
 
     <View
-        android:id="@+id/view5"
+        android:id="@+id/activateLocation"
         android:layout_width="362dp"
         android:layout_height="77dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="528dp"
         android:background="@drawable/user_home_round"
-        app:layout_constraintEnd_toEndOf="@+id/view9"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:onClick="switchToLocationPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UsingOnClickInXml" />
 
     <View
         android:id="@+id/ruleActivitation"

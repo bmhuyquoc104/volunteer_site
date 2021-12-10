@@ -44,16 +44,5 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Oops!! Something wrong, Please try again!", Toast.LENGTH_LONG).show();
             }
         });
-
-        VolunteerSite volunteerSite = new VolunteerSite();
-        LatLng HOCHIMINH = new LatLng(10.762622, 106.660172);
-        List<Integer> randomMaxCapacity = new ArrayList<>();
-        List<Integer> randomTotalNumber = new ArrayList<>();
-        List<Integer> randomTestedVolunteer = new ArrayList<>();
-        List<String> randomType = new ArrayList<>();
-        List<String> randomLeaderName = new ArrayList<>();
-        ArrayList<VolunteerSite> volunteerSiteList = new ArrayList<>();
-        RandomLocation randomLocation = new RandomLocation();
-        volunteerSite.generateNewLocation(HOCHIMINH, 4, 3000, volunteerSiteList, randomLocation);
     }
 }

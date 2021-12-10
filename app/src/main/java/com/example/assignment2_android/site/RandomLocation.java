@@ -27,7 +27,6 @@ public class RandomLocation {
 
 
             // Set the adjusted location
-            System.out.println( "  Latitude: " + foundLatitude + "Longitude: " + foundLongitude);
         return new double[]{foundLatitude, foundLongitude};
     }
 
