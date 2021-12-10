@@ -9,17 +9,17 @@ import android.os.Bundle;
 
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.adapter.VolunteerListAdapter;
-import com.example.assignment2_android.databaseFirestore.DatabaseServices;
-import com.example.assignment2_android.model.Volunteer;
+import com.example.assignment2_android.databaseFirestore.UserDatabase;
+import com.example.assignment2_android.model.User;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VolunteerList extends AppCompatActivity {
-    private List<Volunteer> volunteerList ;
+public class UserList extends AppCompatActivity {
+    private List<User> userList;
     private FirebaseFirestore db;
-    private DatabaseServices databaseServices;
+    private UserDatabase userDatabase;
     private ProgressDialog pd;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter volunteerAdapter;
@@ -30,23 +30,23 @@ public class VolunteerList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        volunteerList = new ArrayList<>();
+        userList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
-        databaseServices = new DatabaseServices();
+        userDatabase = new UserDatabase();
         pd = new ProgressDialog(this);
         // Set fixed size for recycler view
-        recyclerView = findViewById(R.id.volunteerList);
+        recyclerView = findViewById(R.id.userList);
         recyclerView.setHasFixedSize(true);
 
         //Use a linear layout manager
-        layoutManager = new LinearLayoutManager(VolunteerList.this);
+        layoutManager = new LinearLayoutManager(UserList.this);
         recyclerView.setLayoutManager(layoutManager);
 
         // Specify an adapter
-        adapter = new VolunteerListAdapter(volunteerList,this);
+        adapter = new VolunteerListAdapter(userList,this);
         recyclerView.setAdapter(adapter);
 
-        databaseServices.fetchVolunteers(this,db,pd,volunteerList,adapter);
+//        databaseServices.fetchVolunteers(this,db,pd,volunteerList,adapter);
     }
 
 

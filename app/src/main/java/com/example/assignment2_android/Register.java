@@ -11,12 +11,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.assignment2_android.databaseFirestore.DatabaseServices;
+import com.example.assignment2_android.databaseFirestore.UserDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Register extends AppCompatActivity {
 
-    DatabaseServices databaseServices;
+    UserDatabase userDatabase;
     EditText username, password, confirmPassword,age,email;
     Button register;
     ProgressDialog pd;
@@ -27,7 +27,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         pd = new ProgressDialog(this);
         db = FirebaseFirestore.getInstance();
-        databaseServices = new DatabaseServices();
+        userDatabase = new UserDatabase();
         username = findViewById(R.id.userNameRegister);
         password = findViewById(R.id.passwordRegister);
         age = findViewById(R.id.userAgeRegister);
@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity {
             String inputUserEmail = email.getText().toString();
             String inputUserAge = age.getText().toString();
             System.out.println(inputUserConfirmPassword);
-//            databaseServices.registerUser(inputUserName,inputUserEmail,Integer.parseInt(inputUserAge),Register.this,inputUserPassword,inputUserConfirmPassword,pd,db);
+            userDatabase.registerUser(inputUserName,inputUserEmail,inputUserAge,Register.this,inputUserPassword,inputUserConfirmPassword,pd,db);
         });
     }
 

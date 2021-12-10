@@ -5,16 +5,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Volunteer {
+public class User {
     private String name;
     private String password;
     private String email;
-    private String age;
+    private int age;
     private String id;
 
 
 
-    public Volunteer(String name, String password, String email, String age, String id){
+    public User(String name, String password, String email, int age, String id){
         this.name = name;
         this.password = password;
         this.email = email;
@@ -46,11 +46,11 @@ public class Volunteer {
         this.email = email;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 

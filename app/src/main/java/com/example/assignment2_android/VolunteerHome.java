@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.assignment2_android.leader.VolunteerList;
+import com.example.assignment2_android.leader.UserList;
 
 public class VolunteerHome extends AppCompatActivity {
     View locationActivated ;
@@ -25,7 +25,7 @@ public class VolunteerHome extends AppCompatActivity {
     }
 
     public void displaySite (View view){
-        Intent intent = new Intent(this, VolunteerList.class);
+        Intent intent = new Intent(this, UserList.class);
         startActivity(intent);
     }
 }

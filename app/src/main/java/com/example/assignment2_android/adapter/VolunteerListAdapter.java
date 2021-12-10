@@ -1,5 +1,6 @@
 package com.example.assignment2_android.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment2_android.R;
-import com.example.assignment2_android.model.Volunteer;
+import com.example.assignment2_android.model.User;
 
 import java.util.List;
 
 public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdapter.MyViewHolder> {
-    private List<Volunteer> volunteerList;
+    private List<User> userList;
     private Context context;
 
-    public VolunteerListAdapter(List<Volunteer>volunteerList,Context context) {
-        this.volunteerList = volunteerList;
+    public VolunteerListAdapter(List<User> userList, Context context) {
+        this.userList = userList;
         this.context = context;
     }
 
@@ -31,16 +32,17 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
         return new MyViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull VolunteerListAdapter.MyViewHolder holder, int position) {
-        holder.name.setText(volunteerList.get(position).getName());
-        holder.age.setText(volunteerList.get(position).getAge());
-        holder.email.setText(volunteerList.get(position).getEmail());
+        holder.name.setText(userList.get(position).getName());
+        holder.age.setText(Integer.toString(userList.get(position).getAge()));
+        holder.email.setText(userList.get(position).getEmail());
     }
 
     @Override
     public int getItemCount() {
-        return volunteerList.size();
+        return userList.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
