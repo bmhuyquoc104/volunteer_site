@@ -83,15 +83,15 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for (int i = 0; i < 3; i++) {
-            double[] result = randomLocations.getRandomLocation(volunteerSite.getLat(), volunteerSite.getLng(), 5000);
-            VolunteerSite temp = new VolunteerSite(result[0], result[1]);
-            VolunteerSite testTitle = new VolunteerSite("123","cho lon","huy cute",
-                                                        30,25,"12-9-2021",10.733958421229545,106.66251421984728);
-            randomSitesList.add(temp);
-            randomSitesList.add(testTitle);
-
-        }
+//        for (int i = 0; i < 3; i++) {
+//            double[] result = randomLocations.getRandomLocation(volunteerSite.getLat(), volunteerSite.getLng(), 5000);
+//            VolunteerSite temp = new VolunteerSite(result[0], result[1]);
+//            VolunteerSite testTitle = new VolunteerSite("123","cho lon","huy cute",
+//                                                        30,25,"12-9-2021",10.733958421229545,106.66251421984728);
+//            randomSitesList.add(temp);
+//            randomSitesList.add(testTitle);
+//
+//        }
         System.out.println("huy ne !!!!!" + randomSitesList + "\n");
         for (int i = 0; i < randomSitesList.size(); i++) {
             double lat = randomSitesList.get(i).getLat();
@@ -108,8 +108,6 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
             String info = "Site name:" + locationName + " " + "Leader name: " + leaderName + " " + "Site is " +status;
             LatLng site = new LatLng(lat, lng);
-
-
             mMap.getUiSettings().setZoomControlsEnabled(true);
             @SuppressLint("UseCompatLoadingForDrawables")
             BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);

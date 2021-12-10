@@ -46,7 +46,7 @@ public class UserList extends AppCompatActivity {
         adapter = new VolunteerListAdapter(userList,this);
         recyclerView.setAdapter(adapter);
 
-//        databaseServices.fetchVolunteers(this,db,pd,volunteerList,adapter);
+//        userDatabase.fetchVolunteers(this,db,pd,userList,adapter);
     }
 
 

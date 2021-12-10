@@ -38,4 +38,8 @@
     <string name="email">Email</string>
     <string name="registerEmail">Email</string>
     <string name="Age">Age</string>
+    <string name="userHomeLogout">LogOut</string>
+    <string name="userSite">Join Site Now !</string>
+    <string name="userInfo">Profile</string>
+    <string name="userHomeRule">Rule</string>
 </resources>
