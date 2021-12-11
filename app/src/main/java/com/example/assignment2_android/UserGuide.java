@@ -8,8 +8,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class UserGuide extends AppCompatActivity {
+import com.example.assignment2_android.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserGuide extends AppCompatActivity {
+    MainActivity activity;
     Button back;
 
     @Override
@@ -26,6 +31,5 @@ public class UserGuide extends AppCompatActivity {
                 Toast.makeText(UserGuide.this, "Oops!! Something wrong, Please try again!", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 }

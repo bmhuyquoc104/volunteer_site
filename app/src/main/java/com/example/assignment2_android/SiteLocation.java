@@ -1,5 +1,7 @@
 package com.example.assignment2_android;
 
+import static com.example.assignment2_android.databaseFirestore.SiteLocationDatabase.postSiteLocations;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -67,7 +69,6 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         client = LocationServices.getFusedLocationProviderClient(this);
         randomLocation = new RandomLocation();
         volunteerSiteList = new ArrayList<>();
-        siteLocationDatabase = new SiteLocationDatabase();
         db = FirebaseFirestore.getInstance();
         distanceSorter = new DistanceSorter();
         List<Address> addresses;
@@ -92,11 +93,14 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 2, 4000, volunteerSiteList, randomLocation);
-        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 2, 3000, volunteerSiteList, randomLocation);
-        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 2, 2000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 35, 4000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 25, 3000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 10, 2000, volunteerSiteList, randomLocation);
 
         volunteerSiteList.sort(distanceSorter);
+
+        // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
+//        postSiteLocations(db,volunteerSiteList,this);
         System.out.println("data can nesdjkfsjkdgsdgafa !!!!!!      " + volunteerSiteList);
         for (VolunteerSite volunteerSite : volunteerSiteList
         ) {

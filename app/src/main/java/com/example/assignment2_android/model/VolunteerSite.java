@@ -5,6 +5,7 @@ import android.location.Geocoder;
 
 import androidx.annotation.NonNull;
 
+import com.example.assignment2_android.MainActivity;
 import com.example.assignment2_android.site.RandomLocation;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -36,6 +37,8 @@ public class VolunteerSite {
     private List<Integer> randomTestedVolunteer = new ArrayList<>();
     private List<String> randomType = new ArrayList<>();
     private List<String> randomLeaderName = new ArrayList<>();
+    private List<String> randomEmail = new ArrayList<>();
+    List<User> totalUsers= new ArrayList<>();
     public VolunteerSite(){
 
     }
@@ -65,9 +68,11 @@ public class VolunteerSite {
 
 
 
+
     public void generateNewLocation(LatLng originalLocation, int totalSite, int radius,
                                     ArrayList<VolunteerSite>volunteerSiteList,
                                     RandomLocation randomLocation){
+            totalUsers = MainActivity.allUsers;
             for(int i= 0; i < totalSite ; i++) {
                 double[] result = randomLocation.getRandomLocation
                         (originalLocation.longitude, originalLocation.latitude, radius);
@@ -83,14 +88,123 @@ public class VolunteerSite {
                 String locationName = leaderName + "_" + locationType + i;
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
-                String userList = "huy,an,khang";
+                String userEmailList = getRandomEmail(totalUsers,totalVolunteers,randomEmail);
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
                 VolunteerSite temp = new VolunteerSite(locationId,locationName,leaderName,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
-                ,totalTestedVolunteers,userList);
+                ,totalTestedVolunteers,userEmailList);
                 volunteerSiteList.add(temp);
             }
+        System.out.println(volunteerSiteList);
     }
+
+
+    public List<User> getUserList(List<User>users) {
+        User user = new User("huy", "123", "huy@gmail.com", 123, "31231");
+        User user1 = new User("huy", "123", "huy104@gmail.com", 123, "31231");
+        User user2 = new User("huy", "123", "huy123@gmail.com", 123, "31231");
+        User user3 = new User("huy", "123", "huy134@gmail.com", 123, "31231");
+        User user4 = new User("huy", "123", "huy156@gmail.com", 123, "31231");
+        User user5 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user6 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user7 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user8 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user9 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user10 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user11 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user12 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user13 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user14 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user15 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user16 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user17 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user18 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user19 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user20 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user21 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user22 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user23 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user24 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user25 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user26 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user27 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user28 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user29 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+        User user30 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
+
+        users.add(user);
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        users.add(user5);
+        users.add(user6);
+        users.add(user7);
+        users.add(user8);
+        users.add(user9);
+        users.add(user10);
+        users.add(user11);
+        users.add(user12);
+        users.add(user13);
+        users.add(user14);
+        users.add(user15);
+        users.add(user16);
+        users.add(user17);
+        users.add(user18);
+        users.add(user19);
+        users.add(user20);
+        users.add(user21);
+        users.add(user22);
+        users.add(user23);
+        users.add(user24);
+        users.add(user25);
+        users.add(user26);
+        users.add(user27);
+        users.add(user28);
+        users.add(user29);
+        users.add(user30);
+        users.add(user5);
+        users.add(user5);
+        users.add(user5);
+        users.add(user5);
+        users.add(user5);
+        users.add(user5);
+        return users;
+    }
+
+
+
+
+    public static String getRandomEmail(List<User> userList,int totalNumber,List<String>email){
+        String userEmails = "";
+        String temp = "";
+        for (User user:userList
+        ) {
+            email.add(user.getEmail());
+        }
+        List<String> newList = new ArrayList<>();
+        Random rand = new Random();
+        for (int i = 0; i < totalNumber; i++){
+            int randomIndex = rand.nextInt(email.size());
+
+            // add element in temporary list
+            newList.add(email.get(randomIndex));
+
+            email.remove(randomIndex);
+
+            StringBuilder sb = new StringBuilder();
+            for (String eachEmail:newList
+            ) {
+                sb.append(eachEmail);
+//                if (!eachEmail.equals(newList.get(newList.size() - 1)))
+                    sb.append(",");
+            }
+            temp = sb.toString();
+            userEmails = temp.substring(0,temp.length()-1);
+        }
+        return userEmails;
+    };
+
 
     public static String getRandomType(List<String> list){
         list.add("secondary-school");
@@ -132,7 +246,7 @@ public class VolunteerSite {
 
     public  int getRandomMaximumCapacity(List<Integer> list)
     {
-        for (int i = 35; i < 50; i++){
+        for (int i = 25; i < 40; i++){
             list.add(i);
         }
 
@@ -141,7 +255,7 @@ public class VolunteerSite {
     }
 
     public  int getRandomTotalNumber(List<Integer> list,int maxCapacity){
-        for (int i = 25; i < 50; i++){
+        for (int i = 20; i < 42; i++){
             list.add(i);
         }
 
@@ -157,7 +271,7 @@ public class VolunteerSite {
     };
 
     public static int getRandomTestedVolunteer(List<Integer> list,int totalNumber){
-        for (int i = 10; i < 50; i++){
+        for (int i = 20; i < 42; i++){
             list.add(i);
         };
 

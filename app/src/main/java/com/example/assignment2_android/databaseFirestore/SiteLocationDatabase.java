@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SiteLocationDatabase {
-    public void postSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList, Context context){
+    public static void postSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList, Context context){
         for (VolunteerSite volunteerSite:
                 volunteerSiteList) {
             String id = volunteerSite.getLocationId();

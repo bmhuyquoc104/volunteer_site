@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -85,6 +84,27 @@ public class UserDatabase {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public static void getAllUsers(FirebaseFirestore db, List<User>list){
+        db.collection("Users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        list.clear();
+                        for (DocumentSnapshot snapShot : task.getResult()) {
+                            User user = new User(
+                                    snapShot.getString("userName"),
+                                    snapShot.getString("password"),
+                                    snapShot.getString("email"),
+                                    Integer.parseInt(Objects.requireNonNull(snapShot.getString("age"))),
+                                    snapShot.getString("id")
+                            );
+                            list.add(user);
+                        }
+                    }
+                });
+        System.out.println(list);
     }
 
     public void getUserByUserNameAndPassword (Context context, FirebaseFirestore db,

@@ -38,7 +38,7 @@ public class LogIn extends AppCompatActivity {
     Button login;
     TextView register, forgotPassword;
     //Declare list to store user info after logging
-    List<User> oneUserlist;
+    public static List<User> oneUserlist;
     // Declare userDatabase class to use fetch method
     UserDatabase userDatabase;
     //Declare firebase
@@ -88,16 +88,6 @@ public class LogIn extends AppCompatActivity {
                     System.out.println("con me no" + personalUsername);
                     System.out.println("con me no" + personalEmail);
 
-                    //Send this intend to userprofile activity for later using
-                    Intent intent2 = new Intent(this, UserProfile.class);
-                    intent2.setAction(Intent.ACTION_SEND);
-                    intent2.setType("plain/text");
-                    intent2.putExtra("userName", personalUsername);
-                    intent2.putExtra("email", personalEmail);
-                    intent2.putExtra("age", personalAge);
-                    intent2.putExtra("id", personalId);
-                    startActivity(intent2);
-
                     // Send this intent to volunteer home activity for later using
                     Intent intent = new Intent(this, VolunteerHome.class);
                     intent.setAction(Intent.ACTION_SEND);
@@ -135,6 +125,4 @@ public class LogIn extends AppCompatActivity {
             Toast.makeText(LogIn.this, "Oops!! Something wrong, Please try again!", Toast.LENGTH_LONG).show();
         }
     }
-
-
 }
