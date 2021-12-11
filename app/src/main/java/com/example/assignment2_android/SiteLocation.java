@@ -1,6 +1,6 @@
 package com.example.assignment2_android;
 
-import static com.example.assignment2_android.databaseFirestore.SiteLocationDatabase.postSiteLocations;
+//import static com.example.assignment2_android.databaseFirestore.SiteLocationDatabase.postSiteLocations;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.assignment2_android.databaseFirestore.SiteLocationDatabase;
 import com.example.assignment2_android.model.VolunteerSite;
+import com.example.assignment2_android.site.AddSite;
 import com.example.assignment2_android.site.DistanceSorter;
 import com.example.assignment2_android.site.RandomLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -50,7 +52,8 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     VolunteerSite volunteerSite;
     RandomLocation randomLocation;
     FirebaseFirestore db;
-    private ArrayList<VolunteerSite> volunteerSiteList;
+    private Geocoder mGeocoder;
+    public static ArrayList<VolunteerSite> volunteerSiteList;
     private GoogleMap mMap;
     private ActivitySiteLocationBinding binding;
     private FusedLocationProviderClient client;
@@ -70,6 +73,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         randomLocation = new RandomLocation();
         volunteerSiteList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
+        mGeocoder = new Geocoder(this);
         distanceSorter = new DistanceSorter();
         List<Address> addresses;
         volunteerSite = new VolunteerSite(106.660172, 10.762622);
@@ -93,9 +97,9 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 35, 4000, volunteerSiteList, randomLocation);
-        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 25, 3000, volunteerSiteList, randomLocation);
-        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 10, 2000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 1, 4000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 1, 3000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 1, 2000, volunteerSiteList, randomLocation);
 
         volunteerSiteList.sort(distanceSorter);
 
@@ -119,9 +123,41 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
 
+        // Create new location in the map by click
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(@NonNull LatLng latLng) {
+                double lat1 = latLng.latitude;
+                double lng1 = latLng.longitude;
+                System.out.println(lat1);
+                System.out.println(lng1);
+                try {
+                    List<Address> addresses =
+                            mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    Address address = addresses.get(0);
+                    String locationName = address.getAddressLine(0);
+                    @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapdraw.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(locationName)
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    );
 
-        // Add a marker in Sydney and move the camera
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(SiteLocation.this, AddSite.class);
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra("lat", Double.toString(lat1));
+                intent.putExtra("lng",  Double.toString(lng1));
+                startActivity(intent);
+            }
+        });
     }
+
 
 
     @SuppressLint("MissingPermission")

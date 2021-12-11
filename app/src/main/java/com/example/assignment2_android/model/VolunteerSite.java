@@ -72,7 +72,7 @@ public class VolunteerSite {
     public void generateNewLocation(LatLng originalLocation, int totalSite, int radius,
                                     ArrayList<VolunteerSite>volunteerSiteList,
                                     RandomLocation randomLocation){
-            totalUsers = MainActivity.allUsers;
+//            totalUsers = MainActivity.allUsers;
             for(int i= 0; i < totalSite ; i++) {
                 double[] result = randomLocation.getRandomLocation
                         (originalLocation.longitude, originalLocation.latitude, radius);
@@ -88,7 +88,7 @@ public class VolunteerSite {
                 String locationName = leaderName + "_" + locationType + i;
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
-                String userEmailList = getRandomEmail(totalUsers,totalVolunteers,randomEmail);
+                String userEmailList = getRandomEmail(getUserList(totalUsers),totalVolunteers,randomEmail);
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
                 VolunteerSite temp = new VolunteerSite(locationId,locationName,leaderName,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
@@ -172,7 +172,18 @@ public class VolunteerSite {
         return users;
     }
 
-
+    public VolunteerSite addNewLocation(LatLng originalLocation,
+                                        String leaderName,String locationType,
+                                        int maxCapacity,double lat,double lng){
+        String locationId = UUID.randomUUID().toString();
+        int totalVolunteers = 0;
+        String locationName = leaderName + "_" + locationType;
+        String status = checkStatus(maxCapacity,totalVolunteers);
+        String userEmailList = "";
+        int totalTestedVolunteers = 0;
+        double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat, lng);
+        return new VolunteerSite(locationId,locationName,leaderName,status,maxCapacity,totalVolunteers,locationType,lat,lng,distanceFromCurrentLocation,totalTestedVolunteers,userEmailList);
+    }
 
 
     public static String getRandomEmail(List<User> userList,int totalNumber,List<String>email){

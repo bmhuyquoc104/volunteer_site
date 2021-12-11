@@ -66,52 +66,67 @@ public class LogIn extends AppCompatActivity {
 
 
         //Login function
-        login.setOnClickListener(view -> {
+//        login.setOnClickListener(view -> {
+//
+//            //Store username input
+//            String inputUserName = username.getText().toString();
+//            //Store password input
+//            String inputUserPassword = password.getText().toString();
+//            //Call method to fetch user by id and password
+//            userDatabase.getUserByUserNameAndPassword(this, db, inputUserPassword, inputUserName, oneUserlist);
+//            //delay the system 2s to ensure that the list have enough time to store data in the list
+//            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+//                // Check if that user is fetch properly
+//                if (oneUserlist.size() != 0) {
+//                    // Loop the list and get the info of that person
+//                    for (int i = 0; i < oneUserlist.size(); i++) {
+//                        personalUsername = oneUserlist.get(i).getName();
+//                        personalId = oneUserlist.get(i).getId();
+//                        personalAge = Integer.toString(oneUserlist.get(i).getAge());
+//                        personalEmail = oneUserlist.get(i).getEmail();
+//                    }
+//                    System.out.println("con me no" + personalUsername);
+//                    System.out.println("con me no" + personalEmail);
+//
+//                    // Send this intent to volunteer home activity for later using
+//                    Intent intent = new Intent(this, VolunteerHome.class);
+//                    intent.setAction(Intent.ACTION_SEND);
+//                    intent.setType("plain/text");
+//                    intent.putExtra("userName", personalUsername);
+//                    intent.putExtra("email", personalEmail);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    try {
+//                        // Start an activity
+//                        startActivity(intent);
+//                        Toast.makeText(LogIn.this, "You have successfully login!", Toast.LENGTH_LONG).show();
+//
+//                    } catch (ActivityNotFoundException e) {
+//                        Toast.makeText(LogIn.this, "Oops!! Something wrong, Please try again!", Toast.LENGTH_LONG).show();
+//                    }
+//
+//
+//                } else {
+//                    Toast.makeText(LogIn.this, "Wrong Username Or Password. Please try again!", Toast.LENGTH_LONG).show();
+//                }
+//            }, 2000);
+//
+//        });
 
-            //Store username input
-            String inputUserName = username.getText().toString();
-            //Store password input
-            String inputUserPassword = password.getText().toString();
-            //Call method to fetch user by id and password
-            userDatabase.getUserByUserNameAndPassword(this, db, inputUserPassword, inputUserName, oneUserlist);
-            //delay the system 2s to ensure that the list have enough time to store data in the list
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                // Check if that user is fetch properly
-                if (oneUserlist.size() != 0) {
-                    // Loop the list and get the info of that person
-                    for (int i = 0; i < oneUserlist.size(); i++) {
-                        personalUsername = oneUserlist.get(i).getName();
-                        personalId = oneUserlist.get(i).getId();
-                        personalAge = Integer.toString(oneUserlist.get(i).getAge());
-                        personalEmail = oneUserlist.get(i).getEmail();
-                    }
-                    System.out.println("con me no" + personalUsername);
-                    System.out.println("con me no" + personalEmail);
 
-                    // Send this intent to volunteer home activity for later using
-                    Intent intent = new Intent(this, VolunteerHome.class);
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("plain/text");
-                    intent.putExtra("userName", personalUsername);
-                    intent.putExtra("email", personalEmail);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    try {
-                        // Start an activity
-                        startActivity(intent);
-                        Toast.makeText(LogIn.this, "You have successfully login!", Toast.LENGTH_LONG).show();
+        login.setOnClickListener(view ->{
+            Intent intent = new Intent(this, VolunteerHome.class);
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("plain/text");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            try {
+                // Start an activity
+                startActivity(intent);
+                Toast.makeText(LogIn.this, "You have successfully login!", Toast.LENGTH_LONG).show();
 
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(LogIn.this, "Oops!! Something wrong, Please try again!", Toast.LENGTH_LONG).show();
-                    }
-
-
-                } else {
-                    Toast.makeText(LogIn.this, "Wrong Username Or Password. Please try again!", Toast.LENGTH_LONG).show();
-                }
-            }, 2000);
-
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(LogIn.this, "Oops!! Something wrong, Please try again!", Toast.LENGTH_LONG).show();
+            }
         });
-
 
     }
 

@@ -1,6 +1,6 @@
 package com.example.assignment2_android;
 
-import static com.example.assignment2_android.databaseFirestore.UserDatabase.getAllUsers;
+//import static com.example.assignment2_android.databaseFirestore.UserDatabase.getAllUsers;
 
 import androidx.appcompat.app.AppCompatActivity;
 

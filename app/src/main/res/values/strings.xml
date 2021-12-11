@@ -42,4 +42,10 @@
     <string name="userSite">Join Site Now !</string>
     <string name="userInfo">Profile</string>
     <string name="userHomeRule">Rule</string>
+    <string name="addSite">Create Site</string>
+    <string name="maxCapacity">Max Capacity</string>
+    <string name="locationType">Type</string>
+    <string name="add">Create Site</string>
+    <string name="lat">Location Lat</string>
+    <string name="lng">Location Lng</string>
 </resources>
