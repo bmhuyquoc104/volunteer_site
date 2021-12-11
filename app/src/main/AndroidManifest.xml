@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment2_android">
         <activity
+            android:name=".site.DisplayInfo"
+            android:exported="false" />
+        <activity
             android:name=".site.AddSite"
             android:exported="false" />
         <activity

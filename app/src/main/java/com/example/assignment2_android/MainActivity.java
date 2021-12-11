@@ -13,13 +13,9 @@ import android.widget.Toast;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
 import com.example.assignment2_android.site.RandomLocation;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Button guide;

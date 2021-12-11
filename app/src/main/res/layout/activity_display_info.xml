@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F8F8FF"
+        tools:context=".UserGuide">
+
+        <Button
+            android:id="@+id/joinSite"
+            android:layout_width="313dp"
+            android:layout_height="83dp"
+            android:layout_marginTop="888dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/joinSite"
+            android:textSize="18sp"
+            app:cornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.622"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/registerForFriend"
+            android:layout_width="313dp"
+            android:layout_height="83dp"
+            android:layout_marginTop="888dp"
+            android:backgroundTint="#012A6C"
+            android:text="@string/registerForFriend"
+            android:textColor="@color/colorPrimary2"
+            android:textSize="18sp"
+            app:cornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.622"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="411dp"
+            android:layout_height="197dp"
+            android:background="@color/colorPrimary3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="405dp"
+            android:layout_height="106dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view7"
+            app:srcCompat="@drawable/app_logo6" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="248dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="136dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:text="@string/siteInfo"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view7" />
+
+
+        <TextView
+            android:id="@+id/announce"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="588dp"
+            android:fontFamily="@font/roboto_medium_italic"
+            android:text="@string/announce"
+            android:textColor="#ff8b00"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view7" />
+
+        <TextView
+            android:id="@+id/leaderName"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="208dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/leaderName"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="304dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteTotalVolunteers"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="932dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteTotalTested"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="1040dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteLat"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="1148dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteDistance"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="492dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/distance"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/friendEmail"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="768dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/friendEmail"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.622"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteLng"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="1332dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteMaxCapacity"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="1438dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteName"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="1244dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/locationType"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="392dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/status"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="313dp"
+            android:layout_height="66dp"
+            android:layout_marginTop="588dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto_medium_italic"
+            android:hint="@string/messageUser"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/registerSelection"
+            android:layout_width="282dp"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            android:layout_height="50dp"
+            android:layout_marginTop="684dp"
+            android:text="@string/registerForFriend"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

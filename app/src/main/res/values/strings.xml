@@ -48,4 +48,14 @@
     <string name="add">Create Site</string>
     <string name="lat">Location Lat</string>
     <string name="lng">Location Lng</string>
+    <string name="siteInfo">Site Info</string>
+    <string name="leaderName">Leader Name</string>
+    <string name="status">Status</string>
+    <string name="messageUser">Join Us to see more information about this Site!</string>
+    <string name="joinSite">Register YourSelf</string>
+    <string name="distance">"Distance "</string>
+    <string name="announce">This Site is currently full. Please join another site or comeback later !</string>
+    <string name="registerForFriend">Register For Friend</string>
+    <string name="friendEmail">Please Enter Your Friend Email</string>
+    <string name="enter">Enter</string>
 </resources>

@@ -24,8 +24,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.assignment2_android.databaseFirestore.SiteLocationDatabase;
+import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
 import com.example.assignment2_android.site.AddSite;
+import com.example.assignment2_android.site.DisplayInfo;
 import com.example.assignment2_android.site.DistanceSorter;
 import com.example.assignment2_android.site.RandomLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -38,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.assignment2_android.databinding.ActivitySiteLocationBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,26 +55,33 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     VolunteerSite volunteerSite;
     RandomLocation randomLocation;
     FirebaseFirestore db;
+    List<User> currentUser;
     private Geocoder mGeocoder;
     public static ArrayList<VolunteerSite> volunteerSiteList;
     private GoogleMap mMap;
     private ActivitySiteLocationBinding binding;
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
+    int userAge;
+    List<LatLng> allLatLng;
+    String locationName;
     SiteLocationDatabase siteLocationDatabase;
     Circle locationCircle;
     ImageView currentLocation;
     DistanceSorter distanceSorter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivitySiteLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        currentUser = new ArrayList<>();
         currentLocation = (ImageView) findViewById(R.id.currentLocation);
         client = LocationServices.getFusedLocationProviderClient(this);
         randomLocation = new RandomLocation();
         volunteerSiteList = new ArrayList<>();
+        allLatLng = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
         mGeocoder = new Geocoder(this);
         distanceSorter = new DistanceSorter();
@@ -97,19 +107,21 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 1, 4000, volunteerSiteList, randomLocation);
-        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 1, 3000, volunteerSiteList, randomLocation);
-        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 1, 2000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 5, 4000, volunteerSiteList, randomLocation);
+//        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 1, 3000, volunteerSiteList, randomLocation);
+//        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 1, 2000, volunteerSiteList, randomLocation);
 
         volunteerSiteList.sort(distanceSorter);
 
         // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
 //        postSiteLocations(db,volunteerSiteList,this);
-        System.out.println("data can nesdjkfsjkdgsdgafa !!!!!!      " + volunteerSiteList);
         for (VolunteerSite volunteerSite : volunteerSiteList
         ) {
             double lat = volunteerSite.getLat();
             double lng = volunteerSite.getLng();
+            LatLng latLng = new LatLng(lat, lng);
+            allLatLng.add(latLng);
+            locationName = volunteerSite.getLocationName();
             LatLng site = new LatLng(lat, lng);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             @SuppressLint("UseCompatLoadingForDrawables")
@@ -123,41 +135,78 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
 
+
         // Create new location in the map by click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(@NonNull LatLng latLng) {
-                double lat1 = latLng.latitude;
-                double lng1 = latLng.longitude;
-                System.out.println(lat1);
-                System.out.println(lng1);
-                try {
-                    List<Address> addresses =
-                            mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                    Address address = addresses.get(0);
-                    String locationName = address.getAddressLine(0);
-                    @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
-                    Bitmap b = bitmapdraw.getBitmap();
-                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
-                    mMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(locationName)
-                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                    );
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                User user = new User("Huy","123","err",21,"2131");
+                currentUser.add(user);
+//                currentUser = LogIn.oneUserlist;
+
+                for (User c : currentUser
+                ) {
+                    userAge = c.getAge();
                 }
-                Intent intent = new Intent(SiteLocation.this, AddSite.class);
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("plain/text");
-                intent.putExtra("lat", Double.toString(lat1));
-                intent.putExtra("lng",  Double.toString(lng1));
-                startActivity(intent);
+
+                if (userAge < 18) {
+                    Toast.makeText(getApplicationContext(), "You must be at least 18 to become a leader.", Toast.LENGTH_LONG).show();
+                } else {
+                    double lat1 = latLng.latitude;
+                    double lng1 = latLng.longitude;
+                    try {
+                        List<Address> addresses =
+                                mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                        Address address = addresses.get(0);
+                        String locationName = address.getAddressLine(0);
+                        @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                        Bitmap b = bitmapdraw.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                        mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title(locationName)
+                                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                        );
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent = new Intent(SiteLocation.this, AddSite.class);
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.setType("plain/text");
+                    intent.putExtra("lat", Double.toString(lat1));
+                    intent.putExtra("lng", Double.toString(lng1));
+                    startActivity(intent);
+                }
             }
         });
-    }
 
+        //Display info by clicking the marker
+
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                LatLng currentMarker = marker.getPosition();
+                double currentLat = currentMarker.latitude;
+                double currentLng = currentMarker.longitude;
+                for (VolunteerSite volunteerSite : volunteerSiteList
+                ) {
+
+                    if (currentLat == volunteerSite.getLat() && currentLng == volunteerSite.getLng()) {
+                        locationName = volunteerSite.getLocationName();
+                        Intent intent = new Intent(getApplicationContext(), DisplayInfo.class);
+                        intent.putExtra("locationName", locationName);
+                        startActivity(intent);
+                    }
+                }
+                return false;
+            }
+        });
+
+
+    }
 
 
     @SuppressLint("MissingPermission")

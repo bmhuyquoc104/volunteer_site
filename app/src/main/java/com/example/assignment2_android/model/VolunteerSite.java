@@ -297,7 +297,7 @@ public class VolunteerSite {
 
     };
 
-    private String checkStatus(int maxCapacity, int totalVolunteers){
+    public String checkStatus(int maxCapacity, int totalVolunteers){
         if (totalVolunteers < maxCapacity){
             status = "available";
         }
