@@ -26,7 +26,7 @@
     <string name="app_logo" />
     <string name="helloUser">Hello, There !</string>
     <string name="userHomeLocation">Location</string>
-    <string name="userSearch">Search for a location …</string>
+    <string name="userSearch">Search for a site …</string>
     <string name="logout">Log Out</string>
     <string name="title_activity_location">Location</string>
     <string name="location" />
@@ -63,4 +63,34 @@
     <string name="siteName">SiteName</string>
     <string name="role">Role</string>
     <string name="siteType">Type</string>
+    <string name="pleaseChoose">Select type to filter</string>
+    <string name="type1">Hospital</string>
+    <string name="type2">Stadium</string>
+    <string name="type3">School</string>
+    <string name="type4">Factory</string>
+
+    <string name="capacity1">Less than 15</string>
+    <string name="capacity2">Less than 25</string>
+    <string name="capacity3">Less than 35</string>
+    <string name="capacity4">Over 35</string>
+
+    <string name="totalNumber">Less than 10</string>
+    <string name="totalNumber2">Less than 20</string>
+    <string name="totalNumber3">Less than 30</string>
+    <string name="totalNumber4">Over 30</string>
+
+    <string name="totalTestedNumber1">Less than 8</string>
+    <string name="totalTestedNumber2">Less than 18</string>
+    <string name="totalTestedNumber3">Less than 28</string>
+    <string name="totalTestedNumber4">Over 28</string>
+
+    <string name="totalDistance">Less than 1km</string>
+    <string name="totalDistance2">Less than 2km</string>
+    <string name="totalDistance3">Less than 3km</string>
+    <string name="totalDistance4">Over 3km</string>
+
+
+
+
+
 </resources>

@@ -218,11 +218,10 @@ public class VolunteerSite {
 
 
     public static String getRandomType(List<String> list){
-        list.add("secondary-school");
-        list.add("hospital");
-        list.add("highSchool");
-        list.add("factory");
-        list.add("supermarket");
+        list.add("School");
+        list.add("Hospital");
+        list.add("Stadium");
+        list.add("Factory");
 
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));
@@ -257,7 +256,7 @@ public class VolunteerSite {
 
     public  int getRandomMaximumCapacity(List<Integer> list)
     {
-        for (int i = 25; i < 40; i++){
+        for (int i = 5; i < 40; i++){
             list.add(i);
         }
 
@@ -266,7 +265,7 @@ public class VolunteerSite {
     }
 
     public  int getRandomTotalNumber(List<Integer> list,int maxCapacity){
-        for (int i = 20; i < 42; i++){
+        for (int i = 5; i < 35; i++){
             list.add(i);
         }
 
@@ -282,7 +281,7 @@ public class VolunteerSite {
     };
 
     public static int getRandomTestedVolunteer(List<Integer> list,int totalNumber){
-        for (int i = 20; i < 42; i++){
+        for (int i = 3; i < 32; i++){
             list.add(i);
         };
 

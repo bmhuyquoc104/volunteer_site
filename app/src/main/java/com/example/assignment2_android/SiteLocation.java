@@ -20,6 +20,11 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,9 +61,20 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     RandomLocation randomLocation;
     FirebaseFirestore db;
     List<User> currentUser;
+    List<Marker> markerList;
     private Geocoder mGeocoder;
+    boolean hasData = false;
+    private boolean search = false;
     public static ArrayList<VolunteerSite> volunteerSiteList;
     private GoogleMap mMap;
+    Marker userMarker;
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> adapterItems;
+    String userSelection;
+    EditText site;
+    ImageView searchSite;
+    String[] filterSelection = {"Max Capacity", "Total Current Volunteers", "Total Tested Volunteers", "Location Type", "Distance to your location"};
+    ArrayList<VolunteerSite> siteBySearchList;
     private ActivitySiteLocationBinding binding;
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
@@ -69,24 +85,101 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     Circle locationCircle;
     ImageView currentLocation;
     DistanceSorter distanceSorter;
+    Button type1,type2,type3,type4;
+    Button capacity1,capacity2,capacity3,capacity4;
+    Button distance1,distance2,distance3,distance4;
+    Button volunteers1,volunteers2,volunteers3,volunteers4;
+    Button testedVolunteers1,testedVolunteers2,testedVolunteers3,testedVolunteers4;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivitySiteLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        site = findViewById(R.id.userInputSite);
+        searchSite = findViewById(R.id.searchSite);
         currentUser = new ArrayList<>();
         currentLocation = (ImageView) findViewById(R.id.currentLocation);
         client = LocationServices.getFusedLocationProviderClient(this);
         randomLocation = new RandomLocation();
+        autoCompleteTextView = findViewById(R.id.auto_complete_text_view2);
+        siteBySearchList = new ArrayList<>();
         volunteerSiteList = new ArrayList<>();
-        allLatLng = new ArrayList<>();
+        markerList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
         mGeocoder = new Geocoder(this);
         distanceSorter = new DistanceSorter();
         List<Address> addresses;
         volunteerSite = new VolunteerSite(106.660172, 10.762622);
+        adapterItems = new ArrayAdapter<String>(this, R.layout.list_site_selection, filterSelection);
+
+        //Binding button for filters
+        type1 = findViewById(R.id.typeOption1);
+        type2 = findViewById(R.id.typeOption2);
+        type3 = findViewById(R.id.typeOption3);
+        type4 = findViewById(R.id.typeOption4);
+
+        capacity1 = findViewById(R.id.capacityOption1);
+        capacity2 = findViewById(R.id.capacityOption2);
+        capacity3 = findViewById(R.id.capacityOption3);
+        capacity4 = findViewById(R.id.capacityOption4);
+
+        distance1 = findViewById(R.id.distanceOption1);
+        distance2 = findViewById(R.id.distanceOption2);
+        distance3 = findViewById(R.id.distanceOption3);
+        distance4 = findViewById(R.id.distanceOption4);
+
+        volunteers1 = findViewById(R.id.totalNumberOption1);
+        volunteers2 = findViewById(R.id.totalNumberOption2);
+        volunteers3 = findViewById(R.id.totalNumberOption3);
+        volunteers4 = findViewById(R.id.totalNumberOption4);
+
+        testedVolunteers1 = findViewById(R.id.totalTestedOption1);
+        testedVolunteers2 = findViewById(R.id.totalTestedOption2);
+        testedVolunteers3 = findViewById(R.id.totalTestedOption3);
+        testedVolunteers4 = findViewById(R.id.totalTestedOption4);
+
+        //Set visibility for filter selections to invisible
+
+            capacity1.setVisibility(View.GONE);
+            capacity2.setVisibility(View.GONE);
+            capacity3.setVisibility(View.GONE);
+            capacity4.setVisibility(View.GONE);
+
+            volunteers1.setVisibility(View.GONE);
+            volunteers2.setVisibility(View.GONE);
+            volunteers3.setVisibility(View.GONE);
+            volunteers4.setVisibility(View.GONE);
+
+            type1.setVisibility(View.GONE);
+            type2.setVisibility(View.GONE);
+            type3.setVisibility(View.GONE);
+            type4.setVisibility(View.GONE);
+
+            distance1.setVisibility(View.GONE);
+            distance2.setVisibility(View.GONE);
+            distance3.setVisibility(View.GONE);
+            distance4.setVisibility(View.GONE);
+
+            testedVolunteers1.setVisibility(View.GONE);
+            testedVolunteers2.setVisibility(View.GONE);
+            testedVolunteers3.setVisibility(View.GONE);
+            testedVolunteers4.setVisibility(View.GONE);
+
+
+        // Set dropdown list
+        autoCompleteTextView.setAdapter(adapterItems);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                userSelection = parent.getItemAtPosition(position).toString();
+                toggleFilterOptions(userSelection);
+            }
+        });
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -107,7 +200,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 5, 4000, volunteerSiteList, randomLocation);
+        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 5, 8000, volunteerSiteList, randomLocation);
 //        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 1, 3000, volunteerSiteList, randomLocation);
 //        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 1, 2000, volunteerSiteList, randomLocation);
 
@@ -115,12 +208,12 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
         // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
 //        postSiteLocations(db,volunteerSiteList,this);
+
+
         for (VolunteerSite volunteerSite : volunteerSiteList
         ) {
             double lat = volunteerSite.getLat();
             double lng = volunteerSite.getLng();
-            LatLng latLng = new LatLng(lat, lng);
-            allLatLng.add(latLng);
             locationName = volunteerSite.getLocationName();
             LatLng site = new LatLng(lat, lng);
             mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -128,20 +221,28 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
             Bitmap b = bitmapDrawable.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
-            mMap.addMarker(new MarkerOptions().position(site)
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+            MarkerOptions mMarker = new MarkerOptions();
+            mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+            userMarker = mMap.addMarker(mMarker);
+            assert userMarker != null;
+            userMarker.setZIndex(1.0f);
+            markerList.add(userMarker);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
 
+        System.out.println("ra cai gi day " + userMarker);
+
+        System.out.println(userSelection);
+        toggleFilterOptions(userSelection);
 
         // Create new location in the map by click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(@NonNull LatLng latLng) {
 
-                User user = new User("Huy","123","err",21,"2131");
+                User user = new User("Huy", "123", "err", 21, "2131");
                 currentUser.add(user);
 //                currentUser = LogIn.oneUserlist;
 
@@ -206,7 +307,660 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         });
 
 
+        //Search function
+        searchSite.setOnClickListener(view -> {
+
+            String inputSite = site.getText().toString();
+
+            for (int i = 0; i < volunteerSiteList.size(); i++) {
+
+
+                if (inputSite.equals(volunteerSiteList.get(i).getStatus())
+                        || inputSite.equals(volunteerSiteList.get(i).getLocationName())
+                        || inputSite.equals(volunteerSiteList.get(i).getLeaderName())
+                        || inputSite.equals(Double.toString(volunteerSiteList.get(i).getLat()))
+                        || inputSite.equals(Double.toString(volunteerSiteList.get(i).getLng()))
+                ) {
+                    siteBySearchList.add(volunteerSiteList.get(i));
+                    hasData = true;
+
+
+                }
+                else {
+                    for (VolunteerSite volunteerSite : volunteerSiteList
+                    ) {
+                        double lat = volunteerSite.getLat();
+                        double lng = volunteerSite.getLng();
+                        locationName = volunteerSite.getLocationName();
+                        LatLng site = new LatLng(lat, lng);
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                        @SuppressLint("UseCompatLoadingForDrawables")
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                        Bitmap b = bitmapDrawable.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                        MarkerOptions mMarker = new MarkerOptions();
+                        mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                        userMarker = mMap.addMarker(mMarker);
+                        markerList.add(userMarker);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                    }
+                }
+                if (hasData) {
+                    removeAllMarkers(markerList);
+                    for (VolunteerSite volunteerSite : siteBySearchList
+                    ) {
+                        double lat = volunteerSite.getLat();
+                        double lng = volunteerSite.getLng();
+                        locationName = volunteerSite.getLocationName();
+                        LatLng site = new LatLng(lat, lng);
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                        @SuppressLint("UseCompatLoadingForDrawables")
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                        Bitmap b = bitmapDrawable.getBitmap();
+                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                        MarkerOptions mMarker = new MarkerOptions();
+                        mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                        userMarker = mMap.addMarker(mMarker);
+                        assert userMarker != null;
+                        userMarker.setZIndex(1.0f);
+                        markerList.add(userMarker);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                        mMap.getUiSettings().setZoomControlsEnabled(true);
+                    }
+
+                }
+            }
+
+
+        });
+
+
+        // return marker if user selection is type1
+        type1.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+                 ) {
+                if (volunteerSite.getLocationType().equals("Hospital")){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        type2.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getLocationType().equals("Stadium")){
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        type3.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getLocationType().equals("School")){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        type4.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getLocationType().equals("Factory")){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+
+        capacity1.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getMaxCapacity() < 15 ){
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        capacity2.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getMaxCapacity() >= 15 && volunteerSite.getMaxCapacity() < 25 ){
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        capacity3.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getMaxCapacity() >= 25 && volunteerSite.getMaxCapacity() < 35){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        capacity4.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getMaxCapacity() > 35){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        volunteers1.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalVolunteers() < 10){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        volunteers2.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalVolunteers() >= 10 && volunteerSite.getTotalVolunteers() < 20){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        volunteers3.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalVolunteers() >= 20 && volunteerSite.getTotalVolunteers() < 30){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        volunteers4.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalVolunteers() > 30){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        testedVolunteers1.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalTestedVolunteers() < 8){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        testedVolunteers2.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalTestedVolunteers() >= 8 && volunteerSite.getTotalTestedVolunteers() < 18){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        testedVolunteers3.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalTestedVolunteers() >= 18 && volunteerSite.getTotalTestedVolunteers() < 28){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        testedVolunteers4.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getTotalTestedVolunteers() > 28){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        distance1.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getDistanceFromCurrentLocation() < 1000){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        distance2.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getDistanceFromCurrentLocation() >= 1000 && volunteerSite.getDistanceFromCurrentLocation() < 2000){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+        distance3.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getDistanceFromCurrentLocation() >= 2000 && volunteerSite.getDistanceFromCurrentLocation() < 3000){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+        distance4.setOnClickListener(view ->{
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite:volunteerSiteList
+            ) {
+                if (volunteerSite.getDistanceFromCurrentLocation() > 3000){
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+
+
+        //Filter function
+
     }
+
 
 
     @SuppressLint("MissingPermission")
@@ -245,6 +999,132 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
     }
+
+
+    public void removeAllMarkers(List<Marker> markerslist) {
+        for (Marker marker : markerslist) {
+            marker.setVisible(false);
+        }
+    }
+
+    public void toggleFilterOptions (String str){
+
+        if (str == "Max Capacity"){
+            capacity1.setVisibility(View.VISIBLE);
+            capacity2.setVisibility(View.VISIBLE);
+            capacity3.setVisibility(View.VISIBLE);
+            capacity4.setVisibility(View.VISIBLE);
+            volunteers1.setVisibility(View.GONE);
+            volunteers2.setVisibility(View.GONE);
+            volunteers3.setVisibility(View.GONE);
+            volunteers4.setVisibility(View.GONE);
+            type1.setVisibility(View.GONE);
+            type2.setVisibility(View.GONE);
+            type3.setVisibility(View.GONE);
+            type4.setVisibility(View.GONE);
+            testedVolunteers1.setVisibility(View.GONE);
+            testedVolunteers2.setVisibility(View.GONE);
+            testedVolunteers3.setVisibility(View.GONE);
+            testedVolunteers4.setVisibility(View.GONE);
+            distance1.setVisibility(View.GONE);
+            distance2.setVisibility(View.GONE);
+            distance3.setVisibility(View.GONE);
+            distance4.setVisibility(View.GONE);
+        }
+        else if (str == "Total Current Volunteers"){
+            volunteers1.setVisibility(View.VISIBLE);
+            volunteers2.setVisibility(View.VISIBLE);
+            volunteers3.setVisibility(View.VISIBLE);
+            volunteers4.setVisibility(View.VISIBLE);
+            type1.setVisibility(View.GONE);
+            type2.setVisibility(View.GONE);
+            type3.setVisibility(View.GONE);
+            type4.setVisibility(View.GONE);
+            testedVolunteers1.setVisibility(View.GONE);
+            testedVolunteers2.setVisibility(View.GONE);
+            testedVolunteers3.setVisibility(View.GONE);
+            testedVolunteers4.setVisibility(View.GONE);
+            distance1.setVisibility(View.GONE);
+            distance2.setVisibility(View.GONE);
+            distance3.setVisibility(View.GONE);
+            distance4.setVisibility(View.GONE);
+            capacity1.setVisibility(View.GONE);
+            capacity2.setVisibility(View.GONE);
+            capacity3.setVisibility(View.GONE);
+            capacity4.setVisibility(View.GONE);
+        }
+        else if (str == "Location Type"){
+            type1.setVisibility(View.VISIBLE);
+            type2.setVisibility(View.VISIBLE);
+            type3.setVisibility(View.VISIBLE);
+            type4.setVisibility(View.VISIBLE);
+            testedVolunteers1.setVisibility(View.GONE);
+            testedVolunteers2.setVisibility(View.GONE);
+            testedVolunteers3.setVisibility(View.GONE);
+            testedVolunteers4.setVisibility(View.GONE);
+            distance1.setVisibility(View.GONE);
+            distance2.setVisibility(View.GONE);
+            distance3.setVisibility(View.GONE);
+            distance4.setVisibility(View.GONE);
+            capacity1.setVisibility(View.GONE);
+            capacity2.setVisibility(View.GONE);
+            capacity3.setVisibility(View.GONE);
+            capacity4.setVisibility(View.GONE);
+            volunteers1.setVisibility(View.GONE);
+            volunteers2.setVisibility(View.GONE);
+            volunteers3.setVisibility(View.GONE);
+            volunteers4.setVisibility(View.GONE);
+
+        }
+        else if(str == "Distance to your location"){
+            distance1.setVisibility(View.VISIBLE);
+            distance2.setVisibility(View.VISIBLE);
+            distance3.setVisibility(View.VISIBLE);
+            distance4.setVisibility(View.VISIBLE);
+            volunteers1.setVisibility(View.GONE);
+            volunteers2.setVisibility(View.GONE);
+            volunteers3.setVisibility(View.GONE);
+            volunteers4.setVisibility(View.GONE);
+            type1.setVisibility(View.GONE);
+            type2.setVisibility(View.GONE);
+            type3.setVisibility(View.GONE);
+            type4.setVisibility(View.GONE);
+            testedVolunteers1.setVisibility(View.GONE);
+            testedVolunteers2.setVisibility(View.GONE);
+            testedVolunteers3.setVisibility(View.GONE);
+            testedVolunteers4.setVisibility(View.GONE);
+            capacity1.setVisibility(View.GONE);
+            capacity2.setVisibility(View.GONE);
+            capacity3.setVisibility(View.GONE);
+            capacity4.setVisibility(View.GONE);
+        }
+        else if(str == "Total Tested Volunteers"){
+            testedVolunteers1.setVisibility(View.VISIBLE);
+            testedVolunteers2.setVisibility(View.VISIBLE);
+            testedVolunteers3.setVisibility(View.VISIBLE);
+            testedVolunteers4.setVisibility(View.VISIBLE);
+            volunteers1.setVisibility(View.GONE);
+            volunteers2.setVisibility(View.GONE);
+            volunteers3.setVisibility(View.GONE);
+            volunteers4.setVisibility(View.GONE);
+            type1.setVisibility(View.GONE);
+            type2.setVisibility(View.GONE);
+            type3.setVisibility(View.GONE);
+            type4.setVisibility(View.GONE);
+            distance1.setVisibility(View.GONE);
+            distance2.setVisibility(View.GONE);
+            distance3.setVisibility(View.GONE);
+            distance4.setVisibility(View.GONE);
+            capacity1.setVisibility(View.GONE);
+            capacity2.setVisibility(View.GONE);
+            capacity3.setVisibility(View.GONE);
+            capacity4.setVisibility(View.GONE);
+        }
+        else{
+            System.out.println("Something wrong !!");
+        }
+    }
+
 
 
     @Override
