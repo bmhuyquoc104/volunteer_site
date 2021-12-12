@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary2"
-    tools:context=".listDisplay.UserList">
+    tools:context=".listDisplay.ParticipantList">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userList"
+        android:id="@+id/siteList"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -29,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimary3"
         android:backgroundTint="@color/colorPrimary"
-        android:text="@string/Volunteerlist"
+        android:text="@string/participantList"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
@@ -37,4 +37,5 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

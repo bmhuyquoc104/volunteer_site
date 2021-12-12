@@ -58,4 +58,9 @@
     <string name="registerForFriend">Register For Friend</string>
     <string name="friendEmail">Please Enter Your Friend Email</string>
     <string name="enter">Enter</string>
+    <string name="checkSite">Check Your Sites !</string>
+    <string name="participantList">Sites List</string>
+    <string name="siteName">SiteName</string>
+    <string name="role">Role</string>
+    <string name="siteType">Type</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.assignment2_android.leader;
+package com.example.assignment2_android.listDisplay;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

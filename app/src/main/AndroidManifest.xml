@@ -27,7 +27,11 @@
             android:name=".UserProfile"
             android:exported="false" />
         <activity
-            android:name=".leader.UserList"
+            android:name=".listDisplay.UserList"
+            android:exported="false" />
+
+        <activity
+            android:name=".listDisplay.ParticipantList"
             android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

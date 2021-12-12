@@ -6,14 +6,17 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.assignment2_android.leader.UserList;
+import com.example.assignment2_android.listDisplay.ParticipantList;
+import com.example.assignment2_android.listDisplay.UserList;
 
 public class VolunteerHome extends AppCompatActivity {
     View locationActivated ;
     View displaySite;
     TextView welcome;
+    View checkSite;
 
 
     @SuppressLint("SetTextI18n")
@@ -24,6 +27,7 @@ public class VolunteerHome extends AppCompatActivity {
         displaySite = findViewById(R.id.ruleActivitation);
         locationActivated = findViewById(R.id.activateLocation);
         welcome = findViewById(R.id.userWelcome);
+        checkSite = findViewById(R.id.checkSites);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -39,6 +43,10 @@ public class VolunteerHome extends AppCompatActivity {
             }
         }
 
+        checkSite.setOnClickListener(view -> {
+            Intent intent2 = new Intent(this, ParticipantList.class);
+            startActivity(intent2);
+        });
     }
 
     public void switchToLocationPage(View view) {
@@ -55,5 +63,7 @@ public class VolunteerHome extends AppCompatActivity {
         Intent intent = new Intent(this,UserProfile.class);
         startActivity(intent);
     }
+
+
 
 }

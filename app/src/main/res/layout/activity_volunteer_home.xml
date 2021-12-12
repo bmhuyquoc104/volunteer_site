@@ -61,6 +61,18 @@
         tools:ignore="UsingOnClickInXml" />
 
     <View
+        android:id="@+id/checkSites"
+        android:layout_width="362dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="384dp"
+        android:background="@drawable/user_home_round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UsingOnClickInXml" />
+
+    <View
         android:id="@+id/ruleActivitation"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -93,6 +105,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_location" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="396dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.783"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_check_box_24" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -187,11 +210,25 @@
     <TextView
         android:id="@+id/textView11"
         android:layout_width="206dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="540dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="552dp"
         android:text="@string/userSite"
         android:textColor="@color/colorPrimary"
-        android:textSize="30sp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.273"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="206dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="404dp"
+        android:text="@string/checkSite"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.273"

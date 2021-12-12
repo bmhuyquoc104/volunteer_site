@@ -17,9 +17,11 @@ import android.widget.Toast;
 import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.SiteLocation;
+import com.example.assignment2_android.databaseFirestore.ParticipantDatabase;
 import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class AddSite extends AppCompatActivity {
     String lat1, lng1;
     Participant participant;
     AutoCompleteTextView autoCompleteTextView;
+    FirebaseFirestore db;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -59,6 +62,7 @@ public class AddSite extends AppCompatActivity {
         participant = new Participant();
         newVolunteerSite = new VolunteerSite();
         currentUserList = LogIn.oneUserlist;
+        db = FirebaseFirestore.getInstance();
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_location_type, locationType);
         autoCompleteTextView.setAdapter(adapterItems);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,7 +100,8 @@ public class AddSite extends AppCompatActivity {
             }
             // New participant
             participant = new Participant(currentUser,"leader",volunteerSite);
-
+            //Add data to participant database
+//            ParticipantDatabase.addParticipant(participant,db,this);
             //System.out.println(SiteLocation.volunteerSiteList);
 
         });

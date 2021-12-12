@@ -17,9 +17,11 @@ import android.widget.Toast;
 import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.SiteLocation;
+import com.example.assignment2_android.databaseFirestore.ParticipantDatabase;
 import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,7 @@ public class DisplayInfo extends AppCompatActivity {
     List<User>currentUserList = new ArrayList<>();
     User currentUser = new User();
     Participant participant = new Participant();
+    FirebaseFirestore db;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -66,7 +69,7 @@ public class DisplayInfo extends AppCompatActivity {
         registerForFriend = findViewById(R.id.registerForFriend);
         checkbox = findViewById(R.id.registerSelection);
         editText = findViewById(R.id.friendEmail);
-
+        db = FirebaseFirestore.getInstance();
 
         //Initializing
         currentUserList = LogIn.oneUserlist;
@@ -187,6 +190,8 @@ public class DisplayInfo extends AppCompatActivity {
 
                 //Create participant for current user
                 participant = new Participant(currentUser,"Volunteer",site);
+                //Add participant to participant database
+                //ParticipantDatabase.addParticipant(participant,db,this);
 
                 //If the site is full, re render the page
                 Toast.makeText(this,"You have successfully registered yourself to this site",Toast.LENGTH_LONG).show();
@@ -224,6 +229,10 @@ public class DisplayInfo extends AppCompatActivity {
                         site.setUserList(site.getUserList() + "," + allUsers.get(i).getEmail());
                         //Update new site after user's friend joining
                         participant = new Participant(allUsers.get(i),"Volunteer",site);
+
+                        //Post data to participant database
+//                        ParticipantDatabase.addParticipant(participant,db,this);
+
                         //Create participant for friend's user
                         //If the site is full, re render the page
                         Toast.makeText(this,"You have successfully registered your friend to this site",Toast.LENGTH_LONG).show();
