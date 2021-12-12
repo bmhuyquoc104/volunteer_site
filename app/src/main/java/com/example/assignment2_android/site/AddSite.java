@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.SiteLocation;
+import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
 
@@ -35,9 +36,11 @@ public class AddSite extends AppCompatActivity {
     //Declare array adapter
     ArrayAdapter<String> adapterItems;
     VolunteerSite newVolunteerSite;
+    List<User> currentUserList;
+    User currentUser;
     String type;
     String lat1, lng1;
-
+    Participant participant;
     AutoCompleteTextView autoCompleteTextView;
 
     @SuppressLint("SetTextI18n")
@@ -49,11 +52,13 @@ public class AddSite extends AppCompatActivity {
         lat = findViewById(R.id.addLat);
         lng = findViewById(R.id.addLng);
         name = findViewById(R.id.addName);
+        currentUser = new User();
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view);
         maxCapacity = findViewById(R.id.maxCapacity);
         createSite = findViewById(R.id.createSite);
-
+        participant = new Participant();
         newVolunteerSite = new VolunteerSite();
+        currentUserList = LogIn.oneUserlist;
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_location_type, locationType);
         autoCompleteTextView.setAdapter(adapterItems);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,19 +85,23 @@ public class AddSite extends AppCompatActivity {
 
         createSite.setOnClickListener(view -> {
             String inputMaxCapacity = maxCapacity.getText().toString();
-            System.out.println("hello" + inputMaxCapacity);
             String leaderName = name.getText().toString();
-            System.out.println("hello leader " + leaderName);
-            System.out.println(Integer.parseInt(inputMaxCapacity));
+            // New site
             VolunteerSite volunteerSite = newVolunteerSite.addNewLocation(newVolunteerSite.getHOCHIMINH(), leaderName, type,
                     Integer.parseInt(inputMaxCapacity), Double.parseDouble(lat1), Double.parseDouble(lng1));
             SiteLocation.volunteerSiteList.add(volunteerSite);
-            System.out.println(SiteLocation.volunteerSiteList);
+            for (User user:currentUserList
+                 ) {
+                currentUser = new User(user.getName(),user.getPassword(),user.getEmail(), user.getAge(),user.getId());
+            }
+            // New participant
+            participant = new Participant(currentUser,"leader",volunteerSite);
 
+            //System.out.println(SiteLocation.volunteerSiteList);
 
         });
 
-        System.out.println("in ra lon gi ko" +type);
+
 
     }
 }

@@ -14,8 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.SiteLocation;
+import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
 
@@ -31,11 +33,14 @@ public class DisplayInfo extends AppCompatActivity {
 
     //Declare button
     Button joinSite ,registerForFriend;
+
+    //Declare and initialize list and class
     List<VolunteerSite> currentSite = new ArrayList<>();
     List<User>allUsers = new ArrayList<>();
     VolunteerSite volunteerSite = new VolunteerSite();
-
-
+    List<User>currentUserList = new ArrayList<>();
+    User currentUser = new User();
+    Participant participant = new Participant();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
@@ -43,6 +48,7 @@ public class DisplayInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_info);
+
         //Binding textview and button
         leaderName = findViewById(R.id.leaderName);
         status = findViewById(R.id.status);
@@ -60,6 +66,12 @@ public class DisplayInfo extends AppCompatActivity {
         registerForFriend = findViewById(R.id.registerForFriend);
         checkbox = findViewById(R.id.registerSelection);
         editText = findViewById(R.id.friendEmail);
+
+
+        //Initializing
+        currentUserList = LogIn.oneUserlist;
+
+        //Set invisibility before jointing the site
         registerForFriend.setVisibility(View.GONE);
         lng.setVisibility(View.GONE);
         lat.setVisibility(View.GONE);
@@ -70,17 +82,14 @@ public class DisplayInfo extends AppCompatActivity {
         joinSite.setVisibility(View.GONE);
         announce.setVisibility(View.GONE);
         editText.setVisibility(View.GONE);
-        //Set invisibility before jointing the site
-//        locationName.setVisibility(View.INVISIBLE);
-//        totalTestedVolunteers.setVisibility(View.INVISIBLE);
-//        totalVolunteers.setVisibility(View.INVISIBLE);
-//        maxCapacity.setVisibility(View.INVISIBLE);
-//        lat.setVisibility(View.INVISIBLE);
-//        lng.setVisibility(View.INVISIBLE);
+
 
 
 
         allSites = SiteLocation.volunteerSiteList;
+
+
+        //Dummy data
         User user = new User("huy", "1231", "huyvipro12121@gmail.com", 12, "1231");
         User user5 = new User("huy", "123", "huy@gmail.com", 123, "31231");
         User user1 = new User("huy", "123", "huy104@gmail.com", 123, "31231");
@@ -94,26 +103,43 @@ public class DisplayInfo extends AppCompatActivity {
         allUsers.add(user4);
         allUsers.add(user5);
 
+        //Get intent from siteLocation and use that intent to render info
         Intent intent = getIntent();
         if (intent != null) {
+            //Check key of intent and get value
             if (intent.hasExtra("locationName")) {
                 String currentLocationName = intent.getStringExtra("locationName");
+                //Find current site by locationName
                 for (int i = 0; i < allSites.size(); i++) {
                     if (currentLocationName.equals(allSites.get(i).getLocationName())) {
+                        //Render site info
                         String siteLeaderName = allSites.get(i).getLeaderName();
                         String siteStatus = allSites.get(i).getStatus();
                         String siteDistance = Double.toString(allSites.get(i).getDistanceFromCurrentLocation());
                         String siteType = allSites.get(i).getLocationType();
+                        String siteTotalVolunteers = Integer.toString(allSites.get(i).getTotalVolunteers());
+                        String siteTotalTested = Integer.toString(allSites.get(i).getTotalTestedVolunteers());
+                        String siteLat = Double.toString(allSites.get(i).getLat());
+                        String siteLng = Double.toString(allSites.get(i).getLng());
+                        String siteName = allSites.get(i).getLocationName();
+                        String siteMaxCapacity = Integer.toString(allSites.get(i).getMaxCapacity());
                         leaderName.setText("Leader name: " + siteLeaderName);
                         status.setText("Status: " + siteStatus);
                         totalDistance.setText("Distance to your location: " + siteDistance + " km");
                         locationType.setText("Type: " + siteType);
+                        locationName.setText("Location Name: " + siteName);
+                        lat.setText("Lat: " + siteLat);
+                        lng.setText("Lng: " + siteLng);
+                        totalVolunteers.setText("Total Volunteers: " + siteTotalVolunteers);
+                        totalTestedVolunteers.setText("Total Tested Volunteers: " + siteTotalTested);
+                        maxCapacity.setText("Max Capacity: " + siteMaxCapacity);
                         currentSite.add(allSites.get(i));
                     }
                 }
             }
         }
-        System.out.println("truoc khi add" + currentSite);
+
+        //Check whether the site is full or not to display or conceal button and proper message
         for (VolunteerSite site : currentSite
         ) {
             System.out.println(site.getStatus());
@@ -127,6 +153,7 @@ public class DisplayInfo extends AppCompatActivity {
             }
         }
 
+        //Check checkbox to display either register yourself or friend
         checkbox.setOnClickListener(view ->{
             if (checkbox.isChecked()){
                 editText.setVisibility(View.VISIBLE);
@@ -141,12 +168,36 @@ public class DisplayInfo extends AppCompatActivity {
         });
 
 
+        //Get the current user value
+        for (User thisUser:currentUserList
+             ) {
+            currentUser = new User(thisUser.getName(),thisUser.getPassword(),thisUser.getEmail(), thisUser.getAge(),thisUser.getId());
+        }
+
+
+        //Add the user to the site
         joinSite.setOnClickListener(view -> {
             for (VolunteerSite site : currentSite
             ) {
                 site.setTotalVolunteers(site.getTotalVolunteers() + 1);
                 site.setStatus(site.checkStatus(site.getMaxCapacity(),site.getTotalVolunteers()));
-                site.setUserList(site.getUserList() + "," + user.getEmail());
+                site.setUserList(site.getUserList() + "," + currentUser.getEmail());
+
+                //Update site after user joining
+
+                //Create participant for current user
+                participant = new Participant(currentUser,"Volunteer",site);
+
+                //If the site is full, re render the page
+                Toast.makeText(this,"You have successfully registered yourself to this site",Toast.LENGTH_LONG).show();
+                lng.setVisibility(View.VISIBLE);
+                lat.setVisibility(View.VISIBLE);
+                maxCapacity.setVisibility(View.VISIBLE);
+                totalVolunteers.setVisibility(View.VISIBLE);
+                totalTestedVolunteers.setVisibility(View.VISIBLE);
+                locationName.setVisibility(View.VISIBLE);
+                joinSite.setVisibility(View.GONE);
+                checkbox.setVisibility(View.GONE);
                 if (site.getTotalVolunteers() >= site.getMaxCapacity()){
                     joinSite.setVisibility(View.GONE);
                     announce.setVisibility(View.VISIBLE);
@@ -158,20 +209,33 @@ public class DisplayInfo extends AppCompatActivity {
             }
         });
 
-        System.out.println(allUsers);
+        //Add friend's user to site
         registerForFriend.setOnClickListener(view ->{
             String inputFriendEmail = editText.getText().toString();
-            System.out.println("huyne!!!!!!!" + inputFriendEmail);
+            //Use the email to check if the account is existed ?
             for (int i = 0; i<allUsers.size();i++){
-                System.out.println(allUsers.get(i).getEmail());
+                //Get that friend's account
                 if (inputFriendEmail.equals(allUsers.get(i).getEmail())){
-                    System.out.println(allUsers.get(i));
+                    //Get  current site
                     for (VolunteerSite site:currentSite
                          ) {
                         site.setTotalVolunteers(site.getTotalVolunteers() + 1);
                         site.setStatus(site.checkStatus(site.getMaxCapacity(),site.getTotalVolunteers()));
                         site.setUserList(site.getUserList() + "," + allUsers.get(i).getEmail());
-                        System.out.println("sau khi add" + currentSite);
+                        //Update new site after user's friend joining
+                        participant = new Participant(allUsers.get(i),"Volunteer",site);
+                        //Create participant for friend's user
+                        //If the site is full, re render the page
+                        Toast.makeText(this,"You have successfully registered your friend to this site",Toast.LENGTH_LONG).show();
+                        lng.setVisibility(View.VISIBLE);
+                        lat.setVisibility(View.VISIBLE);
+                        maxCapacity.setVisibility(View.VISIBLE);
+                        totalVolunteers.setVisibility(View.VISIBLE);
+                        totalTestedVolunteers.setVisibility(View.VISIBLE);
+                        locationName.setVisibility(View.VISIBLE);
+                        registerForFriend.setVisibility(View.GONE);
+                        checkbox.setVisibility(View.GONE);
+                        editText.setVisibility(View.GONE);
                         if (site.getTotalVolunteers() >= site.getMaxCapacity()){
                             joinSite.setVisibility(View.GONE);
                             announce.setVisibility(View.VISIBLE);
@@ -183,25 +247,11 @@ public class DisplayInfo extends AppCompatActivity {
                     }
                     break;
                 }
+                //Prompt user if they input wrong their friend's email
                 else{
-                    System.out.println("deo tim thay");
+                    Toast.makeText(this,"Input email is not existed, please register an account before joning the site",Toast.LENGTH_LONG).show();
                 }
 
-//                else{
-//                    for (VolunteerSite site:currentSite
-//                         ) {
-//                        System.out.println(userEmail);
-//                        site.setTotalVolunteers(site.getTotalVolunteers() + 1);
-//                        site.setStatus(site.checkStatus(site.getMaxCapacity(),site.getTotalVolunteers()));
-//                        site.setUserList(site.getUserList() + "," + userEmail.getEmail());
-//                        if (site.getTotalVolunteers() >= site.getMaxCapacity()){
-//                            joinSite.setVisibility(View.GONE);
-//                            announce.setVisibility(View.VISIBLE);
-//                            message.setVisibility(View.GONE);
-//                            checkbox.setVisibility(View.GONE);
-//                        }
-//                    }
-//                }
             }
         });
     }

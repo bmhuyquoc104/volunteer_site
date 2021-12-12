@@ -13,6 +13,9 @@ public class User {
     private String id;
 
 
+    public User(){
+
+    }
 
     public User(String name, String password, String email, int age, String id){
         this.name = name;

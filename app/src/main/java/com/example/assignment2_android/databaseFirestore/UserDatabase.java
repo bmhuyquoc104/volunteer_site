@@ -25,42 +25,42 @@ import java.util.UUID;
 
 public class UserDatabase {
     // Post User to database using Firestore
-//    public void registerUser(@NonNull String userName, String email, String age, Context context, String password, String correctPassWord,
-//                             ProgressDialog progressDialog, FirebaseFirestore db) {
-//        if (!userName.isEmpty() && !password.isEmpty() && !correctPassWord.isEmpty()) {
-//            if (password.equals(correctPassWord)) {
-//                String id = UUID.randomUUID().toString();
-//                progressDialog.show();
-//                HashMap<String, Object> temp = new HashMap<>();
-//                temp.put("age",age);
-//                temp.put("email",email);
-//                temp.put("id", id);
-//                temp.put("userName", userName);
-//                temp.put("password", password);
-//                db.collection("Users").document(id).set(temp)
-//
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    progressDialog.dismiss();
-//                                    Toast.makeText(context, "You have successfully add!", Toast.LENGTH_LONG).show();
-//                                }
-//                            }
-//                        })
-//                        .addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                progressDialog.dismiss();
-//                                Toast.makeText(context, "Please try again!!", Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//            } else {
-//                Toast.makeText(context, "Please fill all fields ", Toast.LENGTH_LONG).show();
-//            }
-//        }
-//
-//    }
+    public void registerUser(@NonNull String userName, String email, String age, Context context, String password, String correctPassWord,
+                             ProgressDialog progressDialog, FirebaseFirestore db) {
+        if (!userName.isEmpty() && !password.isEmpty() && !correctPassWord.isEmpty()) {
+            if (password.equals(correctPassWord)) {
+                String id = UUID.randomUUID().toString();
+                progressDialog.show();
+                HashMap<String, Object> temp = new HashMap<>();
+                temp.put("age",age);
+                temp.put("email",email);
+                temp.put("id", id);
+                temp.put("userName", userName);
+                temp.put("password", password);
+                db.collection("Users").document(id).set(temp)
+
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(context, "You have successfully add!", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(context, "Please try again!!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            } else {
+                Toast.makeText(context, "Please fill all fields ", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
 
     public void fetchVolunteers(Context context, FirebaseFirestore db, ProgressDialog pd,
                                 List<User> list, VolunteerListAdapter adapter) {
@@ -86,26 +86,26 @@ public class UserDatabase {
         });
     }
 
-//    public static void getAllUsers(FirebaseFirestore db, List<User>list){
-//        db.collection("Users").get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        list.clear();
-//                        for (DocumentSnapshot snapShot : task.getResult()) {
-//                            User user = new User(
-//                                    snapShot.getString("userName"),
-//                                    snapShot.getString("password"),
-//                                    snapShot.getString("email"),
-//                                    Integer.parseInt(Objects.requireNonNull(snapShot.getString("age"))),
-//                                    snapShot.getString("id")
-//                            );
-//                            list.add(user);
-//                        }
-//                    }
-//                });
-//        System.out.println(list);
-//    }
+    public static void getAllUsers(FirebaseFirestore db, List<User>list){
+        db.collection("Users").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        list.clear();
+                        for (DocumentSnapshot snapShot : task.getResult()) {
+                            User user = new User(
+                                    snapShot.getString("userName"),
+                                    snapShot.getString("password"),
+                                    snapShot.getString("email"),
+                                    Integer.parseInt(Objects.requireNonNull(snapShot.getString("age"))),
+                                    snapShot.getString("id")
+                            );
+                            list.add(user);
+                        }
+                    }
+                });
+        System.out.println(list);
+    }
 
     public void getUserByUserNameAndPassword (Context context, FirebaseFirestore db,
                                               String password, String username,List<User>list){
@@ -140,5 +140,6 @@ public class UserDatabase {
                     }
                 });;
     }
+
 }
 

@@ -113,6 +113,9 @@ public class LogIn extends AppCompatActivity {
 //        });
 
 
+        User  user = new User("huy","123","huy@gmail.com",12,"!234");
+        oneUserlist.add(user);
+
         login.setOnClickListener(view ->{
             Intent intent = new Intent(this, VolunteerHome.class);
             intent.setAction(Intent.ACTION_SEND);
