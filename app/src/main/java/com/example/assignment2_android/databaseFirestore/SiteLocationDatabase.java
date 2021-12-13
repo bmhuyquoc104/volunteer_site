@@ -49,7 +49,7 @@ public class SiteLocationDatabase {
             temp.put("lng", Double.toString(lng));
             temp.put("distanceFromCurrentLocation", Double.toString(distanceFromCurrentLocation));
             temp.put("totalTestedVolunteers", Integer.toString(totalTestedVolunteers));
-            db.collection("SiteLocations").document(id).set(temp)
+            db.collection("Sites").document(id).set(temp)
 
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -103,7 +103,7 @@ public class SiteLocationDatabase {
         });
     }
 
-    public static void fetchSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList, Context context, ProgressDialog pd) {
+    public static void fetchSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList) {
         db.collection("SiteLocations").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -125,7 +125,6 @@ public class SiteLocationDatabase {
                                     snapShot.getString("userList")
                             );
                             volunteerSiteList.add(volunteerSite);
-                            System.out.println("list neeeeeeeee" + volunteerSiteList);
                         }
 
                     }

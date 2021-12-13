@@ -4,6 +4,9 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class User {
     private String name;
@@ -11,7 +14,8 @@ public class User {
     private String email;
     private int age;
     private String id;
-
+    List<String>randomLeaderName = new ArrayList<>();
+    List<Integer>randomAge = new ArrayList<>();
 
     public User(){
 
@@ -24,6 +28,17 @@ public class User {
         this.age = age;
         this.id = id;
     }
+
+    //Create only 1 admin for the app
+    public static User createAdmin(ArrayList<User>adminList){
+        String id = UUID.randomUUID().toString();
+        String name = "voquochuy";
+        String password = "admin104";
+        String email = "s3823236@admin.com";
+        int age = 21;
+        return new User(name, password, email, age, id);
+    }
+
 
     public String getName() {
         return name;
@@ -63,6 +78,30 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public static int getRandomAge(List<Integer> list){
+        for (int i = 1; i < 100; i++){
+            list.add(i);
+        }
+
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    };
+
+    public void generateUsers(ArrayList<User>userlist, int size){
+        for (int i = 101; i < size; i++){
+            String id = UUID.randomUUID().toString();
+            String name = VolunteerSite.getRandomLeaderName(randomLeaderName) + i;
+            int age = getRandomAge(randomAge);
+            String password = "1234";
+            String email = name + i +"@gmail.com";
+            User temp = new User(name,password,email,age,id);
+            userlist.add(temp);
+
+        }
+        System.out.println("hu ne!!1" + userlist);
+
     }
 
     public void checkAge (int age, Context context){

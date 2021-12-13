@@ -39,7 +39,7 @@ public class ParticipantList extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         // Set fixed size for recycler view
-        recyclerView = findViewById(R.id.siteList);
+        recyclerView = findViewById(R.id.participantList);
         recyclerView.setHasFixedSize(true);
 
         //Use a linear layout manager

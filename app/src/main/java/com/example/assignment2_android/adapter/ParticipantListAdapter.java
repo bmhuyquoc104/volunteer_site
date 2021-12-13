@@ -35,11 +35,10 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ParticipantListAdapter.MyViewHolder holder, int position) {
-        holder.role.setText(participantList.get(position).getRole());
-        holder.locationName.setText(participantList.get(position).getLocationName());
-        holder.type.setText(participantList.get(position).getLocationType());
-        holder.status.setText(participantList.get(position).getStatus());
-        holder.distanceFromCurrentLocation.setText(Double.toString(participantList.get(position).getDistanceFromCurrentLocation()));
+        holder.role.setText("Role: "+participantList.get(position).getRole());
+        holder.locationName.setText("Site Name: "+participantList.get(position).getLocationName());
+        holder.type.setText("Type: " + participantList.get(position).getLocationType());
+        holder.status.setText("Status: " +participantList.get(position).getStatus());
     }
 
     @Override
@@ -48,14 +47,14 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView role, locationName, type,status,distanceFromCurrentLocation;
+        TextView role, locationName, type,status;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            role = itemView.findViewById(R.id.user_role);
-            locationName = itemView.findViewById(R.id.siteName);
-            type = itemView.findViewById(R.id.siteType);
-            status = itemView.findViewById(R.id.siteStatus);
-            distanceFromCurrentLocation = itemView.findViewById(R.id.siteTotalDistance);
+            role = itemView.findViewById(R.id.participant_role);
+            locationName = itemView.findViewById(R.id.participant_site);
+            type = itemView.findViewById(R.id.participant_type);
+            status = itemView.findViewById(R.id.participant_status);
+
         }
     }
 }

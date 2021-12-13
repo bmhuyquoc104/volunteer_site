@@ -12,6 +12,7 @@ public class Participant {
     private String email;
     private String id;
     private double distanceFromCurrentLocation;
+    private String userList;
     public Participant(){
 
     }
@@ -24,7 +25,7 @@ public class Participant {
         this.volunteerSite = volunteerSite;
     }
 
-    public Participant (String locationType, String status, String role,String locationName,String email,String id,double distanceFromCurrentLocation){
+    public Participant (String locationType, String status, String role,String locationName,String email,String id,double distanceFromCurrentLocation,String userList){
         this.distanceFromCurrentLocation = distanceFromCurrentLocation;
         this.locationType = locationType;
         this.status = status;
@@ -32,6 +33,7 @@ public class Participant {
         this.locationName = locationName;
         this.email = email;
         this.id = id;
+        this.userList = userList;
     };
 
     public String getLocationType() {
@@ -68,6 +70,14 @@ public class Participant {
 
     public String getId() {
         return id;
+    }
+
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(String userList) {
+        this.userList = userList;
     }
 
     public void setId(String id) {
@@ -107,16 +117,20 @@ public class Participant {
     }
 
 
+    @NonNull
     @Override
     public String toString() {
         return "Participant{" +
-                "role='" + role + '\'' +
+                "user=" + user +
+                ", role='" + role + '\'' +
+                ", volunteerSite=" + volunteerSite +
                 ", locationType='" + locationType + '\'' +
                 ", status='" + status + '\'' +
                 ", locationName='" + locationName + '\'' +
                 ", email='" + email + '\'' +
                 ", id='" + id + '\'' +
                 ", distanceFromCurrentLocation=" + distanceFromCurrentLocation +
+                ", userList='" + userList + '\'' +
                 '}';
     }
 }

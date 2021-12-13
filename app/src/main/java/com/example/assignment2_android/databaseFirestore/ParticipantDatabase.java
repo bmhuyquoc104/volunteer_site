@@ -28,17 +28,19 @@ import java.util.UUID;
 
 public class ParticipantDatabase {
     public static void addParticipant(Participant participant, FirebaseFirestore db,
-                                      Context context){
-
+                                      Context context) {
+        String listOfUsers = "";
         String id = UUID.randomUUID().toString();
         String role = participant.getRole();
+        if (role.equals("leader")) {
+            listOfUsers = participant.getVolunteerSite().getUserList();
+        }
 
         String email = participant.getUser().getEmail();
         String password = participant.getUser().getPassword();
         String userId = participant.getUser().getId();
         String name = participant.getUser().getName();
         int age = participant.getUser().getAge();
-
 
 
         String locationId = participant.getVolunteerSite().getLocationId();
@@ -56,13 +58,14 @@ public class ParticipantDatabase {
 
 
         HashMap<String, Object> temp = new HashMap<>();
-        temp.put("locationName",locationName);
-        temp.put("distanceFromCurrentLocation",distanceFromCurrentLocation);
-        temp.put("status",status);
-        temp.put("locationType",locationType);
-        temp.put("role",role);
-        temp.put("email",email);
-        temp.put("ParticipantId",id);
+        temp.put("locationName", locationName);
+        temp.put("distanceFromCurrentLocation", distanceFromCurrentLocation);
+        temp.put("status", status);
+        temp.put("locationType", locationType);
+        temp.put("role", role);
+        temp.put("email", email);
+        temp.put("userList", listOfUsers);
+        temp.put("ParticipantId", id);
 
         db.collection("Participant").document(id).set(temp)
 
@@ -82,18 +85,18 @@ public class ParticipantDatabase {
                 });
     }
 
-    public static void fetchParticipant(Context context, FirebaseFirestore db, List<Participant>list, User user, ParticipantListAdapter adapter) {
+    public static void fetchParticipant(Context context, FirebaseFirestore db, List<Participant> list, User user, ParticipantListAdapter adapter) {
         String email = user.getEmail();
         System.out.println("email ne" + email);
         CollectionReference participantRef = db.collection("Participant");
-        participantRef.whereEqualTo("email",email)
+        participantRef.whereEqualTo("email", email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot snapShot: task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapShot : task.getResult()) {
                                 Participant participant = new Participant(
                                         snapShot.getString("locationType"),
                                         snapShot.getString("status"),
@@ -101,13 +104,14 @@ public class ParticipantDatabase {
                                         snapShot.getString("locationName"),
                                         snapShot.getString("email"),
                                         snapShot.getString("ParticipantId"),
-                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("distanceFromCurrentLocation")))
+                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("distanceFromCurrentLocation"))),
+                                        snapShot.getString("userList")
                                 );
                                 list.add(participant);
-                                System.out.println("listne!!!!!!!!!!" +list);
+                                System.out.println("listne!!!!!!!!!!" + list);
                             }
                             adapter.notifyDataSetChanged();
-                        }else{
+                        } else {
                             System.out.println("Error getting documents: " + task.getException());
                         }
                     }
@@ -117,7 +121,48 @@ public class ParticipantDatabase {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(context, "You have not registered any sites. Please come back later!", Toast.LENGTH_LONG).show();
                     }
-                });;
+                });
+        ;
+    }
+
+    public static void getRole(Context context, FirebaseFirestore db, List<Participant> list, User user) {
+        String email = user.getEmail();
+        System.out.println("email ne" + email);
+        CollectionReference participantRef = db.collection("Participant");
+        participantRef.whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @SuppressLint("NotifyDataSetChanged")
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapShot : task.getResult()) {
+                                Participant participant = new Participant(
+                                        snapShot.getString("locationType"),
+                                        snapShot.getString("status"),
+                                        snapShot.getString("role"),
+                                        snapShot.getString("locationName"),
+                                        snapShot.getString("email"),
+                                        snapShot.getString("ParticipantId"),
+                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("distanceFromCurrentLocation"))),
+                                        snapShot.getString("userList")                                );
+                                list.add(participant);
+                                System.out.println("listne!!!!!!!!!!" + list);
+                            }
+                        } else {
+                            System.out.println("Error getting documents: " + task.getException());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "You have not registered any sites. Please come back later!", Toast.LENGTH_LONG).show();
+                    }
+                });
+        ;
     }
 
 }
+
+

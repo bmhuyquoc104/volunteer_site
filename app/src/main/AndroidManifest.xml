@@ -18,6 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment2_android">
         <activity
+            android:name=".RunReport"
+            android:exported="false" />
+        <activity
+            android:name=".SuperUserHome"
+            android:exported="false" />
+        <activity
+            android:name=".listDisplay.SiteList"
+            android:exported="false" />
+        <activity
+            android:name=".UserGuide2"
+            android:exported="false" />
+        <activity
             android:name=".site.DisplayInfo"
             android:exported="false" />
         <activity
@@ -29,7 +41,6 @@
         <activity
             android:name=".listDisplay.UserList"
             android:exported="false" />
-
         <activity
             android:name=".listDisplay.ParticipantList"
             android:exported="false" />

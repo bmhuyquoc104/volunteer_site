@@ -7,27 +7,14 @@
 
     tools:context=".SiteLocation">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteX="-40dp"
         tools:layout_editor_absoluteY="0dp" />
-
-    <ImageView
-        android:id="@+id/currentLocation"
-        android:layout_width="88dp"
-        android:layout_height="94dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="620dp"
-        android:contentDescription="@string/currentLocation"
-        android:onClick="handleCurrentLocation"
-        android:src="@drawable/ic_baseline_my_location_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/userInputSite"
@@ -453,6 +440,39 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/activateLocation"
+        android:layout_width="258dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="536dp"
+        android:background="@drawable/user_home_round"
+        android:onClick="handleCurrentLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UsingOnClickInXml" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="206dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="544dp"
+        android:drawableEnd="@drawable/ic_baseline_location_searching"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:text="@string/getLocation"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.556"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <!--    <ImageView-->
 <!--        android:id="@+id/route"-->

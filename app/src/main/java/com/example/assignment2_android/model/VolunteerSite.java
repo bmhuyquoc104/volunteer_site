@@ -1,5 +1,7 @@
 package com.example.assignment2_android.model;
 
+import static com.example.assignment2_android.MainActivity.allUsers;
+
 import android.location.Address;
 import android.location.Geocoder;
 
@@ -11,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -38,6 +41,7 @@ public class VolunteerSite {
     private List<String> randomType = new ArrayList<>();
     private List<String> randomLeaderName = new ArrayList<>();
     private List<String> randomEmail = new ArrayList<>();
+    public static List<String> allMails = MainActivity.userEmails;
     List<User> totalUsers= new ArrayList<>();
     public VolunteerSite(){
 
@@ -71,24 +75,23 @@ public class VolunteerSite {
 
     public void generateNewLocation(LatLng originalLocation, int totalSite, int radius,
                                     ArrayList<VolunteerSite>volunteerSiteList,
-                                    RandomLocation randomLocation){
+                                    RandomLocation randomLocation,List<String>userMail){
 //            totalUsers = MainActivity.allUsers;
-            for(int i= 0; i < totalSite ; i++) {
+            for(int i= 1; i < totalSite ; i++) {
                 double[] result = randomLocation.getRandomLocation
                         (originalLocation.longitude, originalLocation.latitude, radius);
                 double lat1 = result[0];
-                System.out.println(lat1);
                 double lng1 = result[1];
-                System.out.println(lng1);
                 String locationId = UUID.randomUUID().toString();
                 String leaderName = getRandomLeaderName(randomLeaderName);
                 int maxCapacity = getRandomMaximumCapacity(randomMaxCapacity);
                 int totalVolunteers = getRandomTotalNumber(randomTotalNumber, maxCapacity);
+                System.out.println("totalVolunteers" + totalVolunteers);
                 String locationType = getRandomType(randomType);
-                String locationName = leaderName + "_" + locationType + i;
+                String locationName = leaderName + "_"  +locationType + i;
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
-                String userEmailList = getRandomEmail(getUserList(totalUsers),totalVolunteers,randomEmail);
+                String userEmailList = getRandomEmail(totalVolunteers,userMail);
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
                 VolunteerSite temp = new VolunteerSite(locationId,locationName,leaderName,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
@@ -186,13 +189,10 @@ public class VolunteerSite {
     }
 
 
-    public static String getRandomEmail(List<User> userList,int totalNumber,List<String>email){
+    public static String getRandomEmail(int totalNumber,List<String>email){
         String userEmails = "";
         String temp = "";
-        for (User user:userList
-        ) {
-            email.add(user.getEmail());
-        }
+        System.out.println("hello ne nha" + email + "" + email.size());
         List<String> newList = new ArrayList<>();
         Random rand = new Random();
         for (int i = 0; i < totalNumber; i++){
@@ -228,20 +228,24 @@ public class VolunteerSite {
     };
 
     public static String getRandomLeaderName(List<String> list){
+        list.add("chris");
+        list.add("kate");
+        list.add("stark");
+        list.add("strange");
+        list.add("stephen");
+        list.add("messi");
+        list.add("leo");
+        list.add("david");
         list.add("huy");
-        list.add("andrew");
-        list.add("ngoc");
-        list.add("khang");
-        list.add("steve");
-        list.add("thu");
-        list.add("dat");
-        list.add("anh");
+        list.add("john");
+        list.add("minh");
+        list.add("faker");
 
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));
     };
 
-    private double distance(double lat1, double lng1, double lat2, double lng2) {
+    public double distance(double lat1, double lng1, double lat2, double lng2) {
         double theta = lng1 - lng2;
         double dist = Math.sin((lat1 * Math.PI / 180.0))
                 * Math.sin((lat2 * Math.PI / 180.0))
@@ -256,7 +260,7 @@ public class VolunteerSite {
 
     public  int getRandomMaximumCapacity(List<Integer> list)
     {
-        for (int i = 5; i < 40; i++){
+        for (int i = 10; i < 40; i++){
             list.add(i);
         }
 
@@ -265,7 +269,7 @@ public class VolunteerSite {
     }
 
     public  int getRandomTotalNumber(List<Integer> list,int maxCapacity){
-        for (int i = 5; i < 35; i++){
+        for (int i = 8; i < 40; i++){
             list.add(i);
         }
 
@@ -281,7 +285,7 @@ public class VolunteerSite {
     };
 
     public static int getRandomTestedVolunteer(List<Integer> list,int totalNumber){
-        for (int i = 3; i < 32; i++){
+        for (int i = 5; i < 38; i++){
             list.add(i);
         };
 

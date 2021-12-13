@@ -54,6 +54,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SiteLocation extends FragmentActivity implements OnMapReadyCallback {
@@ -62,6 +63,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     FirebaseFirestore db;
     List<User> currentUser;
     List<Marker> markerList;
+    List<Double> totalDistance;
     private Geocoder mGeocoder;
     boolean hasData = false;
     private boolean search = false;
@@ -85,12 +87,12 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     Circle locationCircle;
     ImageView currentLocation;
     DistanceSorter distanceSorter;
-    Button type1,type2,type3,type4;
-    Button capacity1,capacity2,capacity3,capacity4;
-    Button distance1,distance2,distance3,distance4;
-    Button volunteers1,volunteers2,volunteers3,volunteers4;
-    Button testedVolunteers1,testedVolunteers2,testedVolunteers3,testedVolunteers4;
-
+    Button type1, type2, type3, type4;
+    Button capacity1, capacity2, capacity3, capacity4;
+    Button distance1, distance2, distance3, distance4;
+    Button volunteers1, volunteers2, volunteers3, volunteers4;
+    Button testedVolunteers1, testedVolunteers2, testedVolunteers3, testedVolunteers4;
+    List<String> allEmails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +103,8 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         site = findViewById(R.id.userInputSite);
         searchSite = findViewById(R.id.searchSite);
         currentUser = new ArrayList<>();
-        currentLocation = (ImageView) findViewById(R.id.currentLocation);
+        totalDistance = new ArrayList<>();
+//        currentLocation = (ImageView) findViewById(R.id.currentLocation);
         client = LocationServices.getFusedLocationProviderClient(this);
         randomLocation = new RandomLocation();
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view2);
@@ -143,31 +146,34 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
         //Set visibility for filter selections to invisible
 
-            capacity1.setVisibility(View.GONE);
-            capacity2.setVisibility(View.GONE);
-            capacity3.setVisibility(View.GONE);
-            capacity4.setVisibility(View.GONE);
+        capacity1.setVisibility(View.GONE);
+        capacity2.setVisibility(View.GONE);
+        capacity3.setVisibility(View.GONE);
+        capacity4.setVisibility(View.GONE);
 
-            volunteers1.setVisibility(View.GONE);
-            volunteers2.setVisibility(View.GONE);
-            volunteers3.setVisibility(View.GONE);
-            volunteers4.setVisibility(View.GONE);
+        volunteers1.setVisibility(View.GONE);
+        volunteers2.setVisibility(View.GONE);
+        volunteers3.setVisibility(View.GONE);
+        volunteers4.setVisibility(View.GONE);
 
-            type1.setVisibility(View.GONE);
-            type2.setVisibility(View.GONE);
-            type3.setVisibility(View.GONE);
-            type4.setVisibility(View.GONE);
+        type1.setVisibility(View.GONE);
+        type2.setVisibility(View.GONE);
+        type3.setVisibility(View.GONE);
+        type4.setVisibility(View.GONE);
 
-            distance1.setVisibility(View.GONE);
-            distance2.setVisibility(View.GONE);
-            distance3.setVisibility(View.GONE);
-            distance4.setVisibility(View.GONE);
+        distance1.setVisibility(View.GONE);
+        distance2.setVisibility(View.GONE);
+        distance3.setVisibility(View.GONE);
+        distance4.setVisibility(View.GONE);
 
-            testedVolunteers1.setVisibility(View.GONE);
-            testedVolunteers2.setVisibility(View.GONE);
-            testedVolunteers3.setVisibility(View.GONE);
-            testedVolunteers4.setVisibility(View.GONE);
+        testedVolunteers1.setVisibility(View.GONE);
+        testedVolunteers2.setVisibility(View.GONE);
+        testedVolunteers3.setVisibility(View.GONE);
+        testedVolunteers4.setVisibility(View.GONE);
 
+
+        allEmails = MainActivity.userEmails;
+        volunteerSiteList = UserGuide.allSites;
 
         // Set dropdown list
         autoCompleteTextView.setAdapter(adapterItems);
@@ -199,15 +205,19 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        System.out.println("hello huy ne"+ allEmails);
 
-        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 5, 8000, volunteerSiteList, randomLocation);
-//        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 1, 3000, volunteerSiteList, randomLocation);
-//        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 1, 2000, volunteerSiteList, randomLocation);
+        System.out.println("hello huy again ne" + volunteerSiteList);
+        System.out.println("hello huy again cho coi size ne" + volunteerSiteList.size());
+        System.out.println();
+    //    volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 25, 8000, volunteerSiteList, randomLocation,allEmails);
+//        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 5, 3000, volunteerSiteList, randomLocation,allEmails);
+//        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 5, 2000, volunteerSiteList, randomLocation,allEmails);
 
         volunteerSiteList.sort(distanceSorter);
-
+        System.out.println(volunteerSiteList);
         // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
-//        postSiteLocations(db,volunteerSiteList,this);
+        //SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this);
 
 
         for (VolunteerSite volunteerSite : volunteerSiteList
@@ -227,15 +237,20 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             assert userMarker != null;
             userMarker.setZIndex(1.0f);
             markerList.add(userMarker);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 1));
+//            mMap.getUiSettings().setZoomControlsEnabled(true);
         }
 
-        System.out.println("ra cai gi day " + userMarker);
 
-        System.out.println(userSelection);
         toggleFilterOptions(userSelection);
+
+        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+
+            }
+        });
 
         // Create new location in the map by click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
@@ -325,8 +340,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                     hasData = true;
 
 
-                }
-                else {
+                } else {
                     for (VolunteerSite volunteerSite : volunteerSiteList
                     ) {
                         double lat = volunteerSite.getLat();
@@ -379,40 +393,12 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
 
         // return marker if user selection is type1
-        type1.setOnClickListener(view ->{
+        type1.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
-                 ) {
-                if (volunteerSite.getLocationType().equals("Hospital")){
-
-                    double lat = volunteerSite.getLat();
-                    double lng = volunteerSite.getLng();
-                    locationName = volunteerSite.getLocationName();
-                    LatLng site = new LatLng(lat, lng);
-                    mMap.getUiSettings().setZoomControlsEnabled(true);
-                    @SuppressLint("UseCompatLoadingForDrawables")
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
-                    Bitmap b = bitmapDrawable.getBitmap();
-                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
-                    MarkerOptions mMarker = new MarkerOptions();
-                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                    userMarker = mMap.addMarker(mMarker);
-                    assert userMarker != null;
-                    userMarker.setZIndex(1.0f);
-                    markerList.add(userMarker);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
-                    mMap.getUiSettings().setZoomControlsEnabled(true);
-                }
-
-            }
-        });
-
-        type2.setOnClickListener(view ->{
-            removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getLocationType().equals("Stadium")){
+                if (volunteerSite.getLocationType().equals("Hospital")) {
+
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -436,12 +422,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        type3.setOnClickListener(view ->{
+        type2.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getLocationType().equals("School")){
-
+                if (volunteerSite.getLocationType().equals("Stadium")) {
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -465,11 +450,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        type4.setOnClickListener(view ->{
+        type3.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getLocationType().equals("Factory")){
+                if (volunteerSite.getLocationType().equals("School")) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -494,12 +479,12 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
-        capacity1.setOnClickListener(view ->{
+        type4.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() < 15 ){
+                if (volunteerSite.getLocationType().equals("Factory")) {
+
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -523,11 +508,12 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        capacity2.setOnClickListener(view ->{
+
+        capacity1.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() >= 15 && volunteerSite.getMaxCapacity() < 25 ){
+                if (volunteerSite.getMaxCapacity() < 15) {
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -551,12 +537,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        capacity3.setOnClickListener(view ->{
+        capacity2.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() >= 25 && volunteerSite.getMaxCapacity() < 35){
-
+                if (volunteerSite.getMaxCapacity() >= 15 && volunteerSite.getMaxCapacity() < 25) {
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -580,11 +565,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        capacity4.setOnClickListener(view ->{
+        capacity3.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() > 35){
+                if (volunteerSite.getMaxCapacity() >= 25 && volunteerSite.getMaxCapacity() < 35) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -609,11 +594,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        volunteers1.setOnClickListener(view ->{
+        capacity4.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() < 10){
+                if (volunteerSite.getMaxCapacity() > 35) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -638,11 +623,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        volunteers2.setOnClickListener(view ->{
+        volunteers1.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() >= 10 && volunteerSite.getTotalVolunteers() < 20){
+                if (volunteerSite.getTotalVolunteers() < 10) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -667,11 +652,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        volunteers3.setOnClickListener(view ->{
+        volunteers2.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() >= 20 && volunteerSite.getTotalVolunteers() < 30){
+                if (volunteerSite.getTotalVolunteers() >= 10 && volunteerSite.getTotalVolunteers() < 20) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -696,11 +681,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        volunteers4.setOnClickListener(view ->{
+        volunteers3.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() > 30){
+                if (volunteerSite.getTotalVolunteers() >= 20 && volunteerSite.getTotalVolunteers() < 30) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -725,11 +710,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        testedVolunteers1.setOnClickListener(view ->{
+        volunteers4.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() < 8){
+                if (volunteerSite.getTotalVolunteers() > 30) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -754,11 +739,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        testedVolunteers2.setOnClickListener(view ->{
+        testedVolunteers1.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() >= 8 && volunteerSite.getTotalTestedVolunteers() < 18){
+                if (volunteerSite.getTotalTestedVolunteers() < 8) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -783,11 +768,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        testedVolunteers3.setOnClickListener(view ->{
+        testedVolunteers2.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() >= 18 && volunteerSite.getTotalTestedVolunteers() < 28){
+                if (volunteerSite.getTotalTestedVolunteers() >= 8 && volunteerSite.getTotalTestedVolunteers() < 18) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -812,11 +797,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        testedVolunteers4.setOnClickListener(view ->{
+        testedVolunteers3.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() > 28){
+                if (volunteerSite.getTotalTestedVolunteers() >= 18 && volunteerSite.getTotalTestedVolunteers() < 28) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -841,11 +826,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        distance1.setOnClickListener(view ->{
+        testedVolunteers4.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() < 1000){
+                if (volunteerSite.getTotalTestedVolunteers() > 28) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -870,11 +855,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        distance2.setOnClickListener(view ->{
+        distance1.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() >= 1000 && volunteerSite.getDistanceFromCurrentLocation() < 2000){
+                if (volunteerSite.getDistanceFromCurrentLocation() < 1000) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -899,11 +884,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        distance3.setOnClickListener(view ->{
+        distance2.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() >= 2000 && volunteerSite.getDistanceFromCurrentLocation() < 3000){
+                if (volunteerSite.getDistanceFromCurrentLocation() >= 1000 && volunteerSite.getDistanceFromCurrentLocation() < 2000) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -927,11 +912,40 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-        distance4.setOnClickListener(view ->{
+
+        distance3.setOnClickListener(view -> {
             removeAllMarkers(markerList);
-            for (VolunteerSite volunteerSite:volunteerSiteList
+            for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() > 3000){
+                if (volunteerSite.getDistanceFromCurrentLocation() >= 2000 && volunteerSite.getDistanceFromCurrentLocation() < 3000) {
+
+                    double lat = volunteerSite.getLat();
+                    double lng = volunteerSite.getLng();
+                    locationName = volunteerSite.getLocationName();
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
+                    Bitmap b = bitmapDrawable.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site).icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    userMarker.setZIndex(1.0f);
+                    markerList.add(userMarker);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 14));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+
+            }
+        });
+        distance4.setOnClickListener(view -> {
+            removeAllMarkers(markerList);
+            for (VolunteerSite volunteerSite : volunteerSiteList
+            ) {
+                if (volunteerSite.getDistanceFromCurrentLocation() > 3000) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -956,28 +970,37 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
-        //Filter function
 
     }
-
 
 
     @SuppressLint("MissingPermission")
     private void getLocation() {
         Task<Location> locationTask = client.getLastLocation();
+
         locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                LatLng currentLocation =
-                        new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
-                mMap.getUiSettings().setZoomControlsEnabled(true);
+                double lat = location.getLatitude();
+                double lng = location.getLongitude();
+                for (VolunteerSite volunteerSite : volunteerSiteList) {
+                    double lat2 = volunteerSite.getLat();
+                    double lng2 = volunteerSite.getLng();
+                    volunteerSite.setDistanceFromCurrentLocation(volunteerSite.distance(lat, lng, lat2, lng2));
+                    LatLng site = new LatLng(lat, lng);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                    MarkerOptions mMarker = new MarkerOptions();
+                    mMarker.position(site);
+                    userMarker = mMap.addMarker(mMarker);
+                    assert userMarker != null;
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(site, 10));
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
             }
         });
     }
+
 
     public void handleCurrentLocation(View view) {
 
@@ -1007,9 +1030,9 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void toggleFilterOptions (String str){
+    public void toggleFilterOptions(String str) {
 
-        if (str == "Max Capacity"){
+        if (str == "Max Capacity") {
             capacity1.setVisibility(View.VISIBLE);
             capacity2.setVisibility(View.VISIBLE);
             capacity3.setVisibility(View.VISIBLE);
@@ -1030,8 +1053,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             distance2.setVisibility(View.GONE);
             distance3.setVisibility(View.GONE);
             distance4.setVisibility(View.GONE);
-        }
-        else if (str == "Total Current Volunteers"){
+        } else if (str == "Total Current Volunteers") {
             volunteers1.setVisibility(View.VISIBLE);
             volunteers2.setVisibility(View.VISIBLE);
             volunteers3.setVisibility(View.VISIBLE);
@@ -1052,8 +1074,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             capacity2.setVisibility(View.GONE);
             capacity3.setVisibility(View.GONE);
             capacity4.setVisibility(View.GONE);
-        }
-        else if (str == "Location Type"){
+        } else if (str == "Location Type") {
             type1.setVisibility(View.VISIBLE);
             type2.setVisibility(View.VISIBLE);
             type3.setVisibility(View.VISIBLE);
@@ -1075,8 +1096,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             volunteers3.setVisibility(View.GONE);
             volunteers4.setVisibility(View.GONE);
 
-        }
-        else if(str == "Distance to your location"){
+        } else if (str == "Distance to your location") {
             distance1.setVisibility(View.VISIBLE);
             distance2.setVisibility(View.VISIBLE);
             distance3.setVisibility(View.VISIBLE);
@@ -1097,8 +1117,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             capacity2.setVisibility(View.GONE);
             capacity3.setVisibility(View.GONE);
             capacity4.setVisibility(View.GONE);
-        }
-        else if(str == "Total Tested Volunteers"){
+        } else if (str == "Total Tested Volunteers") {
             testedVolunteers1.setVisibility(View.VISIBLE);
             testedVolunteers2.setVisibility(View.VISIBLE);
             testedVolunteers3.setVisibility(View.VISIBLE);
@@ -1119,9 +1138,16 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             capacity2.setVisibility(View.GONE);
             capacity3.setVisibility(View.GONE);
             capacity4.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             System.out.println("Something wrong !!");
+        }
+    }
+
+    public void getListOfDistance(List<Double> distance, double lat, double lng, List<VolunteerSite> list) {
+        for (VolunteerSite volunteerSite : list) {
+            double lat2 = volunteerSite.getLat();
+            double lng2 = volunteerSite.getLng();
+            volunteerSite.setDistanceFromCurrentLocation(volunteerSite.distance(lat, lng, lat2, lng2));
         }
     }
 

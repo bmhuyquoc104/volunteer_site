@@ -7,30 +7,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.assignment2_android.databaseFirestore.UserDatabase;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
 import com.example.assignment2_android.site.RandomLocation;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     Button guide;
     Button explore;
-    VolunteerSite volunteerSite = new VolunteerSite();
-    RandomLocation randomLocation = new RandomLocation();
-    ArrayList<VolunteerSite> volunteerSiteList = new ArrayList<>();
-    public static ArrayList<User> allUsers = new ArrayList<>();
     FirebaseFirestore db;
+    public static List<String> userEmails;
+
+    public static List <User> allUsers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ArrayList<User> tempAllUsers = new ArrayList<>();
+        userEmails = new ArrayList<>();
         guide = findViewById(R.id.guide);
         explore = findViewById(R.id.explore);
         guide.setOnClickListener(view -> {
@@ -51,7 +56,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         db = FirebaseFirestore.getInstance();
-//        getAllUsers(db,allUsers);
+
+
+//        UserDatabase.getAllUsers(db,allUsers);
+//        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+//                    // Check if that user is fetch properly
+//                    if (allUsers.size() != 0) {
+//                        // Loop the list and get the info of that person
+//                        for (int i = 0; i < allUsers.size(); i++) {
+//                            userEmails.add(allUsers.get(i).getEmail());
+//                        }
+//                        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + userEmails +userEmails.size());
+//                    }
+//                },4000);
 
     }
+
 }

@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity {
             String inputUserEmail = email.getText().toString();
             String inputUserAge = age.getText().toString();
             System.out.println(inputUserConfirmPassword);
-//            userDatabase.registerUser(inputUserName,inputUserEmail,inputUserAge,Register.this,inputUserPassword,inputUserConfirmPassword,pd,db);
+            userDatabase.registerUser(inputUserName,inputUserEmail,inputUserAge,Register.this,inputUserPassword,inputUserConfirmPassword,pd,db);
         });
     }
 

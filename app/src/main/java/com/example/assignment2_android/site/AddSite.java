@@ -101,7 +101,7 @@ public class AddSite extends AppCompatActivity {
             // New participant
             participant = new Participant(currentUser,"leader",volunteerSite);
             //Add data to participant database
-//            ParticipantDatabase.addParticipant(participant,db,this);
+            ParticipantDatabase.addParticipant(participant,db,this);
             //System.out.println(SiteLocation.volunteerSiteList);
 
         });

@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary2"
-    tools:context=".listDisplay.ParticipantList">
+    tools:context=".listDisplay.SiteList">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/participantList"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/siteList"
+        android:layout_width="416dp"
+        android:layout_height="505dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.123" />
+        app:layout_constraintVertical_bias="0.497" />
 
     <TextView
         android:id="@+id/textView12"
@@ -29,7 +29,7 @@
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimary3"
         android:backgroundTint="@color/colorPrimary"
-        android:text="@string/participantList"
+        android:text="@string/allSites"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"

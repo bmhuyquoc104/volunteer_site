@@ -189,9 +189,9 @@ public class DisplayInfo extends AppCompatActivity {
                 //Update site after user joining
 
                 //Create participant for current user
-                participant = new Participant(currentUser,"Volunteer",site);
+                participant = new Participant(currentUser,"volunteer",site);
                 //Add participant to participant database
-                //ParticipantDatabase.addParticipant(participant,db,this);
+                ParticipantDatabase.addParticipant(participant,db,this);
 
                 //If the site is full, re render the page
                 Toast.makeText(this,"You have successfully registered yourself to this site",Toast.LENGTH_LONG).show();
@@ -228,10 +228,10 @@ public class DisplayInfo extends AppCompatActivity {
                         site.setStatus(site.checkStatus(site.getMaxCapacity(),site.getTotalVolunteers()));
                         site.setUserList(site.getUserList() + "," + allUsers.get(i).getEmail());
                         //Update new site after user's friend joining
-                        participant = new Participant(allUsers.get(i),"Volunteer",site);
+                        participant = new Participant(allUsers.get(i),"volunteer",site);
 
                         //Post data to participant database
-//                        ParticipantDatabase.addParticipant(participant,db,this);
+                        ParticipantDatabase.addParticipant(participant,db,this);
 
                         //Create participant for friend's user
                         //If the site is full, re render the page

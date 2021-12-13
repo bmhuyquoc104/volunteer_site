@@ -34,7 +34,7 @@
     <string name="currentLocation" />
     <string name="Volunteerlist">Volunteer List</string>
     <string name="name">Name</string>
-    <string name="age">age</string>
+    <string name="age">Age</string>
     <string name="email">Email</string>
     <string name="registerEmail">Email</string>
     <string name="Age">Age</string>
@@ -88,9 +88,18 @@
     <string name="totalDistance2">Less than 2km</string>
     <string name="totalDistance3">Less than 3km</string>
     <string name="totalDistance4">Over 3km</string>
-
-
-
+    <string name="getLocation">My Location</string>
+    <string name="list">Volunteers</string>
+    <string name="userprofile">User Profile</string>
+    <string name="downLoad">Download file</string>
+    <string name="guide1">You can add your own site by click join my site and then long click every where on the map.Remember you need to be at least 18 to create new site</string>
+    <string name="guide2">You can also register the available site by click the marker of that site and then press register button to join.</string>
+    <string name="guide3">You can also register for your friends by enter their emails. Remember it is compulsory to register the account before joining the site.</string>
+    <string name="guide4">You can check your sites that you registered or created by choosing check the site!</string>
+    <string name="site">Site Name</string>
+    <string name="allSites">All Sites</string>
+    <string name="run">Run Report</string>
+    <string name="seeSites">See All Sites</string>
 
 
 </resources>
