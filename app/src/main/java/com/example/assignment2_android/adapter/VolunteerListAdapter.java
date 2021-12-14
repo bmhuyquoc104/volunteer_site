@@ -36,7 +36,7 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     @Override
     public void onBindViewHolder(@NonNull VolunteerListAdapter.MyViewHolder holder, int position) {
         holder.name.setText(userList.get(position).getName());
-//        holder.age.setText(Integer.toString(userList.get(position).getAge()));
+        holder.age.setText(Integer.toString(userList.get(position).getAge()));
         holder.email.setText(userList.get(position).getEmail());
     }
 
@@ -46,13 +46,13 @@ public class VolunteerListAdapter extends RecyclerView.Adapter<VolunteerListAdap
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, email;
+        TextView name, email,age;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.volunter_name);
             email = itemView.findViewById(R.id.volunteer_email);
-
+            age = itemView.findViewById(R.id.volunteer_age);
         }
     }
 }

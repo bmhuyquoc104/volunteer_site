@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.assignment2_android.databaseFirestore.SiteLocationDatabase;
 import com.example.assignment2_android.databaseFirestore.UserDatabase;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<String> userEmails;
 
     public static List <User> allUsers = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+
+
 //        UserDatabase.getAllUsers(db,allUsers);
 //        new Handler(Looper.getMainLooper()).postDelayed(() -> {
 //                    // Check if that user is fetch properly
@@ -68,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 //                        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + userEmails +userEmails.size());
 //                    }
-//                },4000);
-//
-//    }
+//                },2000);
 
+    }
 }

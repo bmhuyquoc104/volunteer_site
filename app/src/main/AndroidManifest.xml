@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment2_android">
         <activity
+            android:name=".UpdateSiteBySuperUser"
+            android:exported="false" />
+        <activity
             android:name=".RunReport"
             android:exported="false" />
         <activity

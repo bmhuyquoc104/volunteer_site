@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class VolunteerHome extends AppCompatActivity {
     View update;
     View logoutButton;
     View rule;
+    ImageView volunteerUpdate2;
+    TextView volunteerUpdate3;
     List<User>currentUserList;
     public static List<User>userByEmail;
     FirebaseFirestore db;
@@ -54,7 +57,9 @@ public class VolunteerHome extends AppCompatActivity {
         currentUserList = LogIn.oneUserlist;
         participantList = new ArrayList<>();
         userByEmail = new ArrayList<>();
-        update = findViewById(R.id.update);
+        update = findViewById(R.id.volunteerHomeUpdate);
+        volunteerUpdate2 = findViewById(R.id.volunteerHomeUpdate2);
+        volunteerUpdate3 = findViewById(R.id.volunteerHomeUpdate3);
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         if (intent != null) {
@@ -71,6 +76,8 @@ public class VolunteerHome extends AppCompatActivity {
         }
 
         update.setVisibility(View.GONE);
+        volunteerUpdate2.setVisibility(View.GONE);
+        volunteerUpdate3.setVisibility(View.GONE);
 
         for (User thisUser: currentUserList){
             currentUser = new User(thisUser.getName(),thisUser.getPassword(),thisUser.getEmail(), thisUser.getAge(),thisUser.getId());
@@ -95,6 +102,8 @@ public class VolunteerHome extends AppCompatActivity {
                                 }
                                 showVolunteer.setEnabled(true);
                                 update.setVisibility(View.VISIBLE);
+                                volunteerUpdate2.setVisibility(View.VISIBLE);
+                                volunteerUpdate3.setVisibility(View.VISIBLE);
                             }
                         }
                         System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + role);

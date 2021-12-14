@@ -45,7 +45,7 @@ public class ParticipantDatabase {
 
         String locationId = participant.getVolunteerSite().getLocationId();
         String locationName = participant.getVolunteerSite().getLocationName();
-        String leaderName = participant.getVolunteerSite().getLeaderName();
+        String leader = participant.getVolunteerSite().getLeader();
         String locationType = participant.getVolunteerSite().getLocationType();
         String status = participant.getVolunteerSite().getStatus();
         String userList = participant.getVolunteerSite().getUserList();
@@ -73,7 +73,6 @@ public class ParticipantDatabase {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(context, "Data is updated successfully!", Toast.LENGTH_LONG).show();
                         }
                     }
                 })
@@ -84,6 +83,49 @@ public class ParticipantDatabase {
                     }
                 });
     }
+
+
+    public static void addParticipantByEmail(String email, FirebaseFirestore db,
+                                      Context context,VolunteerSite site,String role) {
+        String id = UUID.randomUUID().toString();
+        String locationName = site.getLocationName();
+        String locationType = site.getLocationType();
+        String status = site.getStatus();
+        String userList = site.getUserList();
+        String distanceFromCurrentLocation = Double.toString(site.getDistanceFromCurrentLocation());
+
+
+
+
+        HashMap<String, Object> temp = new HashMap<>();
+        temp.put("locationName", locationName);
+        temp.put("distanceFromCurrentLocation", distanceFromCurrentLocation);
+        temp.put("status", status);
+        temp.put("locationType", locationType);
+        temp.put("role", role);
+        temp.put("email", email);
+        temp.put("userList", userList);
+        temp.put("ParticipantId", id);
+
+
+        db.collection("Participant").document(id).set(temp)
+
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Please try again!!", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+
 
     public static void fetchParticipant(Context context, FirebaseFirestore db, List<Participant> list, User user, ParticipantListAdapter adapter) {
         String email = user.getEmail();
@@ -145,7 +187,7 @@ public class ParticipantDatabase {
                                         snapShot.getString("email"),
                                         snapShot.getString("ParticipantId"),
                                         Double.parseDouble(Objects.requireNonNull(snapShot.getString("distanceFromCurrentLocation"))),
-                                        snapShot.getString("userList")                                );
+                                        snapShot.getString("userList"));
                                 list.add(participant);
                                 System.out.println("listne!!!!!!!!!!" + list);
                             }

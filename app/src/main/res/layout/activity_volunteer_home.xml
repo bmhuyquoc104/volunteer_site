@@ -204,7 +204,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/userHomeLocation14"
+        android:id="@+id/volunteerHomeUpdate3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="608dp"
@@ -236,7 +236,7 @@
         tools:ignore="UseCompatTextViewDrawableXml" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/volunteerHomeUpdate2"
         android:layout_width="51dp"
         android:layout_height="48dp"
         android:layout_marginTop="560dp"
@@ -307,7 +307,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/update"
+        android:id="@+id/volunteerHomeUpdate"
         android:layout_width="98dp"
         android:layout_height="112dp"
         android:layout_marginTop="540dp"

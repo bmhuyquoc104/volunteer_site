@@ -101,7 +101,7 @@
             android:layout_marginTop="208dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/leaderName"
+            android:hint="@string/leader"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"
@@ -133,7 +133,7 @@
             android:layout_marginTop="932dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/locationType"
+            android:hint="@string/totalVolunteers"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"
@@ -149,7 +149,23 @@
             android:layout_marginTop="1040dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/locationType"
+            android:hint="@string/infoTotalTested"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/siteUserList"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="1538dp"
+            android:ems="10"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/listOfUsers"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"
@@ -165,7 +181,7 @@
             android:layout_marginTop="1148dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/locationType"
+            android:hint="@string/lat"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"
@@ -213,7 +229,7 @@
             android:layout_marginTop="1332dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/locationType"
+            android:hint="@string/lng"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"
@@ -229,7 +245,7 @@
             android:layout_marginTop="1438dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/locationType"
+            android:hint="@string/maxCapacity"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"
@@ -238,6 +254,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
         <TextView
             android:id="@+id/siteName"
             android:layout_width="313dp"
@@ -245,7 +264,7 @@
             android:layout_marginTop="1244dp"
             android:ems="10"
             android:fontFamily="@font/roboto"
-            android:hint="@string/locationType"
+            android:hint="@string/siteName"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
             android:textSize="20sp"

@@ -35,11 +35,17 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ParticipantListAdapter.MyViewHolder holder, int position) {
-        holder.role.setText("Role: "+participantList.get(position).getRole());
-        holder.locationName.setText("Site Name: "+participantList.get(position).getLocationName());
+        holder.role.setText("Role: " + participantList.get(position).getRole());
+        holder.locationName.setText("Site Name: " + participantList.get(position).getLocationName());
         holder.type.setText("Type: " + participantList.get(position).getLocationType());
-        holder.status.setText("Status: " +participantList.get(position).getStatus());
+        holder.status.setText("Status: " + participantList.get(position).getStatus());
+        holder.leader.setText("Leader: " + participantList.get(position).getEmail());
+        if (participantList.get(position).getRole().equals("leader")) {
+            holder.userList.setText("List Of Volunteers: " + participantList.get(position).getStatus());
+        }
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -47,14 +53,15 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView role, locationName, type,status;
+        TextView role, locationName, type,status,userList,leader;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             role = itemView.findViewById(R.id.participant_role);
             locationName = itemView.findViewById(R.id.participant_site);
             type = itemView.findViewById(R.id.participant_type);
             status = itemView.findViewById(R.id.participant_status);
-
+            leader = itemView.findViewById(R.id.participant_leader);
+            userList = itemView.findViewById(R.id.participant_userList);
         }
     }
 }

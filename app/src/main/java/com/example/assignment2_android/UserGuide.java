@@ -28,7 +28,12 @@ public class UserGuide extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_guide);
         allSites = new ArrayList<>();
-
+        back = findViewById(R.id.back);
+        back.setOnClickListener( view ->{
+           Intent intent = new Intent(this,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+           startActivity(intent);
+        });
 
         db = FirebaseFirestore.getInstance();
         SiteLocationDatabase.fetchSiteLocations(db,allSites);

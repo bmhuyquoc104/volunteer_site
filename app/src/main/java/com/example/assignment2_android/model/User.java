@@ -95,7 +95,7 @@ public class User {
             String name = VolunteerSite.getRandomLeaderName(randomLeaderName) + i;
             int age = getRandomAge(randomAge);
             String password = "1234";
-            String email = name + i +"@gmail.com";
+            String email = name  +"@gmail.com";
             User temp = new User(name,password,email,age,id);
             userlist.add(temp);
 

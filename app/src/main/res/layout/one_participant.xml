@@ -7,14 +7,13 @@
     >
 
     <RelativeLayout
-        android:layout_width="379dp"
-        android:layout_height="87dp"
+        android:layout_width="386dp"
+        android:layout_height="197dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/login_round"
-        android:backgroundTint="@color/colorPrimary3"
+        android:background="@color/colorPrimary2"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,8 +24,30 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:text="@string/role"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/participant_leader"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/leader"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/participant_userList"
+            android:layout_width="339dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="120dp"
+            android:text="@string/listOfUsers"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -35,8 +56,8 @@
             android:layout_height="35dp"
             android:layout_marginStart="20dp"
             android:text="@string/site"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -46,8 +67,8 @@
             android:layout_marginStart="220dp"
             android:layout_marginTop="40dp"
             android:text="@string/status"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -56,8 +77,8 @@
             android:layout_height="35dp"
             android:layout_marginStart="220dp"
             android:text="@string/locationType"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />
     </RelativeLayout>
 

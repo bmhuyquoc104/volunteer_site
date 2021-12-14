@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.RunReport;
+import com.example.assignment2_android.UpdateSiteBySuperUser;
 import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.VolunteerSite;
 
@@ -39,7 +40,7 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.MyView
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull SiteListAdapter.MyViewHolder holder, int position) {
-        holder.leaderName.setText("Leader Name: "+siteList.get(position).getLeaderName());
+        holder.leaderName.setText("Leader Name: "+siteList.get(position).getLeader());
         holder.lat.setText("Latitude: "+siteList.get(position).getLat());
         holder.lng.setText("Longitude: " + siteList.get(position).getLng());
         holder.runButton.setOnClickListener(view ->{
@@ -47,7 +48,7 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.MyView
             intent.setAction(Intent.ACTION_SEND);
             intent.setType("plain/text");
             intent.putExtra("siteId", siteList.get(position).getLocationId());
-            intent.putExtra("siteLeader", siteList.get(position).getLeaderName());
+            intent.putExtra("siteLeader", siteList.get(position).getLeader());
             intent.putExtra("siteLat", Double.toString(siteList.get(position).getLat()));
             intent.putExtra("siteLng", Double.toString(siteList.get(position).getLng()));
             intent.putExtra("siteName", siteList.get(position).getLocationName());
@@ -64,6 +65,32 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.MyView
                 Toast.makeText(context,"Oops!! Something wrong, Please try again!" ,Toast.LENGTH_LONG).show();
             }
         });
+
+        holder.runUpdate.setOnClickListener(view -> {
+            Intent intent = new Intent(context, UpdateSiteBySuperUser.class);
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("plain/text");
+            intent.putExtra("siteId", siteList.get(position).getLocationId());
+            intent.putExtra("siteLeader", siteList.get(position).getLeader());
+            intent.putExtra("siteLat", Double.toString(siteList.get(position).getLat()));
+            intent.putExtra("siteLng", Double.toString(siteList.get(position).getLng()));
+            intent.putExtra("siteName", siteList.get(position).getLocationName());
+            intent.putExtra("siteCapacity", Integer.toString(siteList.get(position).getMaxCapacity()));
+            intent.putExtra("siteVolunteers", Integer.toString(siteList.get(position).getTotalVolunteers()));
+            intent.putExtra("siteTestedNumber", Integer.toString(siteList.get(position).getTotalTestedVolunteers()));
+            intent.putExtra("siteStatus", siteList.get(position).getStatus());
+            intent.putExtra("siteType", siteList.get(position).getLocationType());
+            intent.putExtra("siteDistance",Double.toString(siteList.get(position).getDistanceFromCurrentLocation()));
+            intent.putExtra("siteListOfUsers", siteList.get(position).getUserList());
+            try {
+                context.startActivity(intent);
+            }
+            catch (ActivityNotFoundException e){
+                Toast.makeText(context,"Oops!! Something wrong, Please try again!" ,Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 
     @Override
@@ -72,13 +99,14 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.MyView
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView leaderName,lat,lng,runButton;
+        TextView leaderName,lat,lng,runButton,runUpdate;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             leaderName = itemView.findViewById(R.id.leaderSite);
             lat = itemView.findViewById(R.id.latSite);
             lng = itemView.findViewById(R.id.lngSite);
             runButton = itemView.findViewById(R.id.playButton);
+            runUpdate = itemView.findViewById(R.id.editButton);
         }
     }
 }

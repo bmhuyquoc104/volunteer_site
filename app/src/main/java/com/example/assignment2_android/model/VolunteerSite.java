@@ -23,7 +23,7 @@ public class VolunteerSite {
     private String locationId;
     private String locationType;
     private String locationName;
-    private String leaderName;
+    private String leader;
     private int maxCapacity;
     private String status;
     private int totalVolunteers;
@@ -53,12 +53,12 @@ public class VolunteerSite {
     }
 
 
-    public VolunteerSite(String locationId, String locationName, String leaderName,String status,
+    public VolunteerSite(String locationId, String locationName, String leader,String status,
                          int maxCapacity, int totalVolunteers, String locationType,
                          double lat, double lng, double distanceFromCurrentLocation,int totalTestedVolunteers,String userList ) {
         this.locationId = locationId;
         this.locationName = locationName;
-        this.leaderName = leaderName;
+        this.leader = leader;
         this.maxCapacity = maxCapacity;
         this.totalVolunteers = totalVolunteers;
         this.locationType = locationType;
@@ -83,23 +83,23 @@ public class VolunteerSite {
                 double lat1 = result[0];
                 double lng1 = result[1];
                 String locationId = UUID.randomUUID().toString();
-                String leaderName = getRandomLeaderName(randomLeaderName);
+//                String leader = getRandomLeader(userMail);
+                String leader = "behuy";
                 int maxCapacity = getRandomMaximumCapacity(randomMaxCapacity);
                 int totalVolunteers = getRandomTotalNumber(randomTotalNumber, maxCapacity);
                 System.out.println("totalVolunteers" + totalVolunteers);
                 String locationType = getRandomType(randomType);
-                String locationName = leaderName + "_"  +locationType + i;
+                String locationName = locationType + "_"  +maxCapacity + "_" + i;
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
-                //String userEmailList = getRandomEmail(totalVolunteers,userMail);
+//                String userEmailList = getRandomEmail(totalVolunteers,userMail);
                 String userEmailList = "!@31,12312,312";
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
-                VolunteerSite temp = new VolunteerSite(locationId,locationName,leaderName,status,
+                VolunteerSite temp = new VolunteerSite(locationId,locationName,leader,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
                 ,totalTestedVolunteers,userEmailList);
                 volunteerSiteList.add(temp);
             }
-        System.out.println(volunteerSiteList);
     }
 
 
@@ -190,6 +190,14 @@ public class VolunteerSite {
     }
 
 
+
+    public String getRandomLeader(List<String> list)
+    {
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
+
+
     public static String getRandomEmail(int totalNumber,List<String>email){
         String userEmails = "";
         String temp = "";
@@ -261,7 +269,7 @@ public class VolunteerSite {
 
     public  int getRandomMaximumCapacity(List<Integer> list)
     {
-        for (int i = 10; i < 40; i++){
+        for (int i = 5; i < 25; i++){
             list.add(i);
         }
 
@@ -270,7 +278,7 @@ public class VolunteerSite {
     }
 
     public  int getRandomTotalNumber(List<Integer> list,int maxCapacity){
-        for (int i = 8; i < 40; i++){
+        for (int i = 4; i < 25; i++){
             list.add(i);
         }
 
@@ -286,7 +294,7 @@ public class VolunteerSite {
     };
 
     public static int getRandomTestedVolunteer(List<Integer> list,int totalNumber){
-        for (int i = 5; i < 38; i++){
+        for (int i = 2; i < 23; i++){
             list.add(i);
         };
 
@@ -344,12 +352,12 @@ public class VolunteerSite {
         this.locationName = locationName;
     }
 
-    public String getLeaderName() {
-        return leaderName;
+    public String getLeader() {
+        return leader;
     }
 
-    public void setLeaderName(String leaderName) {
-        this.leaderName = leaderName;
+    public void setLeader(String leader) {
+        this.leader = leader;
     }
 
     public int getMaxCapacity() {
@@ -427,7 +435,7 @@ public class VolunteerSite {
                 "locationId=" + locationId + '\n' +
                 ", locationType=" + locationType + '\n' +
                 ", locationName=" + locationName + '\n' +
-                ", leaderName=" + leaderName + '\n' +
+                ", leader=" + leader + '\n' +
                 ", maxCapacity=" + maxCapacity + '\n' +
                 ", status=" + status + '\n' +
                 ", totalVolunteers=" + totalVolunteers + '\n' +

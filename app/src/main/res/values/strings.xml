@@ -108,4 +108,9 @@
     <string name="runReport">Download</string>
     <string name="listOfUsers">List Of Users</string>
     <string name="updateSite">Update Site</string>
+    <string name="leader">Leader</string>
+    <string name="address">Address</string>
+    <string name="infoTotalTested">Total Tested</string>
+    <string name="update">Update</string>
+    <string name="removeBlank">Please clear the container before inputting new value to update details !</string>
 </resources>

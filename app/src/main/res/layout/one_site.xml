@@ -10,7 +10,7 @@
         android:layout_width="373dp"
         android:layout_height="149dp"
         android:layout_marginTop="16dp"
-        android:background="@color/colorPrimary3"
+        android:background="@color/colorPrimary2"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
@@ -24,7 +24,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:text="@string/lat"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/white"
             android:textStyle="bold" />
 
@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="@string/leaderName"
-            android:textColor="@color/white"
+            android:text="@string/leader"
+            android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/white"
             android:textStyle="bold" />
 
@@ -46,20 +46,33 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="60dp"
             android:text="@string/lng"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/white"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/playButton"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="80dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="85dp"
             android:backgroundTint="@color/colorPrimary2"
             android:drawableEnd="@drawable/ic_baseline_play_arrow_24"
             android:text="@string/run"
             android:textColor="@color/white"
+            app:cornerRadius="1500dp"
+            app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="85dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableEnd="@drawable/ic_baseline_create_24"
+            android:text="@string/run"
+            android:textColor="@color/colorPrimary3"
             app:cornerRadius="1500dp"
             app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 

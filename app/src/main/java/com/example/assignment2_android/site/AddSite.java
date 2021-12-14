@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.SiteLocation;
+import com.example.assignment2_android.VolunteerHome;
 import com.example.assignment2_android.databaseFirestore.ParticipantDatabase;
 import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
@@ -28,11 +29,11 @@ import java.util.List;
 
 public class AddSite extends AppCompatActivity {
     //Declare textview for lat and lng
-    TextView lat, lng;
+    TextView lat, lng, address,name;
     //Declare string array for location type
-    String[] locationType = {"supermarket", "factory", "highSchool", "hospital", "secondary-school"};
+    String[] locationType = {"School", "Hospital", "Stadium", "Factory"};
     //Declare edittext for name and maxCapacity
-    EditText name, maxCapacity;
+    EditText maxCapacity;
     //Declare button for create site
     Button createSite;
     //Declare array adapter
@@ -41,7 +42,7 @@ public class AddSite extends AppCompatActivity {
     List<User> currentUserList;
     User currentUser;
     String type;
-    String lat1, lng1;
+    String lat1, lng1,leader,addressName;
     Participant participant;
     AutoCompleteTextView autoCompleteTextView;
     FirebaseFirestore db;
@@ -53,8 +54,9 @@ public class AddSite extends AppCompatActivity {
         setContentView(R.layout.activity_add_site);
         //Binding
         lat = findViewById(R.id.addLat);
+        address = findViewById(R.id.addAddress);
         lng = findViewById(R.id.addLng);
-        name = findViewById(R.id.addName);
+        name = findViewById(R.id.addLeader);
         currentUser = new User();
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view);
         maxCapacity = findViewById(R.id.maxCapacity);
@@ -78,6 +80,16 @@ public class AddSite extends AppCompatActivity {
                 lat1 = intent.getStringExtra("lat");
                 lat.setText("Lat: " + lat1);
             }
+
+            if (intent.hasExtra("locationName")) {
+                addressName = intent.getStringExtra("locationName");
+                address.setText("Address: " + addressName);
+            }
+            if (intent.hasExtra("email")) {
+                leader = intent.getStringExtra("email");
+                name.setText("Leader: " + leader);
+            }
+
             if (intent.hasExtra("lng")) {
                 lng1 = intent.getStringExtra("lng");
                 lng.setText("Lng: " + lng1);
@@ -89,9 +101,9 @@ public class AddSite extends AppCompatActivity {
 
         createSite.setOnClickListener(view -> {
             String inputMaxCapacity = maxCapacity.getText().toString();
-            String leaderName = name.getText().toString();
+
             // New site
-            VolunteerSite volunteerSite = newVolunteerSite.addNewLocation(newVolunteerSite.getHOCHIMINH(), leaderName, type,
+            VolunteerSite volunteerSite = newVolunteerSite.addNewLocation(newVolunteerSite.getHOCHIMINH(), leader, type,
                     Integer.parseInt(inputMaxCapacity), Double.parseDouble(lat1), Double.parseDouble(lng1));
             SiteLocation.volunteerSiteList.add(volunteerSite);
             for (User user:currentUserList
@@ -103,7 +115,9 @@ public class AddSite extends AppCompatActivity {
             //Add data to participant database
             ParticipantDatabase.addParticipant(participant,db,this);
             //System.out.println(SiteLocation.volunteerSiteList);
-
+            Intent intent3 = new Intent(this, VolunteerHome.class);
+            intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent3);
         });
 
 

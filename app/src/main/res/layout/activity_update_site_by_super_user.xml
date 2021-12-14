@@ -13,12 +13,12 @@
         tools:context=".RunReport">
 
         <TextView
-            android:id="@+id/runReportLat"
+            android:id="@+id/editLat"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
             android:layout_height="74dp"
-            app:layout_constraintHorizontal_bias="0.27"
+            app:layout_constraintHorizontal_bias="0.277"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
             android:layout_marginTop="380dp"
@@ -36,32 +36,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/view3"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@color/colorPrimary3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view4"
-            android:layout_width="wrap_content"
-            android:layout_height="75dp"
-            android:layout_marginTop="36dp"
-            android:background="@drawable/wave2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <TextView
-            android:id="@+id/idRun"
+            android:id="@+id/idEdit"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginTop="208dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -75,22 +54,18 @@
             android:textSize="18sp"
             android:layout_width="365dp"
             android:layout_height="74dp"
-            app:layout_constraintHorizontal_bias="0.27"
+            app:layout_constraintHorizontal_bias="0.277"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/runLeader"
-            android:textColor="@color/colorPrimary3"
-            android:textSize="18sp"
+            android:id="@+id/editLeader"
             android:layout_width="365dp"
             android:layout_height="74dp"
-            app:layout_constraintHorizontal_bias="0.27"
-            android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="288dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -100,21 +75,21 @@
             android:paddingTop="15dp"
             android:paddingEnd="10dp"
             android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.277"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runLng"
-            android:textColor="@color/colorPrimary3"
-            android:textSize="18sp"
+        <EditText
+            android:id="@+id/editLng"
             android:layout_width="365dp"
             android:layout_height="74dp"
-            app:layout_constraintHorizontal_bias="0.27"
-            android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="468dp"
+            android:layout_marginTop="472dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -124,21 +99,21 @@
             android:paddingTop="15dp"
             android:paddingEnd="10dp"
             android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.277"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runName"
-            android:textColor="@color/colorPrimary3"
-            android:textSize="18sp"
+        <EditText
+            android:id="@+id/editName"
             android:layout_width="365dp"
             android:layout_height="74dp"
-            app:layout_constraintHorizontal_bias="0.27"
-            android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="288dp"
+            android:layout_marginTop="552dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -148,13 +123,17 @@
             android:paddingTop="15dp"
             android:paddingEnd="10dp"
             android:textAlignment="viewStart"
+            android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.277"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runMax"
+        <EditText
+            android:id="@+id/editMax"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
@@ -162,7 +141,7 @@
             app:layout_constraintHorizontal_bias="0.27"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="556dp"
+            android:layout_marginTop="646dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -177,8 +156,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runTested"
+        <EditText
+            android:id="@+id/editTested"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
@@ -186,7 +165,7 @@
             app:layout_constraintHorizontal_bias="0.27"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="644dp"
+            android:layout_marginTop="744dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -201,8 +180,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runStatus"
+        <EditText
+            android:id="@+id/editStatus"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
@@ -210,7 +189,7 @@
             app:layout_constraintHorizontal_bias="0.27"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="844dp"
+            android:layout_marginTop="944dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -225,8 +204,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runType"
+        <EditText
+            android:id="@+id/editType"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
@@ -234,7 +213,7 @@
             app:layout_constraintHorizontal_bias="0.27"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="944dp"
+            android:layout_marginTop="1044dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -249,8 +228,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/runUserList"
+        <EditText
+            android:id="@+id/editUserList"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
@@ -258,7 +237,7 @@
             app:layout_constraintHorizontal_bias="0.27"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="1040dp"
+            android:layout_marginTop="1140dp"
             android:layout_marginEnd="143dp"
             android:ems="10"
             android:hint="@string/listOfUsers"
@@ -274,8 +253,8 @@
 
 
 
-        <TextView
-            android:id="@+id/runVolunteers"
+        <EditText
+            android:id="@+id/editVolunteers"
             android:textColor="@color/colorPrimary3"
             android:textSize="18sp"
             android:layout_width="365dp"
@@ -283,7 +262,7 @@
             app:layout_constraintHorizontal_bias="0.27"
             android:textStyle="bold"
             android:layout_marginStart="58dp"
-            android:layout_marginTop="744dp"
+            android:layout_marginTop="844dp"
             android:layout_marginEnd="143dp"
             android:background="@drawable/register_round"
             android:ems="10"
@@ -299,14 +278,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/downloadReport"
+            android:id="@+id/editButton"
             android:layout_width="312dp"
             android:layout_height="80dp"
             android:layout_marginStart="57dp"
-            android:layout_marginTop="1200dp"
+            android:layout_marginTop="1300dp"
             android:layout_marginEnd="260dp"
             android:backgroundTint="@color/colorPrimary3"
-            android:text="@string/runReport"
+            android:text="@string/update"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -316,30 +295,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/view4"
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
+            android:background="@drawable/wave2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="61dp"
             android:layout_height="60dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:contentDescription="@string/appLogo"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.924"
+            app:layout_constraintHorizontal_bias="0.84"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_create_24" />
+            app:srcCompat="@drawable/ic_baseline_edit_location_24" />
 
         <TextView
             android:id="@+id/textView8"
-            android:layout_width="244dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="106dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/roboto_medium_italic"
             android:text="@string/siteDetail"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.167"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="303dp"
+            android:layout_height="73dp"
+            android:layout_marginTop="120dp"
+            android:fontFamily="@font/roboto_medium_italic"
+            android:text="@string/removeBlank"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary3"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

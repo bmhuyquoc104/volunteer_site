@@ -26,7 +26,7 @@ public class SiteLocationDatabase {
                 volunteerSiteList) {
             String id = volunteerSite.getLocationId();
             String locationName = volunteerSite.getLocationName();
-            String leaderName = volunteerSite.getLeaderName();
+            String leaderName = volunteerSite.getLeader();
             String locationType = volunteerSite.getLocationType();
             String status = volunteerSite.getStatus();
             String userList = volunteerSite.getUserList();
@@ -39,7 +39,7 @@ public class SiteLocationDatabase {
             HashMap<String, Object> temp = new HashMap<>();
             temp.put("locationName", locationName);
             temp.put("locationId", id);
-            temp.put("leaderName", leaderName);
+            temp.put("leader", leaderName);
             temp.put("status", status);
             temp.put("userList", userList);
             temp.put("locationType", locationType);
@@ -70,20 +70,20 @@ public class SiteLocationDatabase {
 
     public static void updateSiteLocations(FirebaseFirestore db, VolunteerSite site, Context context) {
         String id = site.getLocationId();
-//        String locationType = site.getLocationType();
-//        String locationName = site.getLocationName();
+        String locationType = site.getLocationType();
+        String locationName = site.getLocationName();
 //        String leaderName = site.getLeaderName();
-//        String maxCapacity = Integer.toString(site.getMaxCapacity());
+        String maxCapacity = Integer.toString(site.getMaxCapacity());
         String status = site.getStatus();
         String totalVolunteers = Integer.toString(site.getTotalVolunteers());
-//        String totalTestedVolunteers = Integer.toString(site.getTotalTestedVolunteers());
+        String totalTestedVolunteers = Integer.toString(site.getTotalTestedVolunteers());
 //        String lat = Double.toString(site.getLat());
 //        String lng = Double.toString(site.getLng());
         String distanceFromCurrentLocation = Double.toString(site.getDistanceFromCurrentLocation());
         String userList = site.getUserList();
-        db.collection("Sites").document(id)
-                .update(
-                        "status", status, "userList", userList,
+        db.collection("testSites").document(id)
+                .update("maxCapacity",maxCapacity,"totalTestedVolunteers",totalTestedVolunteers,"locationType",
+                        locationType,"locationName",locationName,"status", status, "userList", userList,
                        "totalVolunteers", totalVolunteers, "distanceFromCurrentLocation", distanceFromCurrentLocation)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -103,7 +103,7 @@ public class SiteLocationDatabase {
     }
 
     public static void fetchSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList) {
-        db.collection("Sites").get()
+        db.collection("testSites").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -112,7 +112,7 @@ public class SiteLocationDatabase {
                             VolunteerSite volunteerSite = new VolunteerSite(
                                     snapShot.getString("locationId"),
                                     snapShot.getString("locationName"),
-                                    snapShot.getString("leaderName"),
+                                    snapShot.getString("leader"),
                                     snapShot.getString("status"),
                                     Integer.parseInt(Objects.requireNonNull(snapShot.getString("maxCapacity"))),
                                     Integer.parseInt(Objects.requireNonNull(snapShot.getString("totalVolunteers"))),

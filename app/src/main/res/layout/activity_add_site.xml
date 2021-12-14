@@ -18,7 +18,7 @@
             android:id="@+id/createSite"
             android:layout_width="205dp"
             android:layout_height="67dp"
-            android:layout_marginTop="616dp"
+            android:layout_marginTop="716dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/add"
             android:textSize="18sp"
@@ -65,13 +65,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view7" />
 
-        <EditText
-            android:id="@+id/addName"
-            android:layout_width="313dp"
-            android:layout_height="55dp"
+        <TextView
+            android:id="@+id/addAddress"
+            android:layout_width="315dp"
+            android:layout_height="89dp"
             android:layout_marginTop="368dp"
             android:ems="10"
-            android:hint="@string/name"
+            android:hint="@string/address"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/addLeader"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="468dp"
+            android:textSize="20sp"
+            android:ems="10"
+            android:hint="@string/leader"
             android:inputType="textPersonName"
             android:textColor="@color/colorPrimary3"
             android:textColorHint="@color/colorPrimary3"
@@ -84,7 +102,7 @@
             android:id="@+id/addType"
             android:layout_width="313dp"
             android:layout_height="55dp"
-            android:layout_marginTop="448dp"
+            android:layout_marginTop="548dp"
             android:ems="10"
             android:hint="@string/locationType"
             android:inputType="textPersonName"
@@ -108,7 +126,7 @@
             android:id="@+id/maxCapacity"
             android:layout_width="313dp"
             android:layout_height="55dp"
-            android:layout_marginTop="536dp"
+            android:layout_marginTop="636dp"
             android:ems="10"
             android:hint="@string/maxCapacity"
             android:inputType="number"

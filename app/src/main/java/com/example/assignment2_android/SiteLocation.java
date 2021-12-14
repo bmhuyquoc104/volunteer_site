@@ -81,6 +81,8 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient client;
     private LocationRequest locationRequest;
     int userAge;
+    String email ;
+    String addressName;
     List<LatLng> allLatLng;
     String locationName;
     SiteLocationDatabase siteLocationDatabase;
@@ -115,7 +117,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         mGeocoder = new Geocoder(this);
         distanceSorter = new DistanceSorter();
         List<Address> addresses;
-        volunteerSite = new VolunteerSite(106.660172, 10.762622);
+        volunteerSite = new VolunteerSite();
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_site_selection, filterSelection);
 
         //Binding button for filters
@@ -206,19 +208,13 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        System.out.println("hello huy ne"+ allEmails);
-
-        System.out.println("hello huy again ne" + volunteerSiteList);
-        System.out.println("hello huy again cho coi size ne" + volunteerSiteList.size());
-        System.out.println();
-//        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 25, 8000, volunteerSiteList, randomLocation,allEmails);
+//        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 14, 4000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 5, 3000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 5, 2000, volunteerSiteList, randomLocation,allEmails);
 
-        volunteerSiteList.sort(distanceSorter);
-        System.out.println(volunteerSiteList);
+//        volunteerSiteList.sort(distanceSorter);
         // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
-        //SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this);
+//        SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this);
 
 
         for (VolunteerSite volunteerSite : volunteerSiteList
@@ -238,33 +234,23 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             assert userMarker != null;
             userMarker.setZIndex(1.0f);
             markerList.add(userMarker);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(site, 1));
-//            mMap.getUiSettings().setZoomControlsEnabled(true);
         }
 
 
         toggleFilterOptions(userSelection);
 
-        mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-            @Override
-            public void onCameraIdle() {
-
-            }
-        });
 
         // Create new location in the map by click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(@NonNull LatLng latLng) {
-
-                User user = new User("Huy", "123", "err", 21, "2131");
-                currentUser.add(user);
-//                currentUser = LogIn.oneUserlist;
+               currentUser = LogIn.oneUserlist;
 
                 for (User c : currentUser
                 ) {
                     userAge = c.getAge();
+                    email = c.getEmail();
+                    System.out.println("hello" + email);
                 }
 
                 if (userAge < 18) {
@@ -276,13 +262,13 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                         List<Address> addresses =
                                 mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                         Address address = addresses.get(0);
-                        String locationName = address.getAddressLine(0);
+                        addressName = address.getAddressLine(0);
+                        System.out.println("hello ne" + addressName);
                         @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
                         Bitmap b = bitmapdraw.getBitmap();
                         Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
                         mMap.addMarker(new MarkerOptions()
                                 .position(latLng)
-                                .title(locationName)
                                 .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                         );
 
@@ -293,7 +279,9 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("plain/text");
                     intent.putExtra("lat", Double.toString(lat1));
+                    intent.putExtra("locationName",addressName);
                     intent.putExtra("lng", Double.toString(lng1));
+                    intent.putExtra("email",email);
                     startActivity(intent);
                 }
             }
@@ -313,6 +301,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
                     if (currentLat == volunteerSite.getLat() && currentLng == volunteerSite.getLng()) {
                         locationName = volunteerSite.getLocationName();
+                        String leader = volunteerSite.getLeader();
                         Intent intent = new Intent(getApplicationContext(), DisplayInfo.class);
                         intent.putExtra("locationName", locationName);
                         startActivity(intent);
@@ -333,7 +322,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
                 if (inputSite.equals(volunteerSiteList.get(i).getStatus())
                         || inputSite.equals(volunteerSiteList.get(i).getLocationName())
-                        || inputSite.equals(volunteerSiteList.get(i).getLeaderName())
+                        || inputSite.equals(volunteerSiteList.get(i).getLeader())
                         || inputSite.equals(Double.toString(volunteerSiteList.get(i).getLat()))
                         || inputSite.equals(Double.toString(volunteerSiteList.get(i).getLng()))
                 ) {
@@ -978,24 +967,31 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     @SuppressLint("MissingPermission")
     private void getLocation() {
         Task<Location> locationTask = client.getLastLocation();
-
         locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 double lat = location.getLatitude();
+                System.out.println("hello" + lat);
                 double lng = location.getLongitude();
+                System.out.println("hello" + lng);
                 for (VolunteerSite volunteerSite : volunteerSiteList) {
                     double lat2 = volunteerSite.getLat();
+                    System.out.println( "lat2 ne "+lat2 );
                     double lng2 = volunteerSite.getLng();
+                    System.out.println( "lng2 ne "+lng2 );
                     volunteerSite.setDistanceFromCurrentLocation(volunteerSite.distance(lat, lng, lat2, lng2));
+                    System.out.println(volunteerSite.distance(lat, lng, lat2, lng2));
                     LatLng site = new LatLng(lat, lng);
-                    mMap.getUiSettings().setZoomControlsEnabled(true);
-                    MarkerOptions mMarker = new MarkerOptions();
-                    mMarker.position(site);
-                    userMarker = mMap.addMarker(mMarker);
-                    assert userMarker != null;
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(site));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(site, 10));
+                    mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                    @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.localization);
+                    Bitmap b = bitmapdraw.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
+                    mMap.addMarker(new MarkerOptions()
+                            .position(site)
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    );
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(site,16));
                     mMap.getUiSettings().setZoomControlsEnabled(true);
                 }
             }
@@ -1006,12 +1002,13 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     public void handleCurrentLocation(View view) {
 
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             getLocation();
 
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
-                    , 44);
+        }
+        else{
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
+                    ,44);
         }
     }
 

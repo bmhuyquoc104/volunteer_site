@@ -63,24 +63,25 @@
         android:id="@+id/imageView10"
         android:layout_width="51dp"
         android:layout_height="48dp"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="476dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_logout_24" />
+
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="210dp"
         android:layout_height="49dp"
-        android:layout_marginTop="572dp"
+        android:layout_marginTop="592dp"
         android:text="@string/copyRight"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintHorizontal_bias="0.547"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -114,7 +115,7 @@
         android:id="@+id/logout"
         android:layout_width="84dp"
         android:layout_height="111dp"
-        android:layout_marginTop="532dp"
+        android:layout_marginTop="460dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.048"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,12 +125,13 @@
         android:id="@+id/userHomeLocation3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="608dp"
+        android:layout_marginTop="524dp"
         android:text="@string/userHomeLogout"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintHorizontal_bias="0.093"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

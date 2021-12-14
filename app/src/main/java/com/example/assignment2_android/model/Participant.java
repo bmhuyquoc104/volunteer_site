@@ -88,6 +88,8 @@ public class Participant {
         return distanceFromCurrentLocation;
     }
 
+
+
     public void setDistanceFromCurrentLocation(double distanceFromCurrentLocation) {
         this.distanceFromCurrentLocation = distanceFromCurrentLocation;
     }
