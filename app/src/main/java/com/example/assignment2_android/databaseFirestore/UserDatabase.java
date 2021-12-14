@@ -39,7 +39,7 @@ public class UserDatabase {
                 temp.put("id", id);
                 temp.put("userName", userName);
                 temp.put("password", password);
-                db.collection("Users").document(id).set(temp)
+                db.collection("testUsers").document(id).set(temp)
 
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -112,7 +112,7 @@ public class UserDatabase {
 
     public void getUserByUserNameAndPassword (Context context, FirebaseFirestore db,
                                               String password, String username,List<User>list){
-        CollectionReference userRef = db.collection("Users");
+        CollectionReference userRef = db.collection("testUsers");
         userRef.whereEqualTo("userName",username)
                 .whereEqualTo("password",password)
                 .get()
@@ -147,7 +147,7 @@ public class UserDatabase {
 
     public static void getUserByEmail (Context context, FirebaseFirestore db,
                                               String email, List<User>list){
-        CollectionReference userRef = db.collection("Users");
+        CollectionReference userRef = db.collection("testUsers");
         userRef.whereEqualTo("email",email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -74,13 +74,11 @@ public class UserList extends AppCompatActivity {
             String email = userList.get(i).getEmail();
             String username = userList.get(i).getName();
             int age = userList.get(i).getAge();
-            reportDetail += i + ":" + " "+ email +" " + username + " "+age + "."+ "\n";
+            reportDetail += i + ":" + " "+ "Email: " + email +"; " + "Username: " + username + "; " + "age: " + age + "."+ "\n";
         }
 
 
         download.setOnClickListener(view -> {
-
-            reportDetail ="";
             // Check for Storage Permission
             if (isStoragePermissionGranted()) {
                 // If input is not empty, we'll proceed

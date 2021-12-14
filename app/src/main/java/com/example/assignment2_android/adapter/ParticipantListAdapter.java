@@ -41,7 +41,9 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
         holder.status.setText("Status: " + participantList.get(position).getStatus());
         holder.leader.setText("Leader: " + participantList.get(position).getEmail());
         if (participantList.get(position).getRole().equals("leader")) {
-            holder.userList.setText("List Of Volunteers: " + participantList.get(position).getStatus());
+            holder.userList.setText("List Of Volunteers: " + participantList.get(position).getUserList());
+        }else{
+            holder.userList.setVisibility(View.GONE);
         }
 
     }
