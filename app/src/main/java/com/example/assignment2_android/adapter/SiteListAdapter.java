@@ -44,6 +44,19 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.MyView
         holder.lng.setText("Longitude: " + siteList.get(position).getLng());
         holder.runButton.setOnClickListener(view ->{
            Intent intent = new Intent(context, RunReport.class);
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("plain/text");
+            intent.putExtra("siteId", siteList.get(position).getLocationId());
+            intent.putExtra("siteLeader", siteList.get(position).getLeaderName());
+            intent.putExtra("siteLat", Double.toString(siteList.get(position).getLat()));
+            intent.putExtra("siteLng", Double.toString(siteList.get(position).getLng()));
+            intent.putExtra("siteName", siteList.get(position).getLocationName());
+            intent.putExtra("siteCapacity", Integer.toString(siteList.get(position).getMaxCapacity()));
+            intent.putExtra("siteVolunteers", Integer.toString(siteList.get(position).getTotalVolunteers()));
+            intent.putExtra("siteTestedNumber", Integer.toString(siteList.get(position).getTotalTestedVolunteers()));
+            intent.putExtra("siteStatus", siteList.get(position).getStatus());
+            intent.putExtra("siteType", siteList.get(position).getLocationType());
+            intent.putExtra("siteListOfUsers", siteList.get(position).getUserList());
             try {
                 context.startActivity(intent);
             }

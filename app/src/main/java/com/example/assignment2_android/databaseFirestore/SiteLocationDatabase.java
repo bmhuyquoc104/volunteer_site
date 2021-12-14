@@ -104,7 +104,7 @@ public class SiteLocationDatabase {
     }
 
     public static void fetchSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList) {
-        db.collection("SiteLocations").get()
+        db.collection("Sites").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

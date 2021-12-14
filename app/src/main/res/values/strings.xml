@@ -100,6 +100,11 @@
     <string name="allSites">All Sites</string>
     <string name="run">Run Report</string>
     <string name="seeSites">See All Sites</string>
-
-
+    <string name="siteDetail">Site Details</string>
+    <string name="idRun">Site Id</string>
+    <string name="runLeader">Leader</string>
+    <string name="testedNumber">Total Tested Number</string>
+    <string name="totalVolunteers">Total Volunteers</string>
+    <string name="runReport">Download</string>
+    <string name="listOfUsers">List Of Users</string>
 </resources>

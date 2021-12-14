@@ -91,7 +91,8 @@ public class VolunteerSite {
                 String locationName = leaderName + "_"  +locationType + i;
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
-                String userEmailList = getRandomEmail(totalVolunteers,userMail);
+                //String userEmailList = getRandomEmail(totalVolunteers,userMail);
+                String userEmailList = "!@31,12312,312";
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
                 VolunteerSite temp = new VolunteerSite(locationId,locationName,leaderName,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
