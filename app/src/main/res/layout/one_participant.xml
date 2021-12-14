@@ -65,7 +65,7 @@
             android:layout_height="53dp"
             android:layout_marginStart="220dp"
             android:layout_marginTop="40dp"
-            android:text="@string/type"
+            android:text="@string/locationType"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />

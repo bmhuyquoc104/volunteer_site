@@ -74,7 +74,7 @@ public class UserList extends AppCompatActivity {
             String email = userList.get(i).getEmail();
             String username = userList.get(i).getName();
             int age = userList.get(i).getAge();
-            reportDetail += i + ":" + " "+ "Email: " + email +"; " + "Username: " + username + "; " + "age: " + age + "."+ "\n";
+            reportDetail += i + ":" + " "+ "Email: " + email +"; " + "Username: " + username + "; " + "Age: " + age + "."+ "\n";
         }
 
 
