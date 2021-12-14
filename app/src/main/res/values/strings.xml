@@ -107,4 +107,5 @@
     <string name="totalVolunteers">Total Volunteers</string>
     <string name="runReport">Download</string>
     <string name="listOfUsers">List Of Users</string>
+    <string name="updateSite">Update Site</string>
 </resources>

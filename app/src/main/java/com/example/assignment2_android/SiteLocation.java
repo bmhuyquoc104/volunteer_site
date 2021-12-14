@@ -173,8 +173,8 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
 
         allEmails = MainActivity.userEmails;
-//        volunteerSiteList = UserGuide.allSites;
-        volunteerSiteList = new ArrayList<>();
+        volunteerSiteList = UserGuide.allSites;
+//        volunteerSiteList = new ArrayList<>();
 
         // Set dropdown list
         autoCompleteTextView.setAdapter(adapterItems);
@@ -211,7 +211,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         System.out.println("hello huy again ne" + volunteerSiteList);
         System.out.println("hello huy again cho coi size ne" + volunteerSiteList.size());
         System.out.println();
-        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 25, 8000, volunteerSiteList, randomLocation,allEmails);
+//        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 25, 8000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 5, 3000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 5, 2000, volunteerSiteList, randomLocation,allEmails);
 

@@ -18,6 +18,7 @@ import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
 import com.example.assignment2_android.SiteLocation;
 import com.example.assignment2_android.databaseFirestore.ParticipantDatabase;
+import com.example.assignment2_android.databaseFirestore.SiteLocationDatabase;
 import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
 import com.example.assignment2_android.model.VolunteerSite;
@@ -185,7 +186,7 @@ public class DisplayInfo extends AppCompatActivity {
                 site.setTotalVolunteers(site.getTotalVolunteers() + 1);
                 site.setStatus(site.checkStatus(site.getMaxCapacity(),site.getTotalVolunteers()));
                 site.setUserList(site.getUserList() + "," + currentUser.getEmail());
-
+                SiteLocationDatabase.updateSiteLocations(db,site,this);
                 //Update site after user joining
 
                 //Create participant for current user
@@ -224,9 +225,14 @@ public class DisplayInfo extends AppCompatActivity {
                     //Get  current site
                     for (VolunteerSite site:currentSite
                          ) {
+
                         site.setTotalVolunteers(site.getTotalVolunteers() + 1);
                         site.setStatus(site.checkStatus(site.getMaxCapacity(),site.getTotalVolunteers()));
                         site.setUserList(site.getUserList() + "," + allUsers.get(i).getEmail());
+                        SiteLocationDatabase.updateSiteLocations(db,site,this);
+
+
+
                         //Update new site after user's friend joining
                         participant = new Participant(allUsers.get(i),"volunteer",site);
 

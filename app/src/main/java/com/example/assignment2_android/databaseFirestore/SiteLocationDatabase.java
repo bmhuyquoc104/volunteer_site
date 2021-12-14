@@ -70,22 +70,21 @@ public class SiteLocationDatabase {
 
     public static void updateSiteLocations(FirebaseFirestore db, VolunteerSite site, Context context) {
         String id = site.getLocationId();
-        String locationType = site.getLocationType();
-        String locationName = site.getLocationName();
-        String leaderName = site.getLeaderName();
-        String maxCapacity = Integer.toString(site.getMaxCapacity());
+//        String locationType = site.getLocationType();
+//        String locationName = site.getLocationName();
+//        String leaderName = site.getLeaderName();
+//        String maxCapacity = Integer.toString(site.getMaxCapacity());
         String status = site.getStatus();
         String totalVolunteers = Integer.toString(site.getTotalVolunteers());
-        String totalTestedVolunteers = Integer.toString(site.getTotalTestedVolunteers());
-        String lat = Double.toString(site.getLat());
-        String lng = Double.toString(site.getLng());
+//        String totalTestedVolunteers = Integer.toString(site.getTotalTestedVolunteers());
+//        String lat = Double.toString(site.getLat());
+//        String lng = Double.toString(site.getLng());
         String distanceFromCurrentLocation = Double.toString(site.getDistanceFromCurrentLocation());
         String userList = site.getUserList();
-        db.collection("SiteLocations").document(id)
-                .update("locationName", locationName, "leaderName", leaderName,
-                        "status", status, "userList", userList, "locationType", locationType,
-                        "maxCapacity", maxCapacity, "totalVolunteers", totalVolunteers, "lat", lat,
-                        "lng", lng, "totalTestedVolunteers", totalTestedVolunteers, "distanceFromCurrentLocation", distanceFromCurrentLocation)
+        db.collection("Sites").document(id)
+                .update(
+                        "status", status, "userList", userList,
+                       "totalVolunteers", totalVolunteers, "distanceFromCurrentLocation", distanceFromCurrentLocation)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

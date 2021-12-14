@@ -30,6 +30,7 @@ public class VolunteerHome extends AppCompatActivity {
     TextView welcome;
     View checkSite;
     View showVolunteer;
+    View update;
     View logoutButton;
     View rule;
     List<User>currentUserList;
@@ -53,6 +54,7 @@ public class VolunteerHome extends AppCompatActivity {
         currentUserList = LogIn.oneUserlist;
         participantList = new ArrayList<>();
         userByEmail = new ArrayList<>();
+        update = findViewById(R.id.update);
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         if (intent != null) {
@@ -68,7 +70,7 @@ public class VolunteerHome extends AppCompatActivity {
             }
         }
 
-
+        update.setVisibility(View.GONE);
 
         for (User thisUser: currentUserList){
             currentUser = new User(thisUser.getName(),thisUser.getPassword(),thisUser.getEmail(), thisUser.getAge(),thisUser.getId());
@@ -92,6 +94,7 @@ public class VolunteerHome extends AppCompatActivity {
 
                                 }
                                 showVolunteer.setEnabled(true);
+                                update.setVisibility(View.VISIBLE);
                             }
                         }
                         System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + role);
@@ -99,9 +102,6 @@ public class VolunteerHome extends AppCompatActivity {
                     }
                 },1000);
         showVolunteer.setEnabled(false);
-
-
-
 
         checkSite.setOnClickListener(view -> {
             Intent intent2 = new Intent(this, ParticipantList.class);
