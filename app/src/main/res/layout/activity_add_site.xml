@@ -18,7 +18,7 @@
             android:id="@+id/createSite"
             android:layout_width="205dp"
             android:layout_height="67dp"
-            android:layout_marginTop="716dp"
+            android:layout_marginTop="936dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="@string/add"
             android:textSize="18sp"
@@ -136,6 +136,36 @@
             app:layout_constraintHorizontal_bias="0.602"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/addVolunteers"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="736dp"
+            android:ems="10"
+            android:hint="@string/totalVolunteers"
+            android:inputType="number"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/addUserList"
+            android:layout_width="313dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="836dp"
+            android:ems="10"
+            android:hint="@string/listOfUsers"
+            android:textColor="@color/colorPrimary3"
+            android:textColorHint="@color/colorPrimary3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.602"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/addLat"

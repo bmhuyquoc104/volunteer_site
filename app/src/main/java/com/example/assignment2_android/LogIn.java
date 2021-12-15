@@ -58,8 +58,6 @@ public class LogIn extends AppCompatActivity {
         login = findViewById(R.id.signIn);
         //Initialize oneUserList
         oneUserlist = new ArrayList<>();
-        //Initialize userDatabase
-        userDatabase = new UserDatabase();
         //Initialize Firebase
         db = FirebaseFirestore.getInstance();
         pd = new ProgressDialog(this);
@@ -74,19 +72,26 @@ public class LogIn extends AppCompatActivity {
             //Store password input
             String inputUserPassword = password.getText().toString();
 
+            // Admin login
+            //Check if the username and password in the local are corrected
+            // SuperUser must remain the data in the local system instead of database for better security
             if (inputUserName.equals("voquochuy") && inputUserPassword.equals("admin104")){
                 Intent intent2 = new Intent(this, SuperUserHome.class);
                 intent2.setAction(Intent.ACTION_SEND);
                 intent2.setType("plain/text");
                 intent2.putExtra("userName", inputUserName);
+                // Delete all stacks before to avoid stack memory redundant and collapse between stacks
                 intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent2);
             }
             else {
+                //User Login
                 //Call method to fetch user by id and password
-                userDatabase.getUserByUserNameAndPassword(this, db, inputUserPassword, inputUserName, oneUserlist);
-                System.out.println("test ne " + oneUserlist);
+                UserDatabase.getUserByUserNameAndPassword(this, db, inputUserPassword, inputUserName, oneUserlist,pd);
+
                 //delay the system 2s to ensure that the list have enough time to store data in the list
+                // If the data is bigger or the internet is too slow, assign the higher delay time
+
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     // Check if that user is fetch properly
                     if (oneUserlist.size() != 0) {
@@ -98,8 +103,6 @@ public class LogIn extends AppCompatActivity {
                             personalAge = Integer.toString(oneUserlist.get(i).getAge());
                             personalEmail = oneUserlist.get(i).getEmail();
                         }
-                        System.out.println("con me no" + personalUsername);
-                        System.out.println("con me no" + personalEmail);
 
                         // Send this intent to volunteer home activity for later using
                         Intent intent = new Intent(this, VolunteerHome.class);
@@ -107,6 +110,7 @@ public class LogIn extends AppCompatActivity {
                         intent.setType("plain/text");
                         intent.putExtra("userName", personalUsername);
                         intent.putExtra("email", personalEmail);
+                        // Delete all stacks before to avoid stack memory redundant and collapse between stacks
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         try {
                             // Start an activity
@@ -125,6 +129,8 @@ public class LogIn extends AppCompatActivity {
             }
         });
     }
+
+
 
     // Function to switch to Register activity
     public void switchToRegister(View view) {

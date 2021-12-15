@@ -5,10 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.example.assignment2_android.LogIn;
 import com.example.assignment2_android.R;
+import com.example.assignment2_android.SuperUserHome;
+import com.example.assignment2_android.VolunteerHome;
 import com.example.assignment2_android.adapter.ParticipantListAdapter;
 import com.example.assignment2_android.adapter.VolunteerListAdapter;
 import com.example.assignment2_android.databaseFirestore.ParticipantDatabase;
@@ -30,11 +34,12 @@ public class ParticipantList extends AppCompatActivity {
     private ParticipantListAdapter adapter;
     List<User>currentUserList = new ArrayList<>();
     User currentUser = new User();
+    Button back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant_list);
-
+        back = findViewById(R.id.back);
         participantList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
 
@@ -56,9 +61,13 @@ public class ParticipantList extends AppCompatActivity {
             currentUser = new User(thisUser.getName(),thisUser.getPassword(),thisUser.getEmail(), thisUser.getAge(),thisUser.getId());
         }
 
-        System.out.println("huyne!!!!!!!!" + currentUser);
 
         ParticipantDatabase.fetchParticipant(this,db,participantList,currentUser,adapter);
-        System.out.println("huy nua ne !!!!!!" +participantList);
+        back.setOnClickListener( view ->{
+            Intent intent2 = new Intent(this, VolunteerHome.class);
+            // Delete all stacks before to avoid stack memory redundant and collapse between stacks
+            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent2);
+        });
     }
 }

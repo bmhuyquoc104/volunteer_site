@@ -69,25 +69,25 @@
     <string name="type3">School</string>
     <string name="type4">Factory</string>
 
-    <string name="capacity1">Less than 15</string>
-    <string name="capacity2">Less than 25</string>
-    <string name="capacity3">Less than 35</string>
-    <string name="capacity4">Over 35</string>
+    <string name="capacity1">Less than 4</string>
+    <string name="capacity2">Less than 8</string>
+    <string name="capacity3">Less than 12</string>
+    <string name="capacity4">Over 12</string>
 
-    <string name="totalNumber">Less than 10</string>
-    <string name="totalNumber2">Less than 20</string>
-    <string name="totalNumber3">Less than 30</string>
-    <string name="totalNumber4">Over 30</string>
+    <string name="totalNumber">Less than 4</string>
+    <string name="totalNumber2">Less than 8</string>
+    <string name="totalNumber3">Less than 12</string>
+    <string name="totalNumber4">Over 12</string>
 
-    <string name="totalTestedNumber1">Less than 8</string>
-    <string name="totalTestedNumber2">Less than 18</string>
-    <string name="totalTestedNumber3">Less than 28</string>
-    <string name="totalTestedNumber4">Over 28</string>
+    <string name="totalTestedNumber1">Less than 3</string>
+    <string name="totalTestedNumber2">Less than 6</string>
+    <string name="totalTestedNumber3">Less than 9</string>
+    <string name="totalTestedNumber4">Over 9</string>
 
-    <string name="totalDistance">Less than 1km</string>
-    <string name="totalDistance2">Less than 2km</string>
-    <string name="totalDistance3">Less than 3km</string>
-    <string name="totalDistance4">Over 3km</string>
+    <string name="totalDistance">Less than 3km</string>
+    <string name="totalDistance2">Less than 6km</string>
+    <string name="totalDistance3">Less than 9km</string>
+    <string name="totalDistance4">Over 9km</string>
     <string name="getLocation">My Location</string>
     <string name="list">Volunteers</string>
     <string name="userprofile">User Profile</string>
@@ -113,4 +113,7 @@
     <string name="infoTotalTested">Total Tested</string>
     <string name="update">Update</string>
     <string name="removeBlank">Please clear the container before inputting new value to update details !</string>
+    <string name="siteNum" />
+    <string name="youSites">Your Sites</string>
+    <string name="SeeMore">See More …</string>
 </resources>

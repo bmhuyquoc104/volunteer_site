@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment2_android">
         <activity
+            android:name=".SeeMoreDetails"
+            android:exported="false" />
+        <activity
+            android:name=".listDisplay.LeaderSitesList"
+            android:exported="false" />
+        <activity
             android:name=".UpdateSiteBySuperUser"
             android:exported="false" />
         <activity

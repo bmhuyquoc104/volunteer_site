@@ -1,5 +1,7 @@
 package com.example.assignment2_android;
 
+import static com.example.assignment2_android.MainActivity.allSites;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -15,10 +17,12 @@ import android.widget.Toast;
 
 import com.example.assignment2_android.databaseFirestore.ParticipantDatabase;
 import com.example.assignment2_android.databaseFirestore.UserDatabase;
+import com.example.assignment2_android.listDisplay.LeaderSitesList;
 import com.example.assignment2_android.listDisplay.ParticipantList;
 import com.example.assignment2_android.listDisplay.UserList;
 import com.example.assignment2_android.model.Participant;
 import com.example.assignment2_android.model.User;
+import com.example.assignment2_android.model.VolunteerSite;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -27,7 +31,6 @@ import java.util.List;
 
 public class VolunteerHome extends AppCompatActivity {
     View locationActivated ;
-    View displaySite;
     TextView welcome;
     View checkSite;
     View showVolunteer;
@@ -37,6 +40,8 @@ public class VolunteerHome extends AppCompatActivity {
     ImageView volunteerUpdate2;
     TextView volunteerUpdate3;
     List<User>currentUserList;
+    public static ArrayList<VolunteerSite> leaderSites;
+    ArrayList<VolunteerSite> getSites;
     public static List<User>userByEmail;
     FirebaseFirestore db;
     User currentUser = new User();
@@ -58,6 +63,8 @@ public class VolunteerHome extends AppCompatActivity {
         participantList = new ArrayList<>();
         userByEmail = new ArrayList<>();
         update = findViewById(R.id.volunteerHomeUpdate);
+        getSites = MainActivity.allSites;
+        leaderSites = new ArrayList<>();
         volunteerUpdate2 = findViewById(R.id.volunteerHomeUpdate2);
         volunteerUpdate3 = findViewById(R.id.volunteerHomeUpdate3);
         db = FirebaseFirestore.getInstance();
@@ -122,6 +129,25 @@ public class VolunteerHome extends AppCompatActivity {
             startActivity(intent3);
         });
 
+
+        showVolunteer.setEnabled(false);
+
+        for (VolunteerSite site :getSites){
+            if (site.getLeader().equals(currentUser.getEmail())){
+                leaderSites.add(site);
+                System.out.println("hello again" + leaderSites);
+            }
+            System.out.println(leaderSites);
+            System.out.println("hello" + leaderSites);
+        }
+
+        update.setOnClickListener(view -> {
+           Intent intent4 = new Intent(this, LeaderSitesList.class);
+           startActivity(intent4);
+        });
+
+
+
         logoutButton.setOnClickListener(view ->{
             Intent intent4 = new Intent(this,LogIn.class);
             startActivity(intent4);
@@ -147,7 +173,4 @@ public class VolunteerHome extends AppCompatActivity {
         Intent intent = new Intent(this,UserProfile.class);
         startActivity(intent);
     }
-
-
-
 }

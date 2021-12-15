@@ -9,8 +9,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/participantList"
-        android:layout_width="410dp"
-        android:layout_height="413dp"
+        android:layout_width="406dp"
+        android:layout_height="442dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
@@ -21,6 +21,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.393" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="108dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="556dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/goBack"
+        android:textSize="18sp"
+        app:cornerRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView12"

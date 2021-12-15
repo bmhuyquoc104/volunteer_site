@@ -29,12 +29,12 @@ import java.util.UUID;
 public class ParticipantDatabase {
     public static void addParticipant(Participant participant, FirebaseFirestore db,
                                       Context context) {
-        String listOfUsers = "";
+
         String id = UUID.randomUUID().toString();
         String role = participant.getRole();
-        if (role.equals("leader")) {
-            listOfUsers = participant.getVolunteerSite().getUserList();
-        }
+
+        String listOfUsers = participant.getVolunteerSite().getUserList();
+
 
         String email = participant.getUser().getEmail();
         String password = participant.getUser().getPassword();
@@ -48,24 +48,31 @@ public class ParticipantDatabase {
         String leader = participant.getVolunteerSite().getLeader();
         String locationType = participant.getVolunteerSite().getLocationType();
         String status = participant.getVolunteerSite().getStatus();
-        String userList = participant.getVolunteerSite().getUserList();
-        int maxCapacity = participant.getVolunteerSite().getMaxCapacity();
-        int totalVolunteers = participant.getVolunteerSite().getTotalVolunteers();
-        double lat = participant.getVolunteerSite().getLat();
-        double lng = participant.getVolunteerSite().getLng();
+        String maxCapacity = Integer.toString(participant.getVolunteerSite().getMaxCapacity());
+        String totalVolunteers = Integer.toString(participant.getVolunteerSite().getTotalVolunteers());
+        String lat = Double.toString(participant.getVolunteerSite().getLat());
+        String lng = Double.toString(participant.getVolunteerSite().getLng());
         String distanceFromCurrentLocation = Double.toString(participant.getVolunteerSite().getDistanceFromCurrentLocation());
-        int totalTestedVolunteers = participant.getVolunteerSite().getTotalTestedVolunteers();
+        String totalTestedVolunteers = Integer.toString(participant.getVolunteerSite().getTotalTestedVolunteers());
 
 
         HashMap<String, Object> temp = new HashMap<>();
-        temp.put("locationName", locationName);
-        temp.put("distanceFromCurrentLocation", distanceFromCurrentLocation);
-        temp.put("status", status);
-        temp.put("locationType", locationType);
-        temp.put("role", role);
-        temp.put("email", email);
-        temp.put("userList", listOfUsers);
-        temp.put("ParticipantId", id);
+            temp.put("locationName", locationName);
+            temp.put("distanceFromCurrentLocation", distanceFromCurrentLocation);
+            temp.put("status", status);
+            temp.put("locationType", locationType);
+            temp.put("role", role);
+            temp.put("email", email);
+            temp.put("userList", listOfUsers);
+            temp.put("ParticipantId", id);
+            temp.put("lat",lat);
+            temp.put("maxCapacity",maxCapacity);
+            temp.put("leader",leader);
+            temp.put("totalVolunteers",totalVolunteers);
+            temp.put("lng",lng);
+            temp.put("totalTestedVolunteers",totalTestedVolunteers);
+
+
 
         db.collection("Participant").document(id).set(temp)
 
@@ -90,10 +97,15 @@ public class ParticipantDatabase {
         String id = UUID.randomUUID().toString();
         String locationName = site.getLocationName();
         String locationType = site.getLocationType();
+        String leader = site.getLeader();
         String status = site.getStatus();
         String userList = site.getUserList();
         String distanceFromCurrentLocation = Double.toString(site.getDistanceFromCurrentLocation());
-
+        String maxCapacity = Integer.toString(site.getMaxCapacity());
+        String totalVolunteers = Integer.toString(site.getTotalVolunteers());
+        String lat = Double.toString(site.getLat());
+        String lng = Double.toString(site.getLng());
+        String totalTestedVolunteers = Integer.toString(site.getTotalTestedVolunteers());
 
 
 
@@ -106,7 +118,12 @@ public class ParticipantDatabase {
         temp.put("email", email);
         temp.put("userList", userList);
         temp.put("ParticipantId", id);
-
+        temp.put("lat",lat);
+        temp.put("maxCapacity",maxCapacity);
+        temp.put("leader",leader);
+        temp.put("totalVolunteers",totalVolunteers);
+        temp.put("lng",lng);
+        temp.put("totalTestedVolunteers",totalTestedVolunteers);
 
         db.collection("Participant").document(id).set(temp)
 
@@ -140,14 +157,20 @@ public class ParticipantDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapShot : task.getResult()) {
                                 Participant participant = new Participant(
+                                        snapShot.getString("role"),
                                         snapShot.getString("locationType"),
                                         snapShot.getString("status"),
-                                        snapShot.getString("role"),
                                         snapShot.getString("locationName"),
-                                        snapShot.getString("email"),
                                         snapShot.getString("ParticipantId"),
+                                        snapShot.getString("email"),
                                         Double.parseDouble(Objects.requireNonNull(snapShot.getString("distanceFromCurrentLocation"))),
-                                        snapShot.getString("userList")
+                                        snapShot.getString("userList"),
+                                        Integer.parseInt(Objects.requireNonNull(snapShot.getString("maxCapacity"))),
+                                        Integer.parseInt(Objects.requireNonNull(snapShot.getString("totalVolunteers"))),
+                                        Integer.parseInt(Objects.requireNonNull(snapShot.getString("totalTestedVolunteers"))),
+                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("lat"))),
+                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("lng"))),
+                                        snapShot.getString("leader")
                                 );
                                 list.add(participant);
                                 System.out.println("listne!!!!!!!!!!" + list);
@@ -180,14 +203,21 @@ public class ParticipantDatabase {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapShot : task.getResult()) {
                                 Participant participant = new Participant(
+                                        snapShot.getString("role"),
                                         snapShot.getString("locationType"),
                                         snapShot.getString("status"),
-                                        snapShot.getString("role"),
                                         snapShot.getString("locationName"),
-                                        snapShot.getString("email"),
                                         snapShot.getString("ParticipantId"),
+                                        snapShot.getString("email"),
                                         Double.parseDouble(Objects.requireNonNull(snapShot.getString("distanceFromCurrentLocation"))),
-                                        snapShot.getString("userList"));
+                                        snapShot.getString("userList"),
+                                        Integer.parseInt(Objects.requireNonNull(snapShot.getString("maxCapacity"))),
+                                        Integer.parseInt(Objects.requireNonNull(snapShot.getString("totalVolunteers"))),
+                                        Integer.parseInt(Objects.requireNonNull(snapShot.getString("totalTestedVolunteers"))),
+                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("lat"))),
+                                        Double.parseDouble(Objects.requireNonNull(snapShot.getString("lng"))),
+                                        snapShot.getString("leader")
+                                );
                                 list.add(participant);
                                 System.out.println("listne!!!!!!!!!!" + list);
                             }

@@ -16,9 +16,11 @@ import com.example.assignment2_android.model.VolunteerSite;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UpdateSiteBySuperUser extends AppCompatActivity {
-
+    //Declare edittext
     EditText runName, runCapacity, runVolunteers, runTestedNumber,
             runUserList, runType, runStatus;
+
+    //Declare string
     String siteId = "";
     String siteStatus = "";
     String siteType = "";
@@ -39,10 +41,16 @@ public class UpdateSiteBySuperUser extends AppCompatActivity {
     String editSiteType;
     String editVolunteers;
 
+    //Declare button
     Button update;
 
+    //Declare textview
     TextView runId, runLeader, runLat, runLng;
+
+    //Declare database
     FirebaseFirestore db;
+
+    //Declare progress dialog
     ProgressDialog pd;
     VolunteerSite volunteerSite;
 
@@ -51,6 +59,7 @@ public class UpdateSiteBySuperUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_site_by_super_user);
+        //Binding textview, edittext,button to its value
         runId = findViewById(R.id.idEdit);
         runLat = findViewById(R.id.editLat);
         runLeader = findViewById(R.id.editLeader);
@@ -63,11 +72,17 @@ public class UpdateSiteBySuperUser extends AppCompatActivity {
         runStatus = findViewById(R.id.editStatus);
         runUserList = findViewById(R.id.editUserList);
         update = findViewById(R.id.editButton);
+
+        //Initialize value for firestore
         db = FirebaseFirestore.getInstance();
+        //Initialize value for ProgressDialog
         pd = new ProgressDialog(this);
         volunteerSite = new VolunteerSite();
+
+        //Receive intents from previous activity
         Intent intent = getIntent();
         if (intent != null) {
+            // Identify each intent by its key and then assign the value to the text view to display
             if (intent.hasExtra("siteId")) {
                 siteId = intent.getStringExtra("siteId");
 
@@ -142,9 +157,7 @@ public class UpdateSiteBySuperUser extends AppCompatActivity {
             }
         }
 
-
-
-
+        // Function update site by super user
         update.setOnClickListener(view -> {
             editCapacity = runCapacity.getText().toString();
             editStatus = runStatus.getText().toString();
@@ -153,14 +166,17 @@ public class UpdateSiteBySuperUser extends AppCompatActivity {
             editSiteType = runType.getText().toString();
             editListOfUsers = runUserList.getText().toString();
             editTestedNumber = runTestedNumber.getText().toString();
+            // create new volunteer site by the info that user inputted
             volunteerSite = new VolunteerSite(siteId,
                     editSiteName, siteLeader, editStatus, Integer.parseInt(editCapacity),
                     Integer.parseInt(editVolunteers), editSiteType, Double.parseDouble(siteLat),
                     Double.parseDouble(siteLng), Double.parseDouble(siteDistance),
                     Integer.parseInt(editTestedNumber), editListOfUsers);
-            System.out.println(volunteerSite);
+            //Call method to update new site
             SiteLocationDatabase.updateSiteLocations(db, volunteerSite
-                    , this);
+                    , this,pd);
         });
+
+
     }
 }

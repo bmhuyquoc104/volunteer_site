@@ -15,16 +15,19 @@
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/drawable/ic_baseline_rule_24.xml" value="0.19375" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/drawable/ic_baseline_view_list_24.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/drawable/ic_baseline_watch_24.xml" value="0.23854166666666668" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/drawable/ic_wave_2.xml" value="0.2625" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_add_site.xml" value="0.4" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_display_info.xml" value="0.29296875" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_friend_email.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_friend_registration.xml" value="0.4" />
+        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_leader_sites_list.xml" value="0.25" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_log_in.xml" value="0.25" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_participant_list.xml" value="0.25" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_register.xml" value="0.25" />
-        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_run_report.xml" value="0.35714285714285715" />
+        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_run_report.xml" value="0.245625" />
+        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_see_more_details.xml" value="0.25" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_site_list.xml" value="0.25" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_site_location.xml" value="0.375" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_super_user_home.xml" value="0.25" />
@@ -37,7 +40,8 @@
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/activity_volunteer_home.xml" value="0.30092592592592593" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/list_location_type.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/list_site_selection.xml" value="0.21014492753623187" />
-        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/one_participant.xml" value="0.44468085106382976" />
+        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/one_leader_site.xml" value="0.264" />
+        <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/one_participant.xml" value="0.31343283582089554" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/one_site.xml" value="0.536" />
         <entry key="..\:/Users/bmhuyquoc104/GitHub/volunteer_site/app/src/main/res/layout/one_volunteer.xml" value="0.3944723618090452" />
         <entry key="..\:/Users/bmhuyquoc104/Sem 3-2021/assignment2_android/app/src/main/res/drawable-v24/wave2.xml" value="0.26614583333333336" />

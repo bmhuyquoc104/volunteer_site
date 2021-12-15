@@ -109,6 +109,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_circle3" />
 
+    <Button
+        android:id="@+id/back"
+        android:layout_width="108dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="588dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/goBack"
+        android:textSize="18sp"
+        app:cornerRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.194"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView8"
         android:layout_width="157dp"
@@ -133,7 +147,7 @@
         app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/hourglass" />
+        app:srcCompat="@drawable/ic_baseline_watch_24" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

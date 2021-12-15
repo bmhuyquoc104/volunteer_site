@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -58,15 +59,23 @@ import java.util.Collections;
 import java.util.List;
 
 public class SiteLocation extends FragmentActivity implements OnMapReadyCallback {
+    // Declare class volunteerSite
     VolunteerSite volunteerSite;
     RandomLocation randomLocation;
+    //Declare database
     FirebaseFirestore db;
+    //Declare list of users type
     List<User> currentUser;
+    //Declare list of markers type
     List<Marker> markerList;
+    //Declare list of double type
     List<Double> totalDistance;
+    ProgressDialog pd;
+    //Declare Geocoder
     private Geocoder mGeocoder;
+    //Declare boolean
     boolean hasData = false;
-    private boolean search = false;
+
     public static ArrayList<VolunteerSite> volunteerSiteList;
     private GoogleMap mMap;
     Marker userMarker;
@@ -79,15 +88,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     ArrayList<VolunteerSite> siteBySearchList;
     private ActivitySiteLocationBinding binding;
     private FusedLocationProviderClient client;
-    private LocationRequest locationRequest;
     int userAge;
     String email ;
     String addressName;
-    List<LatLng> allLatLng;
     String locationName;
-    SiteLocationDatabase siteLocationDatabase;
-    Circle locationCircle;
-    ImageView currentLocation;
+
     DistanceSorter distanceSorter;
     Button type1, type2, type3, type4;
     Button capacity1, capacity2, capacity3, capacity4;
@@ -108,6 +113,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         totalDistance = new ArrayList<>();
 //        currentLocation = (ImageView) findViewById(R.id.currentLocation);
         client = LocationServices.getFusedLocationProviderClient(this);
+        pd = new ProgressDialog(this);
         randomLocation = new RandomLocation();
         autoCompleteTextView = findViewById(R.id.auto_complete_text_view2);
         siteBySearchList = new ArrayList<>();
@@ -175,7 +181,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
 
         allEmails = MainActivity.userEmails;
-        volunteerSiteList = UserGuide.allSites;
+        volunteerSiteList = MainActivity.allSites;
 //        volunteerSiteList = new ArrayList<>();
 
         // Set dropdown list
@@ -208,13 +214,14 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 14, 4000, volunteerSiteList, randomLocation,allEmails);
+//        volunteerSite.generateNewLocation(volunteerSite.getHOCHIMINH(), 14, 10000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 5, 3000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 5, 2000, volunteerSiteList, randomLocation,allEmails);
 
-//        volunteerSiteList.sort(distanceSorter);
+        volunteerSiteList.sort(distanceSorter);
+
         // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
-//        SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this);
+        SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this,pd);
 
 
         for (VolunteerSite volunteerSite : volunteerSiteList
@@ -503,7 +510,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() < 15) {
+                if (volunteerSite.getMaxCapacity() < 4) {
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -531,7 +538,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() >= 15 && volunteerSite.getMaxCapacity() < 25) {
+                if (volunteerSite.getMaxCapacity() >= 4 && volunteerSite.getMaxCapacity() < 8) {
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -559,7 +566,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() >= 25 && volunteerSite.getMaxCapacity() < 35) {
+                if (volunteerSite.getMaxCapacity() >= 8 && volunteerSite.getMaxCapacity() < 12) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -588,7 +595,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getMaxCapacity() > 35) {
+                if (volunteerSite.getMaxCapacity() > 12) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -617,7 +624,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() < 10) {
+                if (volunteerSite.getTotalVolunteers() < 4) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -646,7 +653,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() >= 10 && volunteerSite.getTotalVolunteers() < 20) {
+                if (volunteerSite.getTotalVolunteers() >= 4 && volunteerSite.getTotalVolunteers() < 8) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -675,7 +682,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() >= 20 && volunteerSite.getTotalVolunteers() < 30) {
+                if (volunteerSite.getTotalVolunteers() >= 8 && volunteerSite.getTotalVolunteers() < 12) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -704,7 +711,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalVolunteers() > 30) {
+                if (volunteerSite.getTotalVolunteers() > 12) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -733,7 +740,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() < 8) {
+                if (volunteerSite.getTotalTestedVolunteers() < 3) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -762,7 +769,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() >= 8 && volunteerSite.getTotalTestedVolunteers() < 18) {
+                if (volunteerSite.getTotalTestedVolunteers() >= 3 && volunteerSite.getTotalTestedVolunteers() < 6) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -791,7 +798,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() >= 18 && volunteerSite.getTotalTestedVolunteers() < 28) {
+                if (volunteerSite.getTotalTestedVolunteers() >= 6 && volunteerSite.getTotalTestedVolunteers() < 9) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -820,7 +827,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getTotalTestedVolunteers() > 28) {
+                if (volunteerSite.getTotalTestedVolunteers() > 9) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -849,7 +856,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() < 1000) {
+                if (volunteerSite.getDistanceFromCurrentLocation() < 3) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -878,7 +885,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() >= 1000 && volunteerSite.getDistanceFromCurrentLocation() < 2000) {
+                if (volunteerSite.getDistanceFromCurrentLocation() >= 3 && volunteerSite.getDistanceFromCurrentLocation() < 6) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -907,7 +914,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() >= 2000 && volunteerSite.getDistanceFromCurrentLocation() < 3000) {
+                if (volunteerSite.getDistanceFromCurrentLocation() >= 6 && volunteerSite.getDistanceFromCurrentLocation() < 9) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -935,7 +942,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
-                if (volunteerSite.getDistanceFromCurrentLocation() > 3000) {
+                if (volunteerSite.getDistanceFromCurrentLocation() > 9) {
 
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
@@ -1013,13 +1020,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    private void getUpdateLocation() {
-        locationRequest = LocationRequest.create()
-                .setInterval(4000)
-                .setFastestInterval(2000)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-    }
 
 
     public void removeAllMarkers(List<Marker> markerslist) {

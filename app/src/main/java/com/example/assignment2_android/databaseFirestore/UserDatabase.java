@@ -27,11 +27,12 @@ import java.util.UUID;
 
 public class UserDatabase {
     // Post User to database using Firestore
-    public void registerUser(@NonNull String userName, String email, String age, Context context, String password, String correctPassWord,
+    public static void registerUser(@NonNull String userName, String email, String age, Context context, String password, String correctPassWord,
                              ProgressDialog progressDialog, FirebaseFirestore db) {
         if (!userName.isEmpty() && !password.isEmpty() && !correctPassWord.isEmpty()) {
             if (password.equals(correctPassWord)) {
                 String id = UUID.randomUUID().toString();
+                progressDialog.setTitle("Registering new account !");
                 progressDialog.show();
                 HashMap<String, Object> temp = new HashMap<>();
                 temp.put("age",age);
@@ -39,14 +40,14 @@ public class UserDatabase {
                 temp.put("id", id);
                 temp.put("userName", userName);
                 temp.put("password", password);
-                db.collection("testUsers").document(id).set(temp)
+                db.collection("Users").document(id).set(temp)
 
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(context, "You have successfully add!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(context, "You have successfully registered!", Toast.LENGTH_LONG).show();
                                 }
                             }
                         })
@@ -64,7 +65,7 @@ public class UserDatabase {
 
     }
 
-    public void fetchVolunteers(Context context, FirebaseFirestore db, ProgressDialog pd,
+    public static void fetchVolunteers(Context context, FirebaseFirestore db, ProgressDialog pd,
                                 List<User> list, VolunteerListAdapter adapter) {
         db.collection("Users").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -81,7 +82,6 @@ public class UserDatabase {
                             snapShot.getString("id")
                     );
                     list.add(user);
-                    System.out.println("list neeeeeeeee" + list);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -110,9 +110,11 @@ public class UserDatabase {
         System.out.println(list);
     }
 
-    public void getUserByUserNameAndPassword (Context context, FirebaseFirestore db,
-                                              String password, String username,List<User>list){
-        CollectionReference userRef = db.collection("testUsers");
+    public static void getUserByUserNameAndPassword (Context context, FirebaseFirestore db,
+                                              String password, String username,List<User>list,ProgressDialog progressDialog){
+        progressDialog.setTitle("Registering new account !");
+        progressDialog.show();
+        CollectionReference userRef = db.collection("Users");
         userRef.whereEqualTo("userName",username)
                 .whereEqualTo("password",password)
                 .get()
@@ -120,6 +122,7 @@ public class UserDatabase {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()){
+                            progressDialog.dismiss();
                             for (QueryDocumentSnapshot snapShot: task.getResult()){
                                 User user = new User(
                                   snapShot.getString("userName"),
@@ -139,6 +142,7 @@ public class UserDatabase {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
                         Toast.makeText(context, "Wrong username or password. Please try again!", Toast.LENGTH_LONG).show();
                     }
                 });;
@@ -147,7 +151,7 @@ public class UserDatabase {
 
     public static void getUserByEmail (Context context, FirebaseFirestore db,
                                               String email, List<User>list){
-        CollectionReference userRef = db.collection("testUsers");
+        CollectionReference userRef = db.collection("Users");
         userRef.whereEqualTo("email",email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.assignment2_android.R;
+import com.example.assignment2_android.SuperUserHome;
 import com.example.assignment2_android.VolunteerHome;
 import com.example.assignment2_android.adapter.VolunteerListAdapter;
 import com.example.assignment2_android.databaseFirestore.UserDatabase;
@@ -41,7 +43,7 @@ public class UserList extends AppCompatActivity {
     String reportDetail ="";
     String reportDir ="";
     String reportName = "";
-
+    Button back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,7 @@ public class UserList extends AppCompatActivity {
         // Set fixed size for recycler view
         recyclerView = findViewById(R.id.userList);
         recyclerView.setHasFixedSize(true);
-
+        back = findViewById(R.id.back);
         download = findViewById(R.id.downLoadListOfUsers);
         reportDir = "leaderDownloadList";
         reportName = "VolunteersList";
@@ -129,7 +131,11 @@ public class UserList extends AppCompatActivity {
 
 
         });
-
+        back.setOnClickListener( view ->{
+            Intent intent2 = new Intent(this, VolunteerHome.class);
+            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent2);
+        });
     }
 
     private boolean isExternalStorageAvailableForRW() {

@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class SiteLocationDatabase {
-    public static void postSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList, Context context) {
+    public static void postSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList, Context context, ProgressDialog progressDialog) {
+        progressDialog.setTitle("Creating new site !");
+        progressDialog.show();
         for (VolunteerSite volunteerSite :
                 volunteerSiteList) {
             String id = volunteerSite.getLocationId();
@@ -55,6 +57,7 @@ public class SiteLocationDatabase {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                progressDialog.dismiss();
                                 Toast.makeText(context, "Data is updated successfully!", Toast.LENGTH_LONG).show();
                             }
                         }
@@ -62,14 +65,17 @@ public class SiteLocationDatabase {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
                             Toast.makeText(context, "Please try again!!", Toast.LENGTH_LONG).show();
                         }
                     });
         }
     }
 
-    public static void updateSiteLocations(FirebaseFirestore db, VolunteerSite site, Context context) {
+    public static void updateSiteLocations(FirebaseFirestore db, VolunteerSite site, Context context,ProgressDialog progressDialog) {
         String id = site.getLocationId();
+        progressDialog.setTitle("Updating site !");
+        progressDialog.show();
         String locationType = site.getLocationType();
         String locationName = site.getLocationName();
 //        String leaderName = site.getLeaderName();
@@ -81,7 +87,7 @@ public class SiteLocationDatabase {
 //        String lng = Double.toString(site.getLng());
         String distanceFromCurrentLocation = Double.toString(site.getDistanceFromCurrentLocation());
         String userList = site.getUserList();
-        db.collection("testSites").document(id)
+        db.collection("Sites").document(id)
                 .update("maxCapacity",maxCapacity,"totalTestedVolunteers",totalTestedVolunteers,"locationType",
                         locationType,"locationName",locationName,"status", status, "userList", userList,
                        "totalVolunteers", totalVolunteers, "distanceFromCurrentLocation", distanceFromCurrentLocation)
@@ -89,6 +95,7 @@ public class SiteLocationDatabase {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            progressDialog.dismiss();
                             Toast.makeText(context, "Site have been successfully updated", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(context, "Error: " + task.getException(), Toast.LENGTH_LONG).show();
@@ -97,13 +104,14 @@ public class SiteLocationDatabase {
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     public static void fetchSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList) {
-        db.collection("testSites").get()
+        db.collection("Sites").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

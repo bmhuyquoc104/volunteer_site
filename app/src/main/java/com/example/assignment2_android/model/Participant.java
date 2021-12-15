@@ -13,6 +13,12 @@ public class Participant {
     private String id;
     private double distanceFromCurrentLocation;
     private String userList;
+    private int maxCapacity;
+    private int totalVolunteers;
+    private int totalTestedVolunteers;
+    private double lat;
+    private double lng;
+    private String leader;
     public Participant(){
 
     }
@@ -25,16 +31,23 @@ public class Participant {
         this.volunteerSite = volunteerSite;
     }
 
-    public Participant (String locationType, String status, String role,String locationName,String email,String id,double distanceFromCurrentLocation,String userList){
-        this.distanceFromCurrentLocation = distanceFromCurrentLocation;
+
+    public Participant(String role, String locationType, String status, String locationName,String id, String email, double distanceFromCurrentLocation, String userList, int maxCapacity, int totalVolunteers, int totalTestedVolunteers, double lat, double lng, String leader) {
+        this.role = role;
         this.locationType = locationType;
         this.status = status;
-        this.role = role;
         this.locationName = locationName;
         this.email = email;
-        this.id = id;
+        this.distanceFromCurrentLocation = distanceFromCurrentLocation;
         this.userList = userList;
-    };
+        this.id = id;
+        this.maxCapacity = maxCapacity;
+        this.totalVolunteers = totalVolunteers;
+        this.totalTestedVolunteers = totalTestedVolunteers;
+        this.lat = lat;
+        this.lng = lng;
+        this.leader = leader;
+    }
 
     public String getLocationType() {
         return locationType;
@@ -84,9 +97,58 @@ public class Participant {
         this.id = id;
     }
 
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    public int getTotalVolunteers() {
+        return totalVolunteers;
+    }
+
+    public void setTotalVolunteers(int totalVolunteers) {
+        this.totalVolunteers = totalVolunteers;
+    }
+
+    public int getTotalTestedVolunteers() {
+        return totalTestedVolunteers;
+    }
+
+    public void setTotalTestedVolunteers(int totalTestedVolunteers) {
+        this.totalTestedVolunteers = totalTestedVolunteers;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public String getLeader() {
+        return leader;
+    }
+
+    public void setLeader(String leader) {
+        this.leader = leader;
+    }
+
     public double getDistanceFromCurrentLocation() {
         return distanceFromCurrentLocation;
     }
+
 
 
 

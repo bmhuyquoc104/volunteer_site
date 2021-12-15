@@ -17,11 +17,19 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class RunReport extends AppCompatActivity {
-    TextView runId, runLeader, runLat, runLng, runName, runCapacity, runVolunteers, runTestedNumber, runUserList, runType, runStatus;
-    String siteId, siteLeader, siteLat, siteLng, siteName, siteCapacity, siteVolunteers, siteTestedNumber, siteStatus, siteType, siteListOfUsers;
+    //Declare textview
+    TextView runId, runLeader, runLat, runLng, runName, runCapacity, runVolunteers, runTestedNumber,
+            runUserList, runType, runStatus;
+    //Declare String
+    String siteId, siteLeader, siteLat, siteLng, siteName, siteCapacity, siteVolunteers, siteTestedNumber,
+            siteStatus, siteType, siteListOfUsers;
+    //Declare button
     Button download;
+    Button back;
+    //Declare String for download
     String reportDetail ="";
     String reportDir ="";
     String reportName = "";
@@ -30,6 +38,7 @@ public class RunReport extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_report);
+        //binding textview , button ,and edittext to its value
         runId = (TextView) findViewById(R.id.idRun);
         runLat = (TextView) findViewById(R.id.runReportLat);
         runLeader = (TextView) findViewById(R.id.runLeader);
@@ -42,11 +51,16 @@ public class RunReport extends AppCompatActivity {
         runStatus = findViewById(R.id.runStatus);
         runUserList = findViewById(R.id.runUserList);
         download = findViewById(R.id.downloadReport);
+        back = findViewById(R.id.back);
+
+        //Assign directory to store the file after downloading
         reportDir = "superUserReport";
         reportName = "CovidVolunteerSiteReport";
+
+        //Receive intents from previous activity
         Intent intent = getIntent();
         if (intent != null) {
-            // Handle intent if the key = "text"
+            // Identify each intent by its key and then assign the value to the text view to display
             if (intent.hasExtra("siteId")) {
                 siteId = intent.getStringExtra("siteId");
 
@@ -121,11 +135,14 @@ public class RunReport extends AppCompatActivity {
             }
         }
 
+        // Check if storage is available or not
         if (!isExternalStorageAvailableForRW()) {
             download.setEnabled(false);
         }
 
+        // Function download the file to external storage
         download.setOnClickListener(view -> {
+            // Assign the detail for the report
             reportDetail = "Site Id: " + siteId + "\n" +
                           "Leader: " + siteLeader + "\n" +
                           "Site Name: " + siteName + "\n" +
@@ -137,27 +154,15 @@ public class RunReport extends AppCompatActivity {
                           "Status: " + siteStatus + "\n" +
                           "Type: " + siteType + "\n" +
                           "List Of Users: " + siteListOfUsers + "\n";
-            // Check for Storage Permission
             if (isStoragePermissionGranted()) {
-                // If input is not empty, we'll proceed
                 if (!reportDetail.equals("")) {
-                    // To access app-specific files from external storage, you can call
-                    // getExternalFilesDir() method. It returns the path to
-                    // storage > emulated > 0 > Android > data > [package_name] > files > MyFileDir
-                    // or,
-                    // storage > self > Android > data > [package_name] > files > MyFileDir
-                    // directory on the SD card. Once the app is uninstalled files here also get
-                    // deleted.
-                    // Create a File object like this.
+
                     File file = new File(getExternalFilesDir(reportDir), reportName);
                     // Create an object of FileOutputStream for writing data to myFile.txt
                     FileOutputStream fileOutputStream = null;
                     try {
-                        // Instantiate the FileOutputStream object and pass myExternalFile in constructor
                         fileOutputStream = new FileOutputStream(file);
-                        // Write to the file
                         fileOutputStream.write(reportDetail.getBytes());
-                        // Close the stream
                         fileOutputStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -187,8 +192,15 @@ public class RunReport extends AppCompatActivity {
 
 
         });
+        back.setOnClickListener( view ->{
+            Intent intent2 = new Intent(this,SuperUserHome.class);
+            // Delete all stacks before to avoid stack memory redundant and collapse between stacks
+            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent2);
+        });
     }
 
+    // Function check the storage
     private boolean isExternalStorageAvailableForRW() {
         // Check if the external storage is available for read and write by calling
         // Environment.getExternalStorageState() method. If the returned state is MEDIA_MOUNTED,

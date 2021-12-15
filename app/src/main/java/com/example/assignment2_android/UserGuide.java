@@ -19,31 +19,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserGuide extends AppCompatActivity {
-    MainActivity activity;
+    //Declare button
     Button back;
-    public static ArrayList<VolunteerSite>allSites;
     FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_guide);
-        allSites = new ArrayList<>();
+        //Binding button
         back = findViewById(R.id.back);
+        //Switch back to Main activity
         back.setOnClickListener( view ->{
            Intent intent = new Intent(this,MainActivity.class);
+           // Delete all stacks before to avoid stack memory redundant and collapse between stacks
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
            startActivity(intent);
         });
-
-        db = FirebaseFirestore.getInstance();
-        SiteLocationDatabase.fetchSiteLocations(db,allSites);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            // Check if that user is fetch properly
-            if (allSites.size() != 0) {
-                // Loop the list and get the info of that person
-            }
-            System.out.println("lalalalalalalala" +allSites.size());
-        },1000);
     }
 
 

@@ -83,8 +83,8 @@ public class VolunteerSite {
                 double lat1 = result[0];
                 double lng1 = result[1];
                 String locationId = UUID.randomUUID().toString();
-//                String leader = getRandomLeader(userMail);
-                String leader = "behuy";
+                String leader = getRandomLeader(userMail);
+//                String leader = "behuy";
                 int maxCapacity = getRandomMaximumCapacity(randomMaxCapacity);
                 int totalVolunteers = getRandomTotalNumber(randomTotalNumber, maxCapacity);
                 System.out.println("totalVolunteers" + totalVolunteers);
@@ -92,8 +92,8 @@ public class VolunteerSite {
                 String locationName = locationType + "_"  +maxCapacity + "_" + i;
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
-//                String userEmailList = getRandomEmail(totalVolunteers,userMail);
-                String userEmailList = "!@31,12312,312";
+                String userEmailList = getRandomEmail(totalVolunteers,userMail);
+//                String userEmailList = "!@31,12312,312";
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
                 VolunteerSite temp = new VolunteerSite(locationId,locationName,leader,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
@@ -177,16 +177,14 @@ public class VolunteerSite {
     }
 
     public VolunteerSite addNewLocation(LatLng originalLocation,
-                                        String leaderName,String locationType,
+                                        String leaderName,String locationType, String userList,int totalVolunteers,
                                         int maxCapacity,double lat,double lng){
         String locationId = UUID.randomUUID().toString();
-        int totalVolunteers = 0;
         String locationName = leaderName + "_" + locationType;
         String status = checkStatus(maxCapacity,totalVolunteers);
-        String userEmailList = "";
         int totalTestedVolunteers = 0;
         double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat, lng);
-        return new VolunteerSite(locationId,locationName,leaderName,status,maxCapacity,totalVolunteers,locationType,lat,lng,distanceFromCurrentLocation,totalTestedVolunteers,userEmailList);
+        return new VolunteerSite(locationId,locationName,leaderName,status,maxCapacity,totalVolunteers,locationType,lat,lng,distanceFromCurrentLocation,totalTestedVolunteers,userList);
     }
 
 
@@ -254,17 +252,26 @@ public class VolunteerSite {
         return list.get(rand.nextInt(list.size()));
     };
 
-    public double distance(double lat1, double lng1, double lat2, double lng2) {
-        double theta = lng1 - lng2;
-        double dist = Math.sin((lat1 * Math.PI / 180.0))
-                * Math.sin((lat2 * Math.PI / 180.0))
-                + Math.cos((lat1 * Math.PI / 180.0))
-                * Math.cos((lat2 * Math.PI / 180.0))
-                * Math.cos((lat2 * Math.PI / 180.0));
+
+    public double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
         dist = Math.acos(dist);
-        dist = (dist * 180.0 / Math.PI);
-        dist = dist * 60 * 1.1515 *1.609344;
+        dist = rad2deg(dist);
+        dist = (dist * 60 * 1.1515)*1.609344;
         return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
     public  int getRandomMaximumCapacity(List<Integer> list)

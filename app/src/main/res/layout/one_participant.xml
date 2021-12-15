@@ -7,9 +7,9 @@
     >
 
     <RelativeLayout
-        android:layout_width="388dp"
-        android:layout_height="255dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="396dp"
+        android:layout_height="173dp"
+        android:layout_marginTop="4dp"
         android:background="@color/colorPrimary2"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,10 +18,10 @@
 
         <TextView
             android:id="@+id/participant_role"
-            android:layout_width="180dp"
-            android:layout_height="47dp"
+            android:layout_width="189dp"
+            android:layout_height="40dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:text="@string/role"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
@@ -32,53 +32,37 @@
             android:layout_width="322dp"
             android:layout_height="41dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="100dp"
             android:text="@string/leader"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/participant_userList"
-            android:layout_width="344dp"
-            android:layout_height="78dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="150dp"
-            android:text="@string/listOfUsers"
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/participant_site"
-            android:layout_width="183dp"
-            android:layout_height="46dp"
+            android:layout_width="222dp"
+            android:layout_height="59dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="80dp"
             android:text="@string/site"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimary"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/participant_type"
-            android:layout_width="136dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="220dp"
-            android:layout_marginTop="40dp"
-            android:text="@string/locationType"
+        <Button
+            android:id="@+id/seeMoreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="100dp"
+            android:backgroundTint="@color/colorPrimary2"
+            android:text="@string/SeeMore"
+            android:textAlignment="viewEnd"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"
-            android:textStyle="bold" />
+            android:textSize="11sp"
+            android:textStyle="bold|italic"
+            tools:ignore="SmallSp" />
 
-        <TextView
-            android:id="@+id/participant_status"
-            android:layout_width="143dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="220dp"
-            android:text="@string/status"
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/colorPrimary"
-            android:textStyle="bold" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
