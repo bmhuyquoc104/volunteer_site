@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class ParticipantDatabase {
+    // Add new participant to firestore
     public static void addParticipant(Participant participant, FirebaseFirestore db,
                                       Context context) {
 
@@ -92,6 +93,7 @@ public class ParticipantDatabase {
     }
 
 
+    // add by email (register for friend and your self in display info)
     public static void addParticipantByEmail(String email, FirebaseFirestore db,
                                       Context context,VolunteerSite site,String role) {
         String id = UUID.randomUUID().toString();
@@ -143,10 +145,9 @@ public class ParticipantDatabase {
     }
 
 
-
+    // Get all participants and store in the list
     public static void fetchParticipant(Context context, FirebaseFirestore db, List<Participant> list, User user, ParticipantListAdapter adapter) {
         String email = user.getEmail();
-        System.out.println("email ne" + email);
         CollectionReference participantRef = db.collection("Participant");
         participantRef.whereEqualTo("email", email)
                 .get()
@@ -173,7 +174,6 @@ public class ParticipantDatabase {
                                         snapShot.getString("leader")
                                 );
                                 list.add(participant);
-                                System.out.println("listne!!!!!!!!!!" + list);
                             }
                             adapter.notifyDataSetChanged();
                         } else {
@@ -190,9 +190,9 @@ public class ParticipantDatabase {
         ;
     }
 
+    // Get participant role (identify that participant is leader or volunteer)
     public static void getRole(Context context, FirebaseFirestore db, List<Participant> list, User user) {
         String email = user.getEmail();
-        System.out.println("email ne" + email);
         CollectionReference participantRef = db.collection("Participant");
         participantRef.whereEqualTo("email", email)
                 .get()
@@ -219,7 +219,6 @@ public class ParticipantDatabase {
                                         snapShot.getString("leader")
                                 );
                                 list.add(participant);
-                                System.out.println("listne!!!!!!!!!!" + list);
                             }
                         } else {
                             System.out.println("Error getting documents: " + task.getException());

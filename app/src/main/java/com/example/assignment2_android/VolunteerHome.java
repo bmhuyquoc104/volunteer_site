@@ -100,10 +100,10 @@ public class VolunteerHome extends AppCompatActivity {
                             if(role.equals("leader")){
                                 userList = participantList.get(i).getUserList();
                                 List<String> list = Arrays.asList(userList.split(","));
-                                System.out.println(list);
+
                                 for (String l:list
                                 ) {
-                                    System.out.println(l);
+
                                     UserDatabase.getUserByEmail(this,db,l,userByEmail);
 
                                 }
@@ -113,7 +113,6 @@ public class VolunteerHome extends AppCompatActivity {
                                 volunteerUpdate3.setVisibility(View.VISIBLE);
                             }
                         }
-                        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + role);
 
                     }
                 },1000);
@@ -135,10 +134,9 @@ public class VolunteerHome extends AppCompatActivity {
         for (VolunteerSite site :getSites){
             if (site.getLeader().equals(currentUser.getEmail())){
                 leaderSites.add(site);
-                System.out.println("hello again" + leaderSites);
+
             }
-            System.out.println(leaderSites);
-            System.out.println("hello" + leaderSites);
+
         }
 
         update.setOnClickListener(view -> {

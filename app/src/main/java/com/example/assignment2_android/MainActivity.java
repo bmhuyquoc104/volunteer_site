@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Get all users that registered the app and store in the array allUsers
-//        UserDatabase.getAllUsers(db,allUsers);
+        UserDatabase.getAllUsers(db,allUsers);
 
 
 //         Handle time delay between getting the data from database and store in the list
@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < allUsers.size(); i++) {
                             userEmails.add(allUsers.get(i).getEmail());
                         }
-                        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + userEmails +userEmails.size());
                     }
                 },2000);
 

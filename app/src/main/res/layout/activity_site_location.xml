@@ -212,7 +212,7 @@
         android:layout_marginTop="296dp"
         android:layout_marginEnd="260dp"
         android:backgroundTint="@color/colorPrimary2"
-        android:text="@string/totalNumber"
+        android:text="@string/totalNumber3"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"

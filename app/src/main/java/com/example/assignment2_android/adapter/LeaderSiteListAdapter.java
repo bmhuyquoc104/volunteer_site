@@ -39,8 +39,8 @@ public class LeaderSiteListAdapter extends RecyclerView.Adapter<LeaderSiteListAd
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LeaderSiteListAdapter.MyViewHolder holder, int position) {
-        System.out.println("coi co data ko" + leaderSiteList);
         holder.siteName.setText("Site Name: " + leaderSiteList.get(position).getLocationName());
+        // Send intent base on position and on click for each item
         holder.itemView.setOnClickListener(view ->{
             Intent intent = new Intent(context, UpdateSiteBySuperUser.class);
             intent.setAction(Intent.ACTION_SEND);

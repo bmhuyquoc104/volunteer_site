@@ -70,12 +70,14 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     List<Marker> markerList;
     //Declare list of double type
     List<Double> totalDistance;
+    //Declare progressDialog
     ProgressDialog pd;
     //Declare Geocoder
     private Geocoder mGeocoder;
     //Declare boolean
     boolean hasData = false;
 
+    //Declare public list site to use later in other classes
     public static ArrayList<VolunteerSite> volunteerSiteList;
     private GoogleMap mMap;
     Marker userMarker;
@@ -84,6 +86,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     String userSelection;
     EditText site;
     ImageView searchSite;
+    //Declare string for drop down list
     String[] filterSelection = {"Max Capacity", "Total Current Volunteers", "Total Tested Volunteers", "Location Type", "Distance to your location"};
     ArrayList<VolunteerSite> siteBySearchList;
     private ActivitySiteLocationBinding binding;
@@ -93,7 +96,10 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
     String addressName;
     String locationName;
 
+    //Declare class to sort
     DistanceSorter distanceSorter;
+
+    // Declare button for filter function
     Button type1, type2, type3, type4;
     Button capacity1, capacity2, capacity3, capacity4;
     Button distance1, distance2, distance3, distance4;
@@ -106,19 +112,23 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         binding = ActivitySiteLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        //Binding value
         site = findViewById(R.id.userInputSite);
         searchSite = findViewById(R.id.searchSite);
+        // Initialize arraylist
         currentUser = new ArrayList<>();
         totalDistance = new ArrayList<>();
-//        currentLocation = (ImageView) findViewById(R.id.currentLocation);
-        client = LocationServices.getFusedLocationProviderClient(this);
-        pd = new ProgressDialog(this);
-        randomLocation = new RandomLocation();
-        autoCompleteTextView = findViewById(R.id.auto_complete_text_view2);
         siteBySearchList = new ArrayList<>();
         volunteerSiteList = new ArrayList<>();
         markerList = new ArrayList<>();
+//        currentLocation = (ImageView) findViewById(R.id.currentLocation);
+        //Initialize client
+        client = LocationServices.getFusedLocationProviderClient(this);
+        pd = new ProgressDialog(this);
+        randomLocation = new RandomLocation();
+
+        autoCompleteTextView = findViewById(R.id.auto_complete_text_view2);
+
         db = FirebaseFirestore.getInstance();
         mGeocoder = new Geocoder(this);
         distanceSorter = new DistanceSorter();
@@ -153,7 +163,6 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         testedVolunteers4 = findViewById(R.id.totalTestedOption4);
 
         //Set visibility for filter selections to invisible
-
         capacity1.setVisibility(View.GONE);
         capacity2.setVisibility(View.GONE);
         capacity3.setVisibility(View.GONE);
@@ -179,7 +188,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         testedVolunteers3.setVisibility(View.GONE);
         testedVolunteers4.setVisibility(View.GONE);
 
-
+        // Assign value for lists
         allEmails = MainActivity.userEmails;
         volunteerSiteList = MainActivity.allSites;
 //        volunteerSiteList = new ArrayList<>();
@@ -218,12 +227,14 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 //        volunteerSite.generateNewLocation(volunteerSite.getHANOI(), 5, 3000, volunteerSiteList, randomLocation,allEmails);
 //        volunteerSite.generateNewLocation(volunteerSite.getDALAT(), 5, 2000, volunteerSiteList, randomLocation,allEmails);
 
+        //Sort item in list by distance to current location
         volunteerSiteList.sort(distanceSorter);
 
         // Post generated site locations to database (only need to use 1 time, can change parameter to push more later)
-        SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this,pd);
+//        SiteLocationDatabase.postSiteLocations(db, volunteerSiteList, this,pd);
 
 
+        // Assign markers to all sites and add to marker list
         for (VolunteerSite volunteerSite : volunteerSiteList
         ) {
             double lat = volunteerSite.getLat();
@@ -231,6 +242,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             locationName = volunteerSite.getLocationName();
             LatLng site = new LatLng(lat, lng);
             mMap.getUiSettings().setZoomControlsEnabled(true);
+            // Customize the marker
             @SuppressLint("UseCompatLoadingForDrawables")
             BitmapDrawable bitmapDrawable = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
             Bitmap b = bitmapDrawable.getBitmap();
@@ -240,6 +252,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             userMarker = mMap.addMarker(mMarker);
             assert userMarker != null;
             userMarker.setZIndex(1.0f);
+            // add all marker to list
             markerList.add(userMarker);
         }
 
@@ -247,17 +260,18 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         toggleFilterOptions(userSelection);
 
 
-        // Create new location in the map by click
+        // Create new location in the map by LONG click
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(@NonNull LatLng latLng) {
                currentUser = LogIn.oneUserlist;
-
+                // Only allow user that more than 18 to create new site
+                // Less than 18 is too young to become a leader
                 for (User c : currentUser
                 ) {
+                    //Check the age from current User
                     userAge = c.getAge();
                     email = c.getEmail();
-                    System.out.println("hello" + email);
                 }
 
                 if (userAge < 18) {
@@ -265,12 +279,13 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                 } else {
                     double lat1 = latLng.latitude;
                     double lng1 = latLng.longitude;
+                    // Get the address by lat and lng
                     try {
                         List<Address> addresses =
                                 mGeocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                         Address address = addresses.get(0);
                         addressName = address.getAddressLine(0);
-                        System.out.println("hello ne" + addressName);
+
                         @SuppressLint("UseCompatLoadingForDrawables") BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.volunteer_site2);
                         Bitmap b = bitmapdraw.getBitmap();
                         Bitmap smallMarker = Bitmap.createScaledBitmap(b, 250, 200, true);
@@ -282,6 +297,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    // Send intent to addSite activities to display info
                     Intent intent = new Intent(SiteLocation.this, AddSite.class);
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("plain/text");
@@ -295,20 +311,20 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         });
 
         //Display info by clicking the marker
-
-
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
+                // Get lat and lng by current marker
                 LatLng currentMarker = marker.getPosition();
                 double currentLat = currentMarker.latitude;
                 double currentLng = currentMarker.longitude;
                 for (VolunteerSite volunteerSite : volunteerSiteList
                 ) {
-
+                    // Check the location name from that marker to figure out which marker is being clicked
                     if (currentLat == volunteerSite.getLat() && currentLng == volunteerSite.getLng()) {
                         locationName = volunteerSite.getLocationName();
                         String leader = volunteerSite.getLeader();
+                        //Send intent to displayInfo class to compare value of location name
                         Intent intent = new Intent(getApplicationContext(), DisplayInfo.class);
                         intent.putExtra("locationName", locationName);
                         startActivity(intent);
@@ -325,18 +341,18 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             String inputSite = site.getText().toString();
 
             for (int i = 0; i < volunteerSiteList.size(); i++) {
-
-
+                // Check string input from user and compare to all features of site in the list of sites
                 if (inputSite.equals(volunteerSiteList.get(i).getStatus())
                         || inputSite.equals(volunteerSiteList.get(i).getLocationName())
                         || inputSite.equals(volunteerSiteList.get(i).getLeader())
                         || inputSite.equals(Double.toString(volunteerSiteList.get(i).getLat()))
                         || inputSite.equals(Double.toString(volunteerSiteList.get(i).getLng()))
                 ) {
+                    // add that site if it match the key to siteBySearchList
                     siteBySearchList.add(volunteerSiteList.get(i));
+                    // boolean to check later
                     hasData = true;
-
-
+                // If nothing match, return all sites
                 } else {
                     for (VolunteerSite volunteerSite : volunteerSiteList
                     ) {
@@ -359,9 +375,13 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
                 if (hasData) {
+                    // Remove all markers that add before (when get current location, all sites display first time,
+                    // now we need to remove that markers to avoid marker duplication with the marker represent
+                    // the locations that match by search)
                     removeAllMarkers(markerList);
                     for (VolunteerSite volunteerSite : siteBySearchList
                     ) {
+                        // add marker to the location that matched the input key and then display
                         double lat = volunteerSite.getLat();
                         double lng = volunteerSite.getLng();
                         locationName = volunteerSite.getLocationName();
@@ -388,14 +408,15 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
         });
 
-
+        // other options below work similarly to type 1
         // return marker if user selection is type1
         type1.setOnClickListener(view -> {
+            // Remove all existed markers to avoid duplicated markers
             removeAllMarkers(markerList);
             for (VolunteerSite volunteerSite : volunteerSiteList
             ) {
                 if (volunteerSite.getLocationType().equals("Hospital")) {
-
+                    // if user choose hospital option -> display location that has type of hospital
                     double lat = volunteerSite.getLat();
                     double lng = volunteerSite.getLng();
                     locationName = volunteerSite.getLocationName();
@@ -978,16 +999,11 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onSuccess(Location location) {
                 double lat = location.getLatitude();
-                System.out.println("hello" + lat);
                 double lng = location.getLongitude();
-                System.out.println("hello" + lng);
                 for (VolunteerSite volunteerSite : volunteerSiteList) {
                     double lat2 = volunteerSite.getLat();
-                    System.out.println( "lat2 ne "+lat2 );
                     double lng2 = volunteerSite.getLng();
-                    System.out.println( "lng2 ne "+lng2 );
                     volunteerSite.setDistanceFromCurrentLocation(volunteerSite.distance(lat, lng, lat2, lng2));
-                    System.out.println(volunteerSite.distance(lat, lng, lat2, lng2));
                     LatLng site = new LatLng(lat, lng);
                     mMap.setMyLocationEnabled(true);
                     mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -1005,14 +1021,15 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-
+    // Get current location
     public void handleCurrentLocation(View view) {
-
+        // If permission is allowed , show current location
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             getLocation();
 
         }
+        // if permission is has not allowed, request permission from device
         else{
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
                     ,44);
@@ -1022,15 +1039,15 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
+    // Remove all markers that in the list
     public void removeAllMarkers(List<Marker> markerslist) {
         for (Marker marker : markerslist) {
             marker.setVisible(false);
         }
     }
 
+    // toggle 4 options by user input
     public void toggleFilterOptions(String str) {
-
         if (str == "Max Capacity") {
             capacity1.setVisibility(View.VISIBLE);
             capacity2.setVisibility(View.VISIBLE);
@@ -1142,16 +1159,7 @@ public class SiteLocation extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public void getListOfDistance(List<Double> distance, double lat, double lng, List<VolunteerSite> list) {
-        for (VolunteerSite volunteerSite : list) {
-            double lat2 = volunteerSite.getLat();
-            double lng2 = volunteerSite.getLng();
-            volunteerSite.setDistanceFromCurrentLocation(volunteerSite.distance(lat, lng, lat2, lng2));
-        }
-    }
-
-
-
+    // request user for permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

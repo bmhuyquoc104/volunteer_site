@@ -106,7 +106,9 @@ public class AddSite extends AppCompatActivity {
             }
         }
 
+        // Create new site function
         createSite.setOnClickListener(view -> {
+            // Get user input
             String inputMaxCapacity = maxCapacity.getText().toString();
             String inputTotalVolunteers = totalNumber.getText().toString();
             String inputUserLists = userList.getText().toString();
@@ -114,17 +116,15 @@ public class AddSite extends AppCompatActivity {
             VolunteerSite volunteerSite = newVolunteerSite.addNewLocation(newVolunteerSite.getHOCHIMINH(), leader, type,inputUserLists,Integer.parseInt(inputTotalVolunteers),
                     Integer.parseInt(inputMaxCapacity), Double.parseDouble(lat1), Double.parseDouble(lng1));
             volunteerSiteList.add(volunteerSite);
-            System.out.println("test" +volunteerSiteList);
             for (User user:currentUserList
                  ) {
                 currentUser = new User(user.getName(),user.getPassword(),user.getEmail(), user.getAge(),user.getId());
             }
-            // New participant
+            // Add to new sites database
             SiteLocationDatabase.postSiteLocations(db,volunteerSiteList,this,pd);
             participant = new Participant(currentUser,"leader",volunteerSite);
             //Add data to participant database
             ParticipantDatabase.addParticipant(participant,db,this);
-            //System.out.println(SiteLocation.volunteerSiteList);
             Intent intent3 = new Intent(this, VolunteerHome.class);
             intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent3);

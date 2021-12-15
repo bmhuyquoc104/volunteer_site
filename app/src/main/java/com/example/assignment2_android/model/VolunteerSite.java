@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+//Model volunteer site
 public class VolunteerSite {
     private RandomLocation randomLocation;
     private String locationId;
@@ -72,11 +73,11 @@ public class VolunteerSite {
 
 
 
-
+    //Generate location (dont need to manual type) easy to customize the size, and value
     public void generateNewLocation(LatLng originalLocation, int totalSite, int radius,
                                     ArrayList<VolunteerSite>volunteerSiteList,
                                     RandomLocation randomLocation,List<String>userMail){
-//            totalUsers = MainActivity.allUsers;
+        // Random base on the totalSite
             for(int i= 1; i < totalSite ; i++) {
                 double[] result = randomLocation.getRandomLocation
                         (originalLocation.longitude, originalLocation.latitude, radius);
@@ -84,7 +85,6 @@ public class VolunteerSite {
                 double lng1 = result[1];
                 String locationId = UUID.randomUUID().toString();
                 String leader = getRandomLeader(userMail);
-//                String leader = "behuy";
                 int maxCapacity = getRandomMaximumCapacity(randomMaxCapacity);
                 int totalVolunteers = getRandomTotalNumber(randomTotalNumber, maxCapacity);
                 System.out.println("totalVolunteers" + totalVolunteers);
@@ -93,7 +93,6 @@ public class VolunteerSite {
                 String status = checkStatus(maxCapacity,totalVolunteers);
                 double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat1, lng1);
                 String userEmailList = getRandomEmail(totalVolunteers,userMail);
-//                String userEmailList = "!@31,12312,312";
                 int totalTestedVolunteers = getRandomTestedVolunteer(randomTestedVolunteer, totalVolunteers);
                 VolunteerSite temp = new VolunteerSite(locationId,locationName,leader,status,
                         maxCapacity,totalVolunteers,locationType,lat1,lng1,distanceFromCurrentLocation
@@ -103,99 +102,30 @@ public class VolunteerSite {
     }
 
 
-    public List<User> getUserList(List<User>users) {
-        User user = new User("huy", "123", "huy@gmail.com", 123, "31231");
-        User user1 = new User("huy", "123", "huy104@gmail.com", 123, "31231");
-        User user2 = new User("huy", "123", "huy123@gmail.com", 123, "31231");
-        User user3 = new User("huy", "123", "huy134@gmail.com", 123, "31231");
-        User user4 = new User("huy", "123", "huy156@gmail.com", 123, "31231");
-        User user5 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user6 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user7 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user8 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user9 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user10 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user11 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user12 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user13 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user14 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user15 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user16 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user17 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user18 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user19 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user20 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user21 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user22 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user23 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user24 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user25 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user26 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user27 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user28 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user29 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-        User user30 = new User("huy", "123", "huy178@gmail.com", 123, "31231");
-
-        users.add(user);
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
-        users.add(user4);
-        users.add(user5);
-        users.add(user6);
-        users.add(user7);
-        users.add(user8);
-        users.add(user9);
-        users.add(user10);
-        users.add(user11);
-        users.add(user12);
-        users.add(user13);
-        users.add(user14);
-        users.add(user15);
-        users.add(user16);
-        users.add(user17);
-        users.add(user18);
-        users.add(user19);
-        users.add(user20);
-        users.add(user21);
-        users.add(user22);
-        users.add(user23);
-        users.add(user24);
-        users.add(user25);
-        users.add(user26);
-        users.add(user27);
-        users.add(user28);
-        users.add(user29);
-        users.add(user30);
-        users.add(user5);
-        users.add(user5);
-        users.add(user5);
-        users.add(user5);
-        users.add(user5);
-        users.add(user5);
-        return users;
-    }
-
+    // Function add new Site
     public VolunteerSite addNewLocation(LatLng originalLocation,
                                         String leaderName,String locationType, String userList,int totalVolunteers,
                                         int maxCapacity,double lat,double lng){
         String locationId = UUID.randomUUID().toString();
         String locationName = leaderName + "_" + locationType;
         String status = checkStatus(maxCapacity,totalVolunteers);
+        // when create new site, testedNumber always = 0
         int totalTestedVolunteers = 0;
+        // Use distance function to calculate distance from current location
         double distanceFromCurrentLocation = distance(originalLocation.latitude, originalLocation.longitude, lat, lng);
         return new VolunteerSite(locationId,locationName,leaderName,status,maxCapacity,totalVolunteers,locationType,lat,lng,distanceFromCurrentLocation,totalTestedVolunteers,userList);
     }
 
 
-
+    // Random leader base on the list of user
+    // leader = User email
     public String getRandomLeader(List<String> list)
     {
         Random rand = new Random();
         return list.get(rand.nextInt(list.size()));
     }
 
-
+    // Get random email without repetitions and put to the user list in sites
     public static String getRandomEmail(int totalNumber,List<String>email){
         String userEmails = "";
         String temp = "";
@@ -224,6 +154,7 @@ public class VolunteerSite {
     };
 
 
+    // Random type
     public static String getRandomType(List<String> list){
         list.add("School");
         list.add("Hospital");
@@ -234,25 +165,7 @@ public class VolunteerSite {
         return list.get(rand.nextInt(list.size()));
     };
 
-    public static String getRandomLeaderName(List<String> list){
-        list.add("chris");
-        list.add("kate");
-        list.add("stark");
-        list.add("strange");
-        list.add("stephen");
-        list.add("messi");
-        list.add("leo");
-        list.add("david");
-        list.add("huy");
-        list.add("john");
-        list.add("minh");
-        list.add("faker");
-
-        Random rand = new Random();
-        return list.get(rand.nextInt(list.size()));
-    };
-
-
+    // Calculate distance between 2 locations in km
     public double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
@@ -274,6 +187,7 @@ public class VolunteerSite {
         return (rad * 180.0 / Math.PI);
     }
 
+    // Random capacity
     public  int getRandomMaximumCapacity(List<Integer> list)
     {
         for (int i = 5; i < 25; i++){
@@ -284,6 +198,7 @@ public class VolunteerSite {
         return list.get(rand.nextInt(list.size()));
     }
 
+    //Random total number but always < capacity
     public  int getRandomTotalNumber(List<Integer> list,int maxCapacity){
         for (int i = 4; i < 25; i++){
             list.add(i);
@@ -300,6 +215,7 @@ public class VolunteerSite {
 
     };
 
+    //Random testedVolunteer but always < total Volunteers
     public static int getRandomTestedVolunteer(List<Integer> list,int totalNumber){
         for (int i = 2; i < 23; i++){
             list.add(i);
@@ -316,6 +232,7 @@ public class VolunteerSite {
 
     };
 
+    // Check status by capacity and volunteers
     public String checkStatus(int maxCapacity, int totalVolunteers){
         if (totalVolunteers < maxCapacity){
             status = "available";
@@ -326,6 +243,24 @@ public class VolunteerSite {
         return status;
     }
 
+    //Random name
+    public static String getRandomLeaderName(List<String> list){
+        list.add("chris");
+        list.add("kate");
+        list.add("stark");
+        list.add("strange");
+        list.add("stephen");
+        list.add("messi");
+        list.add("leo");
+        list.add("david");
+        list.add("huy");
+        list.add("john");
+        list.add("minh");
+        list.add("faker");
+
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    };
 
     public String getLocationId() {
         return locationId;

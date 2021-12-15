@@ -56,54 +56,46 @@ public class SeeMoreDetails extends AppCompatActivity {
             if (intent.hasExtra("siteLat")) {
                 siteLat = intent.getStringExtra("siteLat");
 
-                // Set the name of textview to "edit"
                 runLat.setText("Latitude: " + siteLat);
             }
 
             if (intent.hasExtra("siteLng")) {
                 siteLng = intent.getStringExtra("siteLng");
-                // Set the name of textview to "edit"
                 runLng.setText("Longitude: " + siteLng);
             }
 
             if (intent.hasExtra("siteName")) {
                 siteName = intent.getStringExtra("siteName");
 
-                // Set the name of textview to "edit"
                 runName.setText("Site Name: " + siteName);
             }
 
             if (intent.hasExtra("siteCapacity")) {
                 siteCapacity = intent.getStringExtra("siteCapacity");
 
-                // Set the name of textview to "edit"
                 runCapacity.setText("Max Capacity: " + siteCapacity);
             }
 
             if (intent.hasExtra("siteVolunteers")) {
                 siteVolunteers = intent.getStringExtra("siteVolunteers");
 
-                // Set the name of textview to "edit"
                 runVolunteers.setText("Total Volunteers: " + siteVolunteers);
             }
             if (intent.hasExtra("siteTestedNumber")) {
                 siteTestedNumber = intent.getStringExtra("siteTestedNumber");
 
 
-                // Set the name of textview to "edit"
                 runTestedNumber.setText("Total Tested Numbers: " + siteTestedNumber);
             }
             if (intent.hasExtra("siteStatus")) {
                 siteStatus = intent.getStringExtra("siteStatus");
 
 
-                // Set the name of textview to "edit"
                 runStatus.setText("Status: " + siteStatus);
             }
             if (intent.hasExtra("siteType")) {
                 siteType = intent.getStringExtra("siteType");
 
-                // Set the name of textview to "edit"
                 runType.setText("Type: " + siteType);
             }
             if (intent.hasExtra("siteListOfUsers")) {

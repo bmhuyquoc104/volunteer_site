@@ -164,10 +164,10 @@ public class DisplayInfo extends AppCompatActivity {
                 announce.setVisibility(View.VISIBLE);
             }
         }
-        System.out.println("check thu ne" + currentUser.getEmail());
-        System.out.println("check thu ne" + currentSite.getLeader());
-        if(currentSite.getLeader().equals(currentUser.getEmail())){
 
+        // Check to display site info base on leader role
+        if(currentSite.getLeader().equals(currentUser.getEmail())){
+            // Check if site is full or not to display info
             if (!currentSite.getStatus().equals("full")) {
                 System.out.println(currentSite.getStatus());
                 joinSite.setVisibility(View.GONE);
@@ -199,7 +199,7 @@ public class DisplayInfo extends AppCompatActivity {
                 }
             });
 
-            //Add the user to the site
+            //Register the user to the site
             joinSite.setOnClickListener(view -> {
                 for (VolunteerSite site : currentSiteList
                 ) {

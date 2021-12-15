@@ -44,6 +44,7 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
         holder.role.setText("Role: " + participantList.get(position).getRole());
         holder.locationName.setText("Site Name: " + participantList.get(position).getLocationName());
         holder.leader.setText("Email: " + participantList.get(position).getLeader());
+        // Send intent base on position and on click for each item
         holder.seeMore.setOnClickListener(view ->{
             Intent intent = new Intent(context, SeeMoreDetails.class);
             intent.setAction(Intent.ACTION_SEND);

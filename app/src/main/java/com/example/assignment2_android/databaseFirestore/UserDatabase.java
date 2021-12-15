@@ -107,12 +107,12 @@ public class UserDatabase {
                         }
                     }
                 });
-        System.out.println(list);
     }
 
+    // Check password and email from user to return the correct user
     public static void getUserByUserNameAndPassword (Context context, FirebaseFirestore db,
                                               String password, String username,List<User>list,ProgressDialog progressDialog){
-        progressDialog.setTitle("Registering new account !");
+        progressDialog.setTitle("Logging!");
         progressDialog.show();
         CollectionReference userRef = db.collection("Users");
         userRef.whereEqualTo("userName",username)
@@ -149,6 +149,7 @@ public class UserDatabase {
     }
 
 
+    // Return the user from their email (email is unique)
     public static void getUserByEmail (Context context, FirebaseFirestore db,
                                               String email, List<User>list){
         CollectionReference userRef = db.collection("Users");
@@ -168,7 +169,6 @@ public class UserDatabase {
                                         snapShot.getString("id")
                                 );
                                 list.add(user);
-                                System.out.println("gfdhdfshdfdaha" + list);
                             }
 
                         }else{
@@ -185,7 +185,7 @@ public class UserDatabase {
     }
 
 
-
+    // Generate list of users and then post to firestore
     public static void postToUsers(FirebaseFirestore db, ArrayList<User> userList, Context context) {
         for (User user :
                 userList) {

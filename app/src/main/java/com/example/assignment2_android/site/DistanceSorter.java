@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 public class DistanceSorter implements Comparator<VolunteerSite> {
     @Override
+    // Sort two distance by comparing
     public int compare(VolunteerSite o1, VolunteerSite o2) {
 
         return Double.compare(o1.getDistanceFromCurrentLocation(),(o2.getDistanceFromCurrentLocation()));

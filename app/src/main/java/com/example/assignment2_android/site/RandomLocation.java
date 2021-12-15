@@ -4,6 +4,7 @@ import android.location.Location;
 
 import java.util.Random;
 
+// Get random location in the map (random lat and lng)
 public class RandomLocation {
     public double[] getRandomLocation (double x0,double y0, int radius){
         Random random = new Random();

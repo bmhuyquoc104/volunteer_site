@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+//Model user
 public class User {
     private String name;
     private String password;
@@ -21,6 +22,7 @@ public class User {
 
     }
 
+    //Create User
     public User(String name, String password, String email, int age, String id){
         this.name = name;
         this.password = password;
@@ -80,6 +82,7 @@ public class User {
         this.id = id;
     }
 
+    // Random age so that can customize later
     public static int getRandomAge(List<Integer> list){
         for (int i = 1; i < 100; i++){
             list.add(i);
@@ -89,6 +92,7 @@ public class User {
         return list.get(rand.nextInt(list.size()));
     };
 
+    // Generate random user and easy to manage or customize
     public void generateUsers(ArrayList<User>userlist, int size){
         for (int i = 101; i < size; i++){
             String id = UUID.randomUUID().toString();
@@ -104,6 +108,9 @@ public class User {
 
     }
 
+
+
+    // Check to allow to create the site or not
     public void checkAge (int age, Context context){
       if (age < 18) {
           Toast.makeText(context,"You are too young to become a leader of the site",Toast.LENGTH_LONG).show();

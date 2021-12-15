@@ -21,9 +21,12 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class SiteLocationDatabase {
+    // Add new Site to Firestore
     public static void postSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList, Context context, ProgressDialog progressDialog) {
+        //Set the title of the dialog
         progressDialog.setTitle("Creating new site !");
         progressDialog.show();
+        // Get and post site to firestore
         for (VolunteerSite volunteerSite :
                 volunteerSiteList) {
             String id = volunteerSite.getLocationId();
@@ -51,8 +54,8 @@ public class SiteLocationDatabase {
             temp.put("lng", Double.toString(lng));
             temp.put("distanceFromCurrentLocation", Double.toString(distanceFromCurrentLocation));
             temp.put("totalTestedVolunteers", Integer.toString(totalTestedVolunteers));
-            db.collection("Sites").document(id).set(temp)
 
+            db.collection("Sites").document(id).set(temp)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -72,19 +75,18 @@ public class SiteLocationDatabase {
         }
     }
 
+    // Update site to firestore
     public static void updateSiteLocations(FirebaseFirestore db, VolunteerSite site, Context context,ProgressDialog progressDialog) {
+        // Get that site id and the re post it to database
         String id = site.getLocationId();
         progressDialog.setTitle("Updating site !");
         progressDialog.show();
         String locationType = site.getLocationType();
         String locationName = site.getLocationName();
-//        String leaderName = site.getLeaderName();
         String maxCapacity = Integer.toString(site.getMaxCapacity());
         String status = site.getStatus();
         String totalVolunteers = Integer.toString(site.getTotalVolunteers());
         String totalTestedVolunteers = Integer.toString(site.getTotalTestedVolunteers());
-//        String lat = Double.toString(site.getLat());
-//        String lng = Double.toString(site.getLng());
         String distanceFromCurrentLocation = Double.toString(site.getDistanceFromCurrentLocation());
         String userList = site.getUserList();
         db.collection("Sites").document(id)
@@ -110,6 +112,7 @@ public class SiteLocationDatabase {
         });
     }
 
+    // Get all sites from firestore and then store it in an array list
     public static void fetchSiteLocations(FirebaseFirestore db, ArrayList<VolunteerSite> volunteerSiteList) {
         db.collection("Sites").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

@@ -2,6 +2,7 @@ package com.example.assignment2_android.model;
 
 import androidx.annotation.NonNull;
 
+// Participant model
 public class Participant {
     private User user;
     private String role;
@@ -23,15 +24,14 @@ public class Participant {
 
     }
 
-
-
+    // For get participant by role
     public Participant(User user, String role, VolunteerSite volunteerSite) {
         this.user = user;
         this.role = role;
         this.volunteerSite = volunteerSite;
     }
 
-
+    // For get all participant infos to display
     public Participant(String role, String locationType, String status, String locationName,String id, String email, double distanceFromCurrentLocation, String userList, int maxCapacity, int totalVolunteers, int totalTestedVolunteers, double lat, double lng, String leader) {
         this.role = role;
         this.locationType = locationType;

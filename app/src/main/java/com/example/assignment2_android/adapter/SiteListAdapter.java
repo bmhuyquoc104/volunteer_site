@@ -43,6 +43,7 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.MyView
         holder.leaderName.setText("Leader Name: "+siteList.get(position).getLeader());
         holder.lat.setText("Latitude: "+siteList.get(position).getLat());
         holder.lng.setText("Longitude: " + siteList.get(position).getLng());
+        // Send intent base on position and on click for each item
         holder.runButton.setOnClickListener(view ->{
            Intent intent = new Intent(context, RunReport.class);
             intent.setAction(Intent.ACTION_SEND);
