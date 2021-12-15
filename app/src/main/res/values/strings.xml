@@ -94,8 +94,8 @@
     <string name="downLoad">Download file</string>
     <string name="guide1">You can add your own site by click join my site and then long click every where on the map.Remember you need to be at least 18 to create new site</string>
     <string name="guide2">You can also register the available site by click the marker of that site and then press register button to join.</string>
-    <string name="guide3">You can also register for your friends by enter their emails. Remember it is compulsory to register the account before joining the site.</string>
-    <string name="guide4">You can check your sites that you registered or created by choosing check the site!</string>
+    <string name="guide3">You can also register for your friends by enter their emails.Then you can check your sites that you registered or created by choosing check the site!</string>
+    <string name="guide4">Only leader can activate get volunteers and update site button!.You can check your personal info by choosing user profile</string>
     <string name="site">Site Name</string>
     <string name="allSites">All Sites</string>
     <string name="run">Run Report</string>
